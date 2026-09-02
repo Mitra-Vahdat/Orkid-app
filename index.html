@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AAC Communication UI</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- =========================
+             LEFT SIDEBAR
+        ========================== -->
+
+        <aside class="left-sidebar">
+
+            <div class="top-icons">
+
+                <button class="circle-icon">
+                    <img src="images/ico/mdi-light--account.svg" alt="بگو">
+                </button>
+
+                <button class="circle-icon">
+                    <img src="images/ico/mdi-light--clock.svg" alt="بگو">
+                </button>
+
+                <button class="circle-icon">
+                    <img src="images/ico/settings.png" alt="بگو">
+                </button>
+
+            </div>
+
+
+            <div class="left-grid">
+
+                <!-- بابا -->
+                <button class="word-card image-card" data-word="بابا">
+                    <div class="image-placeholder">
+                        <img src="images/cards/بابا.png" alt="بابا" >
+                    </div>
+                    <span>بابا</span>
+                </button>
+
+                <!-- مامان -->
+                <button class="word-card image-card" data-word="مامان">
+                    <div class="image-placeholder">
+                        <img src="images/cards/مامان.png" alt="مامان">
+                    </div>
+                    <span>مامان</span>
+                </button>
+
+                <!-- دوست -->
+                <button class="word-card image-card" data-word="دوست">
+                    <div class="image-placeholder">
+                        <img src="images/cards/قلب.png" alt="دوست">
+                    </div>
+                    <span>دوست</span>
+                </button>
+
+                <!-- من -->
+                <button class="word-card image-card" data-word="من">
+                    <div class="image-placeholder">
+                        <img src="images/man.png" alt="من">
+                    </div>
+                    <span>من</span>
+                </button>
+
+                <!-- بیرون -->
+                <button class="word-card image-card" data-word="بیرون">
+                    <div class="image-placeholder">
+                        <img src="images/cards/درخت.png" alt="بیرون">
+                    </div>
+                    <span>بیرون</span>
+                </button>
+
+                <!-- خانه -->
+                <button class="word-card image-card" data-word="خانه">
+                    <div class="image-placeholder">
+                        <img src="images/cards/خانه.png" alt="خانه">
+                    </div>
+                    <span>خانه</span>
+                </button>
+
+                <!-- خوشحال -->
+                <button class="word-card image-card" data-word="خوشحال">
+                    <div class="image-placeholder">
+                        <img src="images/cards/خوشحال.png" alt="خوشحال">
+                    </div>
+                    <span>خوشحال</span>
+                </button>
+
+                <!-- ناراحت -->
+                <button class="word-card image-card" data-word="ناراحت">
+                    <div class="image-placeholder">
+                        <img src="images/cards/ناراحت.png" alt="ناراحت">
+                    </div>
+                    <span>ناراحت</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             CENTER
+        ========================== -->
+
+        <main class="center-section">
+
+            <!-- Sentence Bar -->
+
+            <div class="sentence-bar">
+
+                <button class="sentence-word" data-word="نه">
+                    نه
+                </button>
+
+                <button class="sentence-word" data-word="آره">
+                    آره
+                </button>
+
+                <button class="sentence-word" data-word="درد دارم">
+                    درد دارم
+                </button>
+
+                <button class="sentence-word" data-word="کمک">
+                    کمک
+                </button>
+
+            </div>
+
+
+            <!-- Main Content -->
+
+            <div class="main-content">
+                <div id="sentence-display" class="sentence-display"></div>
+            </div>
+
+
+            <!-- Bottom Controls -->
+
+            <div class="bottom-controls">
+
+                <!-- حذف -->
+
+                <button class="control-button">
+
+                    <div class="control-circle">
+                        <img src="images/ico/mdi-light--delete.svg" alt="حذف">
+                    </div>
+
+                    <span>حذف</span>
+
+                </button>
+
+
+                <!-- بگو -->
+
+                <button class="control-button main-control">
+
+                    <div class="control-circle">
+                        <img src="images/ico/mdi-light--volume-high.svg" alt="بگو">
+                    </div>
+
+                    <span>بگو</span>
+
+                </button>
+
+
+                <!-- قبلی -->
+
+                <button class="control-button">
+
+                    <div class="control-circle">
+                        <img src="images/ico/mdi-light--rewind.svg" alt="قبلی">
+                    </div>
+
+                    <span>قبلی</span>
+
+                </button>
+
+            </div>
+
+        </main>
+
+
+        <!-- =========================
+             RIGHT SIDEBAR
+        ========================== -->
+
+        <aside class="right-sidebar">
+
+            <div class="right-grid">
+
+                <!-- آب -->
+
+                <button class="word-card image-card" data-word="آب">
+
+                    <div class="image-placeholder">
+                        <img src="images/cards/water-glass-color-icon.svg" alt="آب">
+                    </div>
+
+                    <span>آب</span>
+
+                </button>
+
+
+                <!-- غذا -->
+
+                <button class="word-card image-card" data-word="غذا">
+
+                    <div class="image-placeholder">
+                        <img src="images/cards/سیب.png" alt="غذا">
+                    </div>
+
+                    <span>غذا</span>
+
+                </button>
+
+
+                <!-- بازی -->
+
+                <button class="word-card image-card" data-word="بازی">
+
+                    <div class="image-placeholder">
+                        <img src="images/cards/توپ.png" alt="بازی">
+                    </div>
+
+                    <span>بازی</span>
+
+                </button>
+
+
+                <!-- بخواب -->
+
+                <button class="word-card image-card" data-word="بخوابم">
+
+                    <div class="image-placeholder">
+                        <img src="images/cards/خواب.png" alt="بخواب">
+                    </div>
+
+                    <span>بخوابم</span>
+
+                </button>
+
+
+                <!-- بروم -->
+
+                <button class="word-card image-card" data-word="بروم">
+
+                    <div class="image-placeholder">
+                        <img src="images/beram.png" alt="بروم">
+                    </div>
+
+                    <span>بروم</span>
+
+                </button>
+
+
+                <!-- می‌خواهم -->
+
+                <button class="word-card image-card" data-word="می‌خواهم">
+
+                    <div class="image-placeholder">
+                        <img src="images/mikham.png" alt="می‌خواهم">
+                    </div>
+
+                    <span>می‌خواهم</span>
+
+                </button>
+
+
+                <!-- دستشویی -->
+
+                <button class="word-card image-card" data-word="دستشویی">
+
+                    <div class="image-placeholder">
+                        <img src="images/dastshooei.png" alt="دستشویی">
+                    </div>
+
+                    <span>دستشویی</span>
+
+                </button>
+
+
+                <!-- بخورم -->
+
+                <button class="word-card image-card" data-word="بخورم">
+
+                    <div class="image-placeholder">
+                        <img src="images/cards/" alt="بخورم">
+                    </div>
+
+                    <span>بخورم</span>
+
+                </button>
+
+
+                <!-- بیشتر -->
+
+                <button class="word-card small-card">
+                    <span>...</span>
+                </button>
+
+
+                <!-- افزودن -->
+
+                <button class="word-card small-card">
+                    <span class="plus">+</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+<script src="./js/script.js"></script>
+
+</body>
+
+</html>
