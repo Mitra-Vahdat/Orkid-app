@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>شخصی‌سازی کارت‌ها</title>
+
+    <link rel="stylesheet"
+          href="./css/card-customization.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+
+<body>
+    <div class="customization-page">
+        <header class="customization-header">
+            <button
+                id="backButton"
+                class="back-button"
+                type="button">
+                <span>بازگشت</span>
+            </button>
+            <h1>
+                شخصی‌سازی کارت‌ها
+            </h1>
+            <div class="header-space"></div>
+        </header>
+
+
+
+        <main class="customization-main">
+
+            <p class="page-description">
+                می‌توانید نام و تصویر هر کارت را تغییر دهید
+                یا کارت‌هایی را که نمی‌خواهید حذف کنید.
+            </p>
+
+
+            
+            <section
+                id="cardsContainer"
+                class="cards-container">
+
+                
+            </section>
+
+
+            
+
+            <div class="save-section">
+                <button
+                    id="saveChangesButton"
+                    class="save-button"
+                    type="button">
+                    ذخیره‌سازی تغییرات
+                </button>
+            </div>
+        </main>
+
+
+        <div
+            id="editModal"
+            class="modal-overlay"
+            aria-hidden="true">
+            <div class="edit-modal">
+                <div class="modal-header">
+                    <h2>
+                        اصلاح کارت
+                    </h2>
+                    <button
+                        id="closeModalButton"
+                        class="close-modal"
+                        type="button"
+                        aria-label="بستن">
+                        ×
+                    </button>
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="cardNameInput">
+                        نام کارت
+                    </label>
+
+                    <input
+                        id="cardNameInput"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="نام کارت را وارد کنید">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        تصویر کارت
+                    </label>
+
+
+                    <div class="image-preview">
+
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="پیش‌نمایش">
+
+                    </div>
+
+
+                    <label
+                        for="cardImageInput"
+                        class="image-select-button">
+
+                        انتخاب تصویر جدید
+
+                    </label>
+
+
+                    <input
+                        id="cardImageInput"
+                        type="file"
+                        accept="image/*"
+                        hidden>
+
+                </div>
+
+
+                <!-- Modal Buttons -->
+
+                <div class="modal-actions">
+
+                    <button
+                        id="cancelEditButton"
+                        class="cancel-button"
+                        type="button">
+
+                        انصراف
+
+                    </button>
+
+
+                    <button
+                        id="confirmEditButton"
+                        class="confirm-button"
+                        type="button">
+
+                        ذخیره کارت
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="./js/card-customization.js"></script>
+
+</body>
+
+</html>

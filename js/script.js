@@ -1,4 +1,12 @@
 // =========================================
+// THEME
+// =========================================
+
+const savedTheme = localStorage.getItem("aac-theme") || "pink";
+document.body.dataset.theme = savedTheme;
+
+
+// =========================================
 // AAC SENTENCE BUILDER + TEXT TO SPEECH
 // =========================================
 
@@ -21,8 +29,10 @@ const wordButtons = document.querySelectorAll("[data-word]");
 const controlButtons = document.querySelectorAll(".control-button");
 
 const deleteButton = controlButtons[0];
-const speakButton = controlButtons[1];
-const previousButton = controlButtons[2];
+const previousButton = controlButtons[1];
+
+// فعلاً دکمه «بگو» در HTML وجود ندارد
+const speakButton = null;
 
 
 // =========================================
@@ -30,7 +40,6 @@ const previousButton = controlButtons[2];
 // =========================================
 
 let isSpeaking = false;
-
 let currentUtterance = null;
 
 
@@ -62,6 +71,10 @@ function addWord(word) {
 
 function renderSentence() {
 
+    if (!sentenceDisplay) {
+        return;
+    }
+
     sentenceDisplay.innerHTML = "";
 
     sentenceWords.forEach((word, index) => {
@@ -78,11 +91,9 @@ function renderSentence() {
 
         // فاصله بین کلمات
         if (index < sentenceWords.length - 1) {
-
             sentenceDisplay.appendChild(
                 document.createTextNode(" ")
             );
-
         }
 
     });
@@ -110,65 +121,50 @@ wordButtons.forEach(button => {
 // دکمه قبلی
 // =========================================
 
-previousButton.addEventListener("click", function () {
+if (previousButton) {
 
-    // اگر در حال خواندن است
-    // اجازه تغییر نمی‌دهیم
-    if (isSpeaking) {
-        return;
-    }
+    previousButton.addEventListener("click", function () {
 
-    if (sentenceWords.length === 0) {
-        return;
-    }
+        // اگر در حال خواندن است
+        // اجازه تغییر نمی‌دهیم
+        if (isSpeaking) {
+            return;
+        }
 
-    sentenceWords.pop();
+        if (sentenceWords.length === 0) {
+            return;
+        }
 
-    renderSentence();
+        sentenceWords.pop();
 
-});
+        renderSentence();
+
+    });
+
+}
 
 
 // =========================================
 // دکمه حذف
 // =========================================
 
-deleteButton.addEventListener("click", function () {
+if (deleteButton) {
 
-    // اگر در حال خواندن است
-    // اول خواندن را متوقف کن
-    if (isSpeaking) {
+    deleteButton.addEventListener("click", function () {
 
-        stopSpeaking();
+        // اگر در حال خواندن است
+        // اول خواندن را متوقف کن
+        if (isSpeaking) {
+            stopSpeaking();
+        }
 
-    }
+        sentenceWords = [];
 
-    sentenceWords = [];
+        renderSentence();
 
-    renderSentence();
+    });
 
-});
-
-
-// =========================================
-// دکمه بگو
-// =========================================
-
-speakButton.addEventListener("click", function () {
-
-    // اگر در حال خواندن است،
-    // دوباره شروع نکن
-    if (isSpeaking) {
-        return;
-    }
-
-    if (sentenceWords.length === 0) {
-        return;
-    }
-
-    speakSentence();
-
-});
+}
 
 
 // =========================================
@@ -176,6 +172,14 @@ speakButton.addEventListener("click", function () {
 // =========================================
 
 function speakSentence() {
+
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    if (sentenceWords.length === 0) {
+        return;
+    }
 
     // اگر مرورگر قبلاً چیزی می‌خواند
     window.speechSynthesis.cancel();
@@ -197,12 +201,6 @@ function speakSentence() {
     // شروع وضعیت خواندن
     isSpeaking = true;
 
-    // تغییر ظاهر دکمه بگو
-    speakButton.classList.add("speaking");
-
-    speakButton.querySelector(".control-circle")
-        .classList.add("speaking-circle");
-
 
     // =====================================
     // وقتی خواندن شروع می‌شود
@@ -212,10 +210,18 @@ function speakSentence() {
 
         isSpeaking = true;
 
-        speakButton.classList.add("speaking");
+        if (speakButton) {
 
-        speakButton.querySelector(".control-circle")
-            .classList.add("speaking-circle");
+            speakButton.classList.add("speaking");
+
+            const circle =
+                speakButton.querySelector(".control-circle");
+
+            if (circle) {
+                circle.classList.add("speaking-circle");
+            }
+
+        }
 
     };
 
@@ -225,11 +231,6 @@ function speakSentence() {
     // =====================================
 
     currentUtterance.onboundary = function (event) {
-
-        /*
-         event.charIndex مشخص می‌کند
-         مرورگر در حال خواندن کجای متن است.
-        */
 
         const charIndex = event.charIndex;
 
@@ -260,9 +261,11 @@ function speakSentence() {
     };
 
 
+    // =====================================
     // شروع خواندن
-    window.speechSynthesis.speak(currentUtterance);
+    // =====================================
 
+    window.speechSynthesis.speak(currentUtterance);
 }
 
 
@@ -271,6 +274,10 @@ function speakSentence() {
 // =========================================
 
 function highlightWord(charIndex) {
+
+    if (!sentenceDisplay) {
+        return;
+    }
 
     const wordElements =
         sentenceDisplay.querySelectorAll(".selected-word");
@@ -298,7 +305,6 @@ function highlightWord(charIndex) {
             activeIndex = i;
 
             break;
-
         }
 
 
@@ -309,7 +315,6 @@ function highlightWord(charIndex) {
 
 
     // حذف هایلایت قبلی
-
     wordElements.forEach(element => {
 
         element.classList.remove("reading");
@@ -318,11 +323,14 @@ function highlightWord(charIndex) {
 
 
     // هایلایت کلمه فعلی
-
     if (activeIndex !== -1) {
 
-        wordElements[activeIndex]
-            .classList.add("reading");
+        if (wordElements[activeIndex]) {
+
+            wordElements[activeIndex]
+                .classList.add("reading");
+
+        }
 
     }
 
@@ -339,29 +347,34 @@ function finishSpeaking() {
 
     currentUtterance = null;
 
-    speakButton.classList.remove("speaking");
 
-    speakButton.querySelector(".control-circle")
-        .classList.remove("speaking-circle");
+    if (speakButton) {
+
+        speakButton.classList.remove("speaking");
+
+        const circle =
+            speakButton.querySelector(".control-circle");
+
+        if (circle) {
+            circle.classList.remove("speaking-circle");
+        }
+
+    }
 
 
     // حذف هایلایت
+    if (sentenceDisplay) {
 
-    const wordElements =
-        sentenceDisplay.querySelectorAll(".selected-word");
+        const wordElements =
+            sentenceDisplay.querySelectorAll(".selected-word");
 
-    wordElements.forEach(element => {
+        wordElements.forEach(element => {
 
-        element.classList.remove("reading");
+            element.classList.remove("reading");
 
-    });
+        });
 
-
-    /*
-     * جمله را پاک نمی‌کنیم.
-     *
-     * کودک همچنان جمله را می‌بیند.
-     */
+    }
 
 }
 
@@ -372,8 +385,45 @@ function finishSpeaking() {
 
 function stopSpeaking() {
 
-    window.speechSynthesis.cancel();
+    if ("speechSynthesis" in window) {
+
+        window.speechSynthesis.cancel();
+
+    }
 
     finishSpeaking();
 
 }
+
+
+// =========================================
+// دکمه تنظیمات
+// =========================================
+
+const settingsButton =
+    document.getElementById("settingsButton");
+
+if (settingsButton) {
+
+    settingsButton.addEventListener("click", function () {
+
+        window.location.href = "./settings.html";
+
+    });
+
+}
+
+// =========================================
+// LOAD SAVED BRIGHTNESS
+// =========================================
+
+const savedBrightness =
+    localStorage.getItem("aac-brightness") || "100";
+
+document.documentElement.style.setProperty(
+    "--app-brightness",
+    `${savedBrightness}%`
+);
+
+document.body.style.filter =
+    `brightness(${savedBrightness}%)`;

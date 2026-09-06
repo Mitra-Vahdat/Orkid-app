@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>تنظیمات</title>
+
+    <!-- Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/setting.css"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="settings-page">
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="settings-header">
+
+            <button
+                class="back-button"
+                id="backButton"
+                aria-label="بازگشت"
+            >
+                <span>‹</span>
+            </button>
+
+            <h1>تنظیمات</h1>
+
+            <div class="header-space"></div>
+
+        </header>
+
+
+        <!-- =====================================
+             CONTENT
+        ====================================== -->
+
+        <section class="settings-content">
+
+
+            <!-- =================================
+                 THEME
+            ================================== -->
+
+            <section class="setting-section">
+
+                <h2>رنگ صفحه</h2>
+
+                <p class="setting-description">
+                    رنگ مورد علاقه‌ات را انتخاب کن
+                </p>
+
+
+                <div class="theme-options">
+
+                    <!-- صورتی -->
+
+                    <button
+                        class="theme-button theme-pink active"
+                        data-theme="pink"
+                        aria-label="تم صورتی"
+                    >
+                        <span></span>
+                    </button>
+
+
+                    <!-- سبز -->
+
+                    <button
+                        class="theme-button theme-green"
+                        data-theme="green"
+                        aria-label="تم سبز"
+                    >
+                        <span></span>
+                    </button>
+
+
+                    <!-- زرد -->
+
+                    <button
+                        class="theme-button theme-yellow"
+                        data-theme="yellow"
+                        aria-label="تم زرد"
+                    >
+                        <span></span>
+                    </button>
+
+
+                    <!-- آبی -->
+
+                    <button
+                        class="theme-button theme-blue"
+                        data-theme="blue"
+                        aria-label="تم آبی"
+                    >
+                        <span></span>
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 BRIGHTNESS
+            ================================== -->
+
+            <section class="setting-section">
+
+                <div class="setting-title-row">
+
+                    <h2>نور صفحه</h2>
+
+                    <span
+                        id="brightnessValue"
+                        class="value-label"
+                    >
+                        100٪
+                    </span>
+
+                </div>
+
+
+                <div class="brightness-control">
+
+                    <span class="brightness-icon">
+                        ☼
+                    </span>
+
+                    <input
+                        type="range"
+                        id="brightnessSlider"
+                        min="40"
+                        max="100"
+                        value="100"
+                        step="1"
+                    >
+
+                    <span class="brightness-icon small">
+                        ☀
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 VOICE
+            ================================== -->
+
+            <section class="setting-section">
+
+                <h2>صدای خواندن</h2>
+
+                <p class="setting-description">
+                    صدای مورد علاقه‌ات را انتخاب کن
+                </p>
+
+
+                <div class="voice-options">
+
+                    <button
+                        class="voice-button active"
+                        data-voice="female"
+                    >
+
+                        <div class="voice-icon">
+                            ♀
+                        </div>
+
+                        <span>
+                            صدای زن
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="voice-button"
+                        data-voice="male"
+                    >
+
+                        <div class="voice-icon">
+                            ♂
+                        </div>
+
+                        <span>
+                            صدای مرد
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 CARD CUSTOMIZATION
+            ================================== -->
+
+            <section class="card-customization">
+
+                <button
+                    class="customize-button"
+                    id="customizeCards"
+                >
+
+                    <div class="customize-icon">
+                        ✦
+                    </div>
+
+                    <div class="customize-text">
+
+                        <strong>
+                            شخصی‌سازی کارت‌ها
+                        </strong>
+
+                        <span>
+                            عکس و کلمات کارت‌ها را تغییر بده
+                        </span>
+
+                    </div>
+
+                    <div class="arrow">
+                        ‹
+                    </div>
+
+                </button>
+
+            </section>
+
+
+        </section>
+
+    </main>
+
+
+    <script src="./js/setting.js"></script>
+
+</body>
+
+</html>

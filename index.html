@@ -35,7 +35,7 @@
                     <img src="images/ico/mdi-light--clock.svg" alt="تاریخچه">
                 </button>
 
-                <button class="circle-icon">
+                <button class="circle-icon" id="settingsButton" type="button">
                     <img src="images/ico/settings.png" alt="تنظیمات">
                 </button>
 
@@ -54,7 +54,6 @@
                     <span>بابا</span>
                 </button>
 
-                <!-- مامان -->
                 <button class="word-card image-card" data-word="مامان">
                     <div class="image-placeholder">
                         <img src="images/cards/مامان.png" alt="مامان">
@@ -62,18 +61,15 @@
                     <span>مامان</span>
                 </button>
 
-                <!-- کارت جدید سمت چپ ۱ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۱">
+                <button class="word-card image-card" data-word="تکرار">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-1.png" alt="کلمه جدید ۱">
+                        <img src="images/cards/NEW-LEFT-1.png">
                     </div>
-                    <span>کلمه جدید ۱</span>
+                    <span>تکرار</span>
                 </button>
 
 
-                <!-- ردیف ۲ -->
 
-                <!-- دوست -->
                 <button class="word-card image-card" data-word="دوست">
                     <div class="image-placeholder">
                         <img src="images/cards/قلب.png" alt="دوست">
@@ -81,7 +77,6 @@
                     <span>دوست</span>
                 </button>
 
-                <!-- من -->
                 <button class="word-card image-card" data-word="من">
                     <div class="image-placeholder">
                         <img src="images/man.png" alt="من">
@@ -89,23 +84,20 @@
                     <span>من</span>
                 </button>
 
-                <!-- کارت جدید سمت چپ ۲ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۲">
+                <button class="word-card image-card" data-word="غریبه">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-2.png" alt="کلمه جدید ۲">
+                        <img src="images/cards/NEW-LEFT-2.png">
                     </div>
-                    <span>کلمه جدید ۲</span>
+                    <span>غریبه</span>
                 </button>
 
 
-                <!-- ردیف ۳ -->
 
-                <!-- بیرون -->
                 <button class="word-card image-card" data-word="بیرون">
                     <div class="image-placeholder">
                         <img src="images/cards/درخت.png" alt="بیرون">
                     </div>
-                    <span>بیرون</span>
+                    <span>پارک</span>
                 </button>
 
                 <!-- خانه -->
@@ -117,11 +109,11 @@
                 </button>
 
                 <!-- کارت جدید سمت چپ ۳ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۳">
+                <button class="word-card image-card" data-word="مدرسه">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-3.png" alt="کلمه جدید ۳">
+                        <img src="images/cards/مدرسه.png">
                     </div>
-                    <span>کلمه جدید ۳</span>
+                    <span>مدرسه</span>
                 </button>
 
 
@@ -146,9 +138,9 @@
                 <!-- کارت جدید سمت چپ ۴ -->
                 <button class="word-card image-card" data-word="کلمه جدید ۴">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-4.png" alt="کلمه جدید ۴">
+                        <img src="images/cards/">
                     </div>
-                    <span>کلمه جدید ۴</span>
+                    <span>ترس</span>
                 </button>
 
             </div>
@@ -185,11 +177,6 @@
             </div>
 
 
-            <!--
-                این بخش فعلاً مخفی است.
-                نگه داشته شده تا اگر script.js به
-                sentence-display وابسته باشد، عملکرد آن حفظ شود.
-            -->
 
             <div class="main-content">
                 <div id="sentence-display" class="sentence-display"></div>
@@ -243,15 +230,15 @@
                     <div class="image-placeholder">
                         <img src="images/cards/سیب.png" alt="غذا">
                     </div>
-                    <span>غذا</span>
+                    <span>میوه</span>
                 </button>
 
                 <!-- کارت جدید سمت راست ۱ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۱">
+                <button class="word-card image-card" data-word="غذا">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-RIGHT-1.png" alt="کلمه جدید ۱">
+                        <img src="images/cards/">
                     </div>
-                    <span>کلمه جدید ۱</span>
+                    <span>غذا</span>
                 </button>
 
 
@@ -262,7 +249,13 @@
                     <div class="image-placeholder">
                         <img src="images/cards/توپ.png" alt="بازی">
                     </div>
-                    <span>بازی</span>
+                    <span>توپ</span>
+                </button>
+                <button class="word-card image-card" data-word="عروسک">
+                    <div class="image-placeholder">
+                        <img src="images/cards/عروسک.png">
+                    </div>
+                    <span>عروسک</span>
                 </button>
 
                 <!-- بخوابم -->
@@ -274,12 +267,7 @@
                 </button>
 
                 <!-- کارت جدید سمت راست ۲ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۲">
-                    <div class="image-placeholder">
-                        <img src="images/cards/NEW-RIGHT-2.png" alt="کلمه جدید ۲">
-                    </div>
-                    <span>کلمه جدید ۲</span>
-                </button>
+                
 
 
                 <!-- ردیف ۳ -->
@@ -301,11 +289,11 @@
                 </button>
 
                 <!-- کارت جدید سمت راست ۳ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۳">
+                <button class="word-card image-card" data-word="بغل">
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-RIGHT-3.png" alt="کلمه جدید ۳">
+                        <img src="images/cards/آغوش.png">
                     </div>
-                    <span>کلمه جدید ۳</span>
+                    <span>بغل</span>
                 </button>
 
 
@@ -328,22 +316,22 @@
                 </button>
 
                 <!-- کارت جدید سمت راست ۴ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۴">
+                <button class="word-card image-card" data-word='تاب'>
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-RIGHT-4.png" alt="کلمه جدید ۴">
+                        <img src="images/cards/تاب.png">
                     </div>
-                    <span>کلمه جدید ۴</span>
+                    <span>تاب</span>
                 </button>
 
 
                 <!-- ردیف ۵ -->
 
                 <!-- کارت جدید سمت راست ۵ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۵">
+                <button class="word-card image-card" data-word='کارتون'>
                     <div class="image-placeholder">
-                        <img src="images/cards/NEW-RIGHT-5.png" alt="کلمه جدید ۵">
+                        <img src="images/cards/تلویزیون.png">
                     </div>
-                    <span>کلمه جدید ۵</span>
+                    <span>کارتون</span>
                 </button>
 
                 <!-- بیشتر -->
