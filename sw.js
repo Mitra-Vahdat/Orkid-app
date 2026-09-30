@@ -1,9 +1,13 @@
-const CACHE_NAME = "orkid-aac-v1";
+const CACHE_NAME = "orkid-aac-v2";
+
 const APP_SHELL = [
-    "./",
-    "./index.html",
-    "./css/style.css",
-    "./manifest.json"
+    "/",
+    "/index.html",
+    "/css/style.css",
+    "/js/script.js",
+    "/manifest.json",
+    "/images/orkid-icon-192.png",
+    "/images/orkid-icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -16,13 +20,15 @@ self.addEventListener("install", event => {
 
 self.addEventListener("activate", event => {
     event.waitUntil(
-        caches.keys().then(keys =>
-            Promise.all(
-                keys
-                    .filter(key => key !== CACHE_NAME)
-                    .map(key => caches.delete(key))
+        caches.keys()
+            .then(keys =>
+                Promise.all(
+                    keys
+                        .filter(key => key !== CACHE_NAME)
+                        .map(key => caches.delete(key))
+                )
             )
-        ).then(() => self.clients.claim())
+            .then(() => self.clients.claim())
     );
 });
 
@@ -31,24 +37,38 @@ self.addEventListener("fetch", event => {
 
     if (request.method !== "GET") return;
 
-    event.respondWith(
-        caches.match(request).then(cached => {
-            if (cached) return cached;
+    const url = new URL(request.url);
 
-            return fetch(request).then(response => {
-                // Cache successful same-origin resources at runtime,
-                // including the AAC image cards and local JS/CSS assets.
-                if (response.ok && new URL(request.url).origin === self.location.origin) {
-                    const copy = response.clone();
-                    caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+    if (url.origin !== self.location.origin) return;
+
+    event.respondWith(
+        caches.match(request)
+            .then(cachedResponse => {
+                if (cachedResponse) {
+                    return cachedResponse;
                 }
-                return response;
-            }).catch(() => {
-                if (request.mode === "navigate") {
-                    return caches.match("./index.html");
-                }
-                throw new Error("Offline resource unavailable");
-            });
-        })
+
+                return fetch(request)
+                    .then(response => {
+                        if (response.ok) {
+                            const copy = response.clone();
+
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.put(request, copy));
+                        }
+
+                        return response;
+                    })
+                    .catch(() => {
+                        if (request.mode === "navigate") {
+                            return caches.match("/index.html");
+                        }
+
+                        return new Response("", {
+                            status: 503,
+                            statusText: "Offline"
+                        });
+                    });
+            })
     );
 });
