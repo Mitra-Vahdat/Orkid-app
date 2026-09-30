@@ -15,22 +15,19 @@
   "orientation": "landscape",
   "background_color": "#fffdfd",
   "theme_color": "#ffffff",
-  "categories": [
-    "education",
-    "kids"
-  ],
+
   "icons": [
     {
       "src": "/images/orkid-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/images/orkid-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
