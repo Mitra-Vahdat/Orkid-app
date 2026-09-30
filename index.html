@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="./css/style.css">
 
-<link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="/manifest.json">
 
 <meta name="theme-color" content="#ffffff">
 
@@ -364,8 +364,8 @@
     <script>
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js")
-            .then(() => console.log("PWA ready"))
+        navigator.serviceWorker.register("/sw.js", { scope: "/" })
+            .then(registration => console.log("PWA ready:", registration.scope))
             .catch(err => console.error("PWA error:", err));
     });
 }
