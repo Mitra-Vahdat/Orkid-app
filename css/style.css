@@ -1421,3 +1421,397 @@ body {
     }
 
 }
+
+/* =========================================================
+   CARD IMAGE + TEXT SIZING FIX
+   ========================================================= */
+
+.word-card {
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    font-size: clamp(17px, 1.45vw, 24px);
+}
+
+/* Give every card a flexible image area and a separate text area. */
+.image-card .image-placeholder,
+.right-grid .image-placeholder {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Keep the whole image visible instead of stretching/cropping it. */
+.image-card .image-placeholder img,
+.right-grid .image-placeholder img {
+    display: block;
+    width: 88px;
+    height: 88px;
+    min-width: 88px;
+    min-height: 88px;
+    max-width: 88px;
+    max-height: 88px;
+    object-fit: contain;
+    flex: 0 0 88px;
+}
+
+/* Reserve enough space for one- or two-line Persian labels. */
+.word-card > span {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 2.5em;
+    width: 100%;
+    min-width: 0;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    line-height: 1.2;
+    font-weight: 700;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+/* Keep the "..." and "+" cards compact. */
+.small-card {
+    justify-content: center;
+    padding: 0;
+}
+
+.small-card > span {
+    flex: 0 0 auto;
+    min-height: 0;
+    width: auto;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.small-card .plus {
+    font-size: clamp(28px, 2.2vw, 38px) !important;
+}
+
+/* Slightly tighter right-side cards. */
+.right-grid .word-card {
+    padding: 7px;
+}
+
+.right-grid .word-card > span {
+    flex-basis: 2.5em;
+    min-height: 2.5em;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+    .word-card {
+        font-size: clamp(15px, 1.65vw, 21px);
+    }
+
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        max-width: 90%;
+        max-height: 90%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .word-card {
+        font-size: 18px;
+        padding: 6px;
+    }
+
+    .word-card > span {
+        flex-basis: 2.45em;
+        min-height: 2.45em;
+        line-height: 1.15;
+    }
+
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        max-width: 90%;
+        max-height: 90%;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 400px) {
+    .word-card {
+        font-size: 17px;
+    }
+}
+
+
+/* =========================================================
+   STRICTLY EQUAL IMAGE SIZE
+   همه تصاویر کارت‌ها یک ابعاد ثابت دارند
+   ========================================================= */
+
+.image-card .image-placeholder img,
+.right-grid .image-placeholder img {
+    width: 88px !important;
+    height: 88px !important;
+    min-width: 88px !important;
+    min-height: 88px !important;
+    max-width: 88px !important;
+    max-height: 88px !important;
+    object-fit: contain !important;
+}
+
+/* متن همه کارت‌ها بولد */
+.word-card > span {
+    font-weight: 700 !important;
+}
+
+/* موبایل */
+@media (max-width: 700px) {
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: 72px !important;
+        height: 72px !important;
+        min-width: 72px !important;
+        min-height: 72px !important;
+        max-width: 72px !important;
+        max-height: 72px !important;
+    }
+}
+
+/* موبایل کوچک */
+@media (max-width: 400px) {
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: 64px !important;
+        height: 64px !important;
+        min-width: 64px !important;
+        min-height: 64px !important;
+        max-width: 64px !important;
+        max-height: 64px !important;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE LAYOUT V3
+   هدف: حفظ نسبت دسکتاپ در نمایشگرهای کوچک و جلوگیری از
+   بریده شدن تصاویر
+   ========================================================= */
+
+/* دسکتاپ: نسبت سه بخش مثل طرح اصلی */
+@media (min-width: 1101px) {
+    .app {
+        grid-template-columns: 25.2% 49.6% 25.2%;
+    }
+
+    .left-grid,
+    .right-grid {
+        gap: 12px;
+    }
+
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: 88px !important;
+        height: 88px !important;
+        min-width: 88px !important;
+        min-height: 88px !important;
+        max-width: 88px !important;
+        max-height: 88px !important;
+    }
+}
+
+/* ---------------------------------------------------------
+   تبلت / لپ‌تاپ باریک / حالت landscape
+   این بخش برای چیزی مثل viewport حدود 914×412 است.
+   --------------------------------------------------------- */
+@media (min-width: 701px) and (max-width: 1100px) {
+
+    .app {
+        width: 100%;
+        height: 100vh;
+        grid-template-columns: 25.2% 49.6% 25.2%;
+    }
+
+    /* ستون‌های طرفین فضای داخلی بیشتری برای کارت‌ها می‌گیرند */
+    .left-sidebar {
+        padding: 10px 10px 10px;
+    }
+
+    .right-sidebar {
+        padding: 10px;
+    }
+
+    .top-icons {
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .circle-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 6px;
+    }
+
+    .circle-icon img,
+    .circle-icon svg {
+        width: 23px;
+        height: 23px;
+        max-width: 23px;
+        max-height: 23px;
+    }
+
+    .left-grid,
+    .right-grid {
+        gap: 8px;
+    }
+
+    /*
+       اندازه تصویر در هر دو ستون دقیقاً یکی است.
+       در این viewport حدود 49px می‌شود و دیگر از کارت بیرون نمی‌زند.
+    */
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: clamp(38px, 5.35vw, 88px) !important;
+        height: clamp(38px, 5.35vw, 88px) !important;
+        min-width: clamp(38px, 5.35vw, 88px) !important;
+        min-height: clamp(38px, 5.35vw, 88px) !important;
+        max-width: clamp(38px, 5.35vw, 88px) !important;
+        max-height: clamp(38px, 5.35vw, 88px) !important;
+        object-fit: contain !important;
+    }
+
+    .word-card {
+        padding: 5px;
+        font-size: clamp(14px, 1.55vw, 20px);
+        justify-content: space-between;
+    }
+
+    .word-card > span {
+        flex: 0 0 auto;
+        min-height: 1.35em;
+        max-height: 2.7em;
+        font-weight: 700 !important;
+        line-height: 1.2;
+        font-size: inherit;
+    }
+
+    /* فضای عکس و متن از هم جدا می‌مانند */
+    .image-card .image-placeholder,
+    .right-grid .image-placeholder {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* مرکز صفحه در حالت landscape */
+    .main-content {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .sentence-bar {
+        flex: 0 0 20%;
+        height: 20%;
+        min-height: 78px;
+        gap: 10px;
+        padding: 10px 14px;
+    }
+
+    .sentence-word {
+        height: 62px;
+        min-width: 82px;
+        padding: 0 12px;
+        font-size: clamp(18px, 2vw, 26px);
+    }
+
+    .bottom-controls {
+        flex: 0 0 23%;
+        height: 23%;
+        min-height: 90px;
+        padding: 8px 30px;
+    }
+
+    .control-circle {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .control-circle img,
+    .control-circle svg {
+        width: 38px;
+        height: 38px;
+        max-width: 38px;
+        max-height: 38px;
+    }
+
+    .sentence-display {
+        font-size: clamp(24px, 3vw, 42px);
+        padding: 15px 20px;
+    }
+}
+
+/* ---------------------------------------------------------
+   موبایل عمودی
+   --------------------------------------------------------- */
+@media (max-width: 700px) {
+
+    .app {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: 58px !important;
+        height: 58px !important;
+        min-width: 58px !important;
+        min-height: 58px !important;
+        max-width: 58px !important;
+        max-height: 58px !important;
+    }
+
+    .word-card {
+        padding: 5px;
+        font-size: 17px;
+    }
+
+    .word-card > span {
+        font-weight: 700 !important;
+        line-height: 1.15;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .image-card .image-placeholder img,
+    .right-grid .image-placeholder img {
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        min-height: 50px !important;
+        max-width: 50px !important;
+        max-height: 50px !important;
+    }
+
+    .word-card {
+        font-size: 16px;
+    }
+}
