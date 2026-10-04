@@ -1,1062 +1,302 @@
-/* =========================================
-   THEME VARIABLES
-========================================= */
+/* =========================================================
+   CARD EDITOR / PERSISTENT CUSTOMIZATION
+   ========================================================= */
 
-:root {
-
-    --page-bg: #fff9f9;
-
-    --section-bg: #fffdfd;
-
-    --card-bg: #ffeaea;
-
-    --card-hover: #ffe2e2;
-
-    --accent: #e8aebc;
-
-    --accent-light: #f8dfe5;
-
-    --border: #b8aaaa;
-
-    --section-border: #afa1a1;
-
-    --text: #000000;
-
-    --muted: #8f8585;
-
-    --danger: #e7aaaa;
-
-    --danger-hover: #e19b9b;
-
-    --white: #ffffff;
-
+.word-card.image-card {
+    isolation: isolate;
 }
 
-
-/* =========================================
-   THEMES
-========================================= */
-
-body[data-theme="green"] {
-
-    --page-bg: #f7fcf8;
-
-    --section-bg: #fcfffd;
-
-    --card-bg: #eaf7ed;
-
-    --card-hover: #dff1e4;
-
-    --accent: #a8cfb5;
-
-    --accent-light: #dcefe1;
-
-    --border: #bfdac6;
-
-    --section-border: #b8d1be;
-
-    --danger: #e7b5b5;
-
-    --danger-hover: #dfa3a3;
-
-}
-
-
-body[data-theme="yellow"] {
-
-    --page-bg: #fffdf5;
-
-    --section-bg: #fffefb;
-
-    --card-bg: #fcf5dc;
-
-    --card-hover: #f8edcf;
-
-    --accent: #e8cf91;
-
-    --accent-light: #f7ebc8;
-
-    --border: #ead9a9;
-
-    --section-border: #e2d29f;
-
-    --danger: #e5b7a9;
-
-    --danger-hover: #dda99b;
-
-}
-
-
-body[data-theme="blue"] {
-
-    --page-bg: #f6fbff;
-
-    --section-bg: #fcfeff;
-
-    --card-bg: #eaf5fb;
-
-    --card-hover: #dceef8;
-
-    --accent: #a8c9df;
-
-    --accent-light: #dcecf6;
-
-    --border: #c4dce9;
-
-    --section-border: #b9d3e2;
-
-    --danger: #e5b5b5;
-
-    --danger-hover: #dca4a4;
-
-}
-
-
-body[data-theme="pink"] {
-
-    --page-bg: #fff9f9;
-
-    --section-bg: #fffdfd;
-
-    --card-bg: #ffeaea;
-
-    --card-hover: #ffe2e2;
-
-    --accent: #e8aebc;
-
-    --accent-light: #f8dfe5;
-
-    --border: #b8aaaa;
-
-    --section-border: #afa1a1;
-
-}
-
-
-/* =========================================
-   RESET
-========================================= */
-
-* {
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-}
-
-
-html,
-body {
-
-    width: 100%;
-
-    min-height: 100%;
-
-}
-
-
-body {
-
-    font-family: "Vazirmatn", sans-serif;
-
-    background: var(--page-bg);
-
-    color: var(--text);
-
-}
-
-
-/* =========================================
-   PAGE
-========================================= */
-
-.customization-page {
-
-    min-height: 100vh;
-
-    background: var(--page-bg);
-
-}
-
-
-/* =========================================
-   HEADER
-========================================= */
-
-.customization-header {
-
-    height: 100px;
-
-    padding: 20px 40px;
-
-    display: grid;
-
-    grid-template-columns: 1fr auto 1fr;
-
-    align-items: center;
-
-    border-bottom: 1px solid var(--section-border);
-
-    background: var(--section-bg);
-
-}
-
-
-.customization-header h1 {
-
-    font-size: 30px;
-
-    font-weight: 600;
-
-    text-align: center;
-
-}
-
-
-.header-space {
-
-    width: 120px;
-
-}
-
-
-/* =========================================
-   BACK BUTTON
-========================================= */
-
-.back-button {
-
-    width: 120px;
-
-    height: 50px;
-
+.card-edit-button {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    z-index: 20;
+    width: 34px;
+    height: 34px;
     border: 1px solid var(--border);
-
-    border-radius: 14px;
-
-    background: var(--card-bg);
-
-    color: var(--text);
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.15s ease;
-
-}
-
-
-.back-button:hover {
-
-    background: var(--card-hover);
-
-}
-
-
-.back-button:active {
-
-    transform: scale(0.96);
-
-}
-
-
-/* =========================================
-   MAIN
-========================================= */
-
-.customization-main {
-
-    width: min(1200px, 92%);
-
-    margin: 0 auto;
-
-    padding: 35px 0 50px;
-
-}
-
-
-.page-description {
-
-    text-align: center;
-
-    color: var(--muted);
-
-    font-size: 17px;
-
-    margin-bottom: 30px;
-
-}
-
-
-/* =========================================
-   CARDS CONTAINER
-========================================= */
-
-.cards-container {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 18px;
-
-}
-
-
-/* =========================================
-   CUSTOMIZATION CARD
-========================================= */
-
-.custom-card {
-
-    min-height: 145px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-
-    padding: 18px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    background: var(--section-bg);
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease;
-
-}
-
-
-.custom-card:hover {
-
-    background: var(--card-hover);
-
-}
-
-
-/* =========================================
-   CARD IMAGE
-========================================= */
-
-.custom-card-image {
-
-    width: 105px;
-
-    height: 105px;
-
-    flex-shrink: 0;
-
-    border-radius: 15px;
-
-    background: var(--card-bg);
-
-    border: 1px solid var(--border);
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    overflow: hidden;
-
-}
-
-
-.custom-card-image img {
-
-    width: 82%;
-
-    height: 82%;
-
-    object-fit: contain;
-
-}
-
-
-/* =========================================
-   CARD INFO
-========================================= */
-
-.custom-card-info {
-
-    flex: 1;
-
-    min-width: 0;
-
-}
-
-
-.custom-card-name {
-
-    font-size: 23px;
-
-    font-weight: 600;
-
-    margin-bottom: 7px;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-}
-
-
-.custom-card-number {
-
-    font-size: 14px;
-
-    color: var(--muted);
-
-}
-
-
-/* =========================================
-   CARD ACTIONS
-========================================= */
-
-.card-actions {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-    flex-shrink: 0;
-
-}
-
-
-.edit-card-button,
-.delete-card-button {
-
-    width: 105px;
-
-    height: 44px;
-
-    border-radius: 12px;
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.15s ease;
-
-}
-
-
-.edit-card-button {
-
-    border: 1px solid var(--border);
-
-    background: var(--accent-light);
-
-    color: var(--text);
-
-}
-
-
-.edit-card-button:hover {
-
-    background: var(--accent);
-
-}
-
-
-.delete-card-button {
-
-    border: 1px solid var(--danger);
-
-    background: #fff3f3;
-
-    color: #7f4d4d;
-
-}
-
-
-.delete-card-button:hover {
-
-    background: var(--danger);
-
-}
-
-
-.edit-card-button:active,
-.delete-card-button:active {
-
-    transform: scale(0.96);
-
-}
-
-
-/* =========================================
-   DELETED CARD
-========================================= */
-
-.custom-card.deleted {
-
-    opacity: 0.45;
-
-}
-
-
-.custom-card.deleted .custom-card-name {
-
-    text-decoration: line-through;
-
-}
-
-
-/* =========================================
-   EMPTY STATE
-========================================= */
-
-.empty-state {
-
-    width: 100%;
-
-    padding: 70px 20px;
-
-    text-align: center;
-
-    color: var(--muted);
-
-    font-size: 20px;
-
-}
-
-
-/* =========================================
-   SAVE SECTION
-========================================= */
-
-.save-section {
-
-    display: flex;
-
-    justify-content: center;
-
-    padding: 45px 0 10px;
-
-}
-
-
-.save-button {
-
-    min-width: 300px;
-
-    height: 65px;
-
-    padding: 0 35px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    background: var(--accent);
-
-    color: var(--text);
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: 21px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.15s ease;
-
-}
-
-
-.save-button:hover {
-
-    background: var(--accent-light);
-
-}
-
-
-.save-button:active {
-
-    transform: scale(0.97);
-
-}
-
-
-/* =========================================
-   MODAL
-========================================= */
-
-.modal-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 1000;
-
-    display: none;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-
-    background: rgba(60, 50, 55, 0.28);
-
-}
-
-
-.modal-overlay.active {
-
-    display: flex;
-
-}
-
-
-/* =========================================
-   MODAL BOX
-========================================= */
-
-.edit-modal {
-
-    width: min(520px, 100%);
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    padding: 28px;
-
-    border-radius: 24px;
-
-    border: 1px solid var(--border);
-
-    background: var(--section-bg);
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.12);
-
-    animation: modalAppear 0.18s ease;
-
-}
-
-
-@keyframes modalAppear {
-
-    from {
-
-        opacity: 0;
-
-        transform: scale(0.95);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: scale(1);
-
-    }
-
-}
-
-
-/* =========================================
-   MODAL HEADER
-========================================= */
-
-.modal-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 25px;
-
-}
-
-
-.modal-header h2 {
-
-    font-size: 24px;
-
-    font-weight: 600;
-
-}
-
-
-.close-modal {
-
-    width: 40px;
-
-    height: 40px;
-
-    border: none;
-
     border-radius: 50%;
-
-    background: var(--card-bg);
-
-    font-size: 28px;
-
-    line-height: 1;
-
-    cursor: pointer;
-
-}
-
-
-.close-modal:hover {
-
-    background: var(--card-hover);
-
-}
-
-
-/* =========================================
-   FORM
-========================================= */
-
-.form-group {
-
-    margin-bottom: 24px;
-
-}
-
-
-.form-group label {
-
-    display: block;
-
-    margin-bottom: 9px;
-
-    font-size: 17px;
-
-    font-weight: 500;
-
-}
-
-
-#cardNameInput {
-
-    width: 100%;
-
-    height: 55px;
-
-    padding: 0 16px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 13px;
-
-    background: var(--page-bg);
-
+    background: rgba(255, 255, 255, 0.94);
     color: var(--text);
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: "Vazirmatn", sans-serif;
-
-    font-size: 18px;
-
-    outline: none;
-
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.10);
+    transition: transform 0.15s ease, background-color 0.2s ease;
 }
 
-
-#cardNameInput:focus {
-
-    border-color: var(--accent);
-
+.card-edit-button:hover {
+    background: var(--card-hover);
+    transform: scale(1.06);
 }
 
+.card-edit-button:active {
+    transform: scale(0.93);
+}
 
-/* =========================================
-   IMAGE PREVIEW
-========================================= */
+.card-edit-label {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
 
-.image-preview {
+.left-grid,
+.right-grid {
+    grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
+}
 
-    width: 160px;
+/* The number of rows is recalculated by JavaScript after cards are
+   edited/deleted, so remaining cards expand into the freed space. */
+@media (max-width: 700px) {
+    .left-grid,
+    .right-grid {
+        grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
+        grid-auto-rows: unset;
+    }
+}
 
-    height: 160px;
+@media (max-width: 400px) {
+    .left-grid,
+    .right-grid {
+        grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
+        grid-auto-rows: unset;
+    }
 
-    margin: 0 auto 15px;
+    .card-edit-button {
+        width: 30px;
+        height: 30px;
+        top: 5px;
+        left: 5px;
+        font-size: 18px;
+    }
+}
 
-    border: 1px solid var(--border);
+/* Modal */
+body.editor-open {
+    overflow: hidden !important;
+}
 
+.card-editor-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(3px);
+}
+
+.card-editor-overlay[hidden] {
+    display: none;
+}
+
+.card-editor-modal {
+    width: min(520px, 100%);
+    max-height: min(760px, calc(100vh - 40px));
+    overflow-y: auto;
+    background: var(--section-bg);
+    color: var(--text);
+    border: 1px solid var(--section-border);
     border-radius: 18px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+    direction: rtl;
+}
 
-    background: var(--card-bg);
-
+.card-editor-header {
     display: flex;
-
     align-items: center;
-
-    justify-content: center;
-
-    overflow: hidden;
-
-}
-
-
-.image-preview img {
-
-    width: 85%;
-
-    height: 85%;
-
-    object-fit: contain;
-
-}
-
-
-/* =========================================
-   IMAGE SELECT
-========================================= */
-
-.image-select-button {
-
-    width: 100%;
-
-    height: 50px;
-
-    display: flex !important;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border: 1px solid var(--border);
-
-    border-radius: 13px;
-
-    background: var(--card-bg);
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease;
-
-}
-
-
-.image-select-button:hover {
-
-    background: var(--card-hover);
-
-}
-
-
-/* =========================================
-   MODAL ACTIONS
-========================================= */
-
-.modal-actions {
-
-    display: flex;
-
+    justify-content: space-between;
     gap: 12px;
-
-    margin-top: 30px;
-
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--section-border);
 }
 
-
-.cancel-button,
-.confirm-button {
-
-    flex: 1;
-
-    height: 55px;
-
-    border-radius: 13px;
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
+.card-editor-header h2 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 700;
 }
 
-
-.cancel-button {
-
+.card-editor-close {
+    width: 40px;
+    height: 40px;
     border: 1px solid var(--border);
-
+    border-radius: 50%;
     background: var(--card-bg);
-
+    color: var(--text);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
 }
 
+.card-editor-form {
+    padding: 20px;
+}
 
-.confirm-button {
+.editor-image-preview-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
+.editor-image-preview {
+    width: 150px;
+    height: 150px;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #777;
+}
+
+.editor-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.editor-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.editor-field > span {
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.editor-field input[type="text"] {
+    width: 100%;
+    height: 50px;
     border: 1px solid var(--border);
-
-    background: var(--accent);
-
+    border-radius: 10px;
+    background: var(--page-bg);
+    color: var(--text);
+    padding: 0 14px;
+    font: inherit;
+    font-size: 17px;
+    outline: none;
 }
 
-
-.cancel-button:hover {
-
-    background: var(--card-hover);
-
+.editor-field input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-
-.confirm-button:hover {
-
-    background: var(--accent-light);
-
+.editor-field input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: var(--page-bg);
+    font: inherit;
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .customization-header {
-
-        padding: 15px 20px;
-
-        grid-template-columns: auto 1fr auto;
-
-        height: 80px;
-
-    }
-
-
-    .customization-header h1 {
-
-        font-size: 23px;
-
-    }
-
-
-    .back-button {
-
-        width: 90px;
-
-        height: 43px;
-
-        font-size: 15px;
-
-    }
-
-
-    .header-space {
-
-        width: 90px;
-
-    }
-
-
-    .cards-container {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .customization-main {
-
-        width: 94%;
-
-        padding-top: 25px;
-
-    }
-
+.editor-field small {
+    color: #666;
+    line-height: 1.7;
 }
 
+.editor-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+}
 
-@media (max-width: 500px) {
+.editor-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .custom-card {
+.editor-actions button {
+    min-height: 46px;
+    border-radius: 10px;
+    padding: 0 18px;
+    border: 1px solid var(--border);
+    font: inherit;
+    cursor: pointer;
+}
 
-        min-height: 125px;
+.editor-delete {
+    background: #fff0f0;
+    color: #9a1d1d;
+}
 
-        padding: 12px;
+.editor-cancel {
+    background: var(--page-bg);
+    color: var(--text);
+}
 
-        gap: 12px;
+.editor-save {
+    background: var(--card-bg);
+    color: var(--text);
+    font-weight: 700;
+}
 
+.editor-actions button:hover {
+    filter: brightness(0.98);
+}
+
+@media (max-width: 600px) {
+    .card-editor-overlay {
+        align-items: flex-end;
+        padding: 0;
     }
 
-
-    .custom-card-image {
-
-        width: 75px;
-
-        height: 75px;
-
-    }
-
-
-    .custom-card-name {
-
-        font-size: 18px;
-
-    }
-
-
-    .card-actions {
-
-        gap: 7px;
-
-    }
-
-
-    .edit-card-button,
-    .delete-card-button {
-
-        width: 75px;
-
-        height: 38px;
-
-        font-size: 13px;
-
-    }
-
-
-    .save-button {
-
+    .card-editor-modal {
         width: 100%;
-
-        min-width: 0;
-
-        font-size: 18px;
-
+        max-height: 92vh;
+        border-radius: 20px 20px 0 0;
+        border-bottom: 0;
     }
 
+    .card-editor-header {
+        padding: 15px 16px;
+    }
+
+    .card-editor-form {
+        padding: 16px;
+    }
+
+    .editor-image-preview {
+        width: 120px;
+        height: 120px;
+    }
+
+    .editor-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .editor-actions-right {
+        width: 100%;
+    }
+
+    .editor-actions-right button {
+        flex: 1;
+    }
+
+    .editor-delete {
+        width: 100%;
+    }
 }

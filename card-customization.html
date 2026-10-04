@@ -2,178 +2,756 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>AAC Communication UI</title>
 
-    <title>شخصی‌سازی کارت‌ها</title>
+    <link rel="stylesheet" href="./css/style.css">
 
-    <link rel="stylesheet"
-          href="./css/card-customization.css">
+<link rel="manifest" href="/manifest.json">
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+<meta name="theme-color" content="#ffffff">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ارکید">
 
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
-
+    <!-- Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
-    <div class="customization-page">
-        <header class="customization-header">
-            <button
-                id="backButton"
-                class="back-button"
-                type="button">
-                <span>بازگشت</span>
-            </button>
-            <h1>
-                شخصی‌سازی کارت‌ها
-            </h1>
-            <div class="header-space"></div>
-        </header>
 
+    <div class="app">
 
+        <!-- =========================
+             LEFT SIDEBAR
+        ========================== -->
 
-        <main class="customization-main">
+        <aside class="left-sidebar">
 
-            <p class="page-description">
-                می‌توانید نام و تصویر هر کارت را تغییر دهید
-                یا کارت‌هایی را که نمی‌خواهید حذف کنید.
-            </p>
+            <div class="top-icons">
 
-
-            
-            <section
-                id="cardsContainer"
-                class="cards-container">
-
-                
-            </section>
-
-
-            
-
-            <div class="save-section">
-                <button
-                    id="saveChangesButton"
-                    class="save-button"
-                    type="button">
-                    ذخیره‌سازی تغییرات
+                <button class="circle-icon">
+                    <img src="images/ico/mdi-light--account.svg" alt="حساب کاربری">
                 </button>
+
+                <button class="circle-icon">
+                    <img src="images/ico/mdi-light--clock.svg" alt="تاریخچه">
+                </button>
+
+                <button class="circle-icon" id="settingsButton" type="button">
+                    <img src="images/ico/settings.png" alt="تنظیمات">
+                </button>
+
             </div>
+
+
+            <div class="left-grid">
+
+                <!-- ردیف ۱ -->
+
+                <!-- بابا -->
+                <button class="word-card image-card" data-word="بابا" data-card-id="left-1">
+                    <div class="image-placeholder">
+                        <img src="images/cards/بابا.png" alt="بابا">
+                    </div>
+                    <span>بابا</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <button class="word-card image-card" data-word="مامان" data-card-id="left-2">
+                    <div class="image-placeholder">
+                        <img src="images/cards/مامان.png" alt="مامان">
+                    </div>
+                    <span>مامان</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <button class="word-card image-card" data-word="تکرار" data-card-id="left-3">
+                    <div class="image-placeholder">
+                        <img src="images/cards/NEW-LEFT-1.png">
+                    </div>
+                    <span>تکرار</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+
+
+                <button class="word-card image-card" data-word="دوست" data-card-id="left-4">
+                    <div class="image-placeholder">
+                        <img src="images/cards/قلب.png" alt="دوست">
+                    </div>
+                    <span>دوست</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <button class="word-card image-card" data-word="من" data-card-id="left-5">
+                    <div class="image-placeholder">
+                        <img src="images/man.png" alt="من">
+                    </div>
+                    <span>من</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <button class="word-card image-card" data-word="غریبه" data-card-id="left-6">
+                    <div class="image-placeholder">
+                        <img src="images/cards/NEW-LEFT-2.png">
+                    </div>
+                    <span>غریبه</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+
+
+                <button class="word-card image-card" data-word="بیرون" data-card-id="left-7">
+                    <div class="image-placeholder">
+                        <img src="images/cards/درخت.png" alt="بیرون">
+                    </div>
+                    <span>پارک</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- خانه -->
+                <button class="word-card image-card" data-word="خانه" data-card-id="left-8">
+                    <div class="image-placeholder">
+                        <img src="images/cards/خانه.png" alt="خانه">
+                    </div>
+                    <span>خانه</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- کارت جدید سمت چپ ۳ -->
+                <button class="word-card image-card" data-word="مدرسه" data-card-id="left-9">
+                    <div class="image-placeholder">
+                        <img src="images/cards/مدرسه.png">
+                    </div>
+                    <span>مدرسه</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+
+                <!-- ردیف ۴ -->
+
+                <!-- خوشحال -->
+                <button class="word-card image-card" data-word="خوشحال" data-card-id="left-10">
+                    <div class="image-placeholder">
+                        <img src="images/cards/خوشحال.png" alt="خوشحال">
+                    </div>
+                    <span>خوشحال</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- ناراحت -->
+                <button class="word-card image-card" data-word="ناراحت" data-card-id="left-11">
+                    <div class="image-placeholder">
+                        <img src="images/cards/ناراحت.png" alt="ناراحت">
+                    </div>
+                    <span>ناراحت</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- کارت جدید سمت چپ ۴ -->
+                <button class="word-card image-card" data-word="کلمه جدید ۴" data-card-id="left-12">
+                    <div class="image-placeholder">
+                        <img src="images/cards/">
+                    </div>
+                    <span>ترس</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================
+             CENTER
+        ========================== -->
+
+        <main class="center-section">
+
+            <!-- Sentence Bar -->
+
+            <div class="sentence-bar">
+
+                <button class="sentence-word" data-word="نه">
+                    نه
+                </button>
+
+                <button class="sentence-word" data-word="آره">
+                    آره
+                </button>
+
+                <button class="sentence-word" data-word="درد دارم">
+                    درد دارم
+                </button>
+
+                <button class="sentence-word" data-word="کمک">
+                    کمک
+                </button>
+
+            </div>
+
+
+
+            <div class="main-content">
+                <div id="sentence-display" class="sentence-display"></div>
+            </div>
+
+
+            <!-- Bottom Controls -->
+
+            <div class="bottom-controls">
+
+                <!-- حذف -->
+                <button class="control-button" aria-label="حذف">
+                    <div class="control-circle">
+                        <img src="images/ico/mdi-light--delete.svg" alt="حذف">
+                    </div>
+                </button>
+
+
+                <!-- قبلی -->
+                <button class="control-button" aria-label="قبلی">
+                    <div class="control-circle">
+                        <img src="images/ico/mdi-light--rewind.svg" alt="قبلی">
+                    </div>
+                </button>
+
+            </div>
+
         </main>
 
 
-        <div
-            id="editModal"
-            class="modal-overlay"
-            aria-hidden="true">
-            <div class="edit-modal">
-                <div class="modal-header">
-                    <h2>
-                        اصلاح کارت
-                    </h2>
-                    <button
-                        id="closeModalButton"
-                        class="close-modal"
-                        type="button"
-                        aria-label="بستن">
-                        ×
-                    </button>
-                </div>
+        <!-- =========================
+             RIGHT SIDEBAR
+        ========================== -->
 
+        <aside class="right-sidebar">
 
-                <div class="form-group">
+            <div class="right-grid">
 
-                    <label for="cardNameInput">
-                        نام کارت
-                    </label>
+                <!-- ردیف ۱ -->
 
-                    <input
-                        id="cardNameInput"
-                        type="text"
-                        autocomplete="off"
-                        placeholder="نام کارت را وارد کنید">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        تصویر کارت
-                    </label>
-
-
-                    <div class="image-preview">
-
-                        <img
-                            id="imagePreview"
-                            src=""
-                            alt="پیش‌نمایش">
-
+                <!-- آب -->
+                <button class="word-card image-card" data-word="آب" data-card-id="right-1">
+                    <div class="image-placeholder">
+                        <img src="images/cards/water-glass-color-icon.svg" alt="آب">
                     </div>
+                    <span>آب</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- غذا -->
+                <button class="word-card image-card" data-word="غذا" data-card-id="right-2">
+                    <div class="image-placeholder">
+                        <img src="images/cards/سیب.png" alt="غذا">
+                    </div>
+                    <span>میوه</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- کارت جدید سمت راست ۱ -->
+                <button class="word-card image-card" data-word="غذا" data-card-id="right-3">
+                    <div class="image-placeholder">
+                        <img src="images/cards/">
+                    </div>
+                    <span>غذا</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
 
-                    <label
-                        for="cardImageInput"
-                        class="image-select-button">
+                <!-- ردیف ۲ -->
 
-                        انتخاب تصویر جدید
+                <!-- بازی -->
+                <button class="word-card image-card" data-word="بازی" data-card-id="right-4">
+                    <div class="image-placeholder">
+                        <img src="images/cards/توپ.png" alt="بازی">
+                    </div>
+                    <span>توپ</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+                <button class="word-card image-card" data-word="عروسک" data-card-id="right-5">
+                    <div class="image-placeholder">
+                        <img src="images/cards/عروسک.png">
+                    </div>
+                    <span>عروسک</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
-                    </label>
+                <!-- بخوابم -->
+                <button class="word-card image-card" data-word="بخوابم" data-card-id="right-6">
+                    <div class="image-placeholder">
+                        <img src="images/cards/خواب.png" alt="بخوابم">
+                    </div>
+                    <span>بخوابم</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- کارت جدید سمت راست ۲ -->
+                
 
 
-                    <input
-                        id="cardImageInput"
-                        type="file"
-                        accept="image/*"
-                        hidden>
+                <!-- ردیف ۳ -->
 
-                </div>
+                <!-- بروم -->
+                <button class="word-card image-card" data-word="بروم" data-card-id="right-7">
+                    <div class="image-placeholder">
+                        <img src="images/beram.png" alt="بروم">
+                    </div>
+                    <span>بروم</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- می‌خواهم -->
+                <button class="word-card image-card" data-word="می‌خواهم" data-card-id="right-8">
+                    <div class="image-placeholder">
+                        <img src="images/mikham.png" alt="می‌خواهم">
+                    </div>
+                    <span>می‌خواهم</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
+
+                <!-- کارت جدید سمت راست ۳ -->
+                <button class="word-card image-card" data-word="بغل" data-card-id="right-9">
+                    <div class="image-placeholder">
+                        <img src="images/cards/آغوش.png">
+                    </div>
+                    <span>بغل</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
 
-                <!-- Modal Buttons -->
+                <!-- ردیف ۴ -->
 
-                <div class="modal-actions">
+                <!-- دستشویی -->
+                <button class="word-card image-card" data-word="دستشویی" data-card-id="right-10">
+                    <div class="image-placeholder">
+                        <img src="images/dastshooei.png" alt="دستشویی">
+                    </div>
+                    <span>دستشویی</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
-                    <button
-                        id="cancelEditButton"
-                        class="cancel-button"
-                        type="button">
+                <!-- بخورم -->
+                <button class="word-card image-card" data-word="بخورم" data-card-id="right-11">
+                    <div class="image-placeholder">
+                        <img src="images/cards/" alt="بخورم">
+                    </div>
+                    <span>بخورم</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
-                        انصراف
+                <!-- کارت جدید سمت راست ۴ -->
+                <button class="word-card image-card" data-word='تاب' data-card-id="right-12">
+                    <div class="image-placeholder">
+                        <img src="images/cards/تاب.png">
+                    </div>
+                    <span>تاب</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
-                    </button>
 
+                <!-- ردیف ۵ -->
 
-                    <button
-                        id="confirmEditButton"
-                        class="confirm-button"
-                        type="button">
+                <!-- کارت جدید سمت راست ۵ -->
+                <button class="word-card image-card" data-word='کارتون' data-card-id="right-13">
+                    <div class="image-placeholder">
+                        <img src="images/cards/تلویزیون.png">
+                    </div>
+                    <span>کارتون</span>
+                
+                    <span class="card-edit-label" aria-hidden="true">ویرایش</span>
+                    <span class="card-edit-button" role="button" tabindex="0" aria-label="ویرایش کارت" title="ویرایش کارت">
+                        <span aria-hidden="true">✎</span>
+                    </span></button>
 
-                        ذخیره کارت
+                <!-- بیشتر -->
+                <button class="word-card small-card" aria-label="بیشتر">
+                    <span>...</span>
+                </button>
 
-                    </button>
-
-                </div>
+                <!-- افزودن -->
+                <button class="word-card small-card" aria-label="افزودن">
+                    <span class="plus">+</span>
+                </button>
 
             </div>
 
-        </div>
+        </aside>
 
     </div>
 
+    <script src="./js/script.js"></script>
 
-    <script src="./js/card-customization.js"></script>
+    
+<script>
+(() => {
+    "use strict";
+
+    const STORAGE_KEY = "orkid-card-customizations-v1";
+
+    const overlay = document.getElementById("cardEditorOverlay");
+    const form = document.getElementById("cardEditorForm");
+    const textInput = document.getElementById("editorText");
+    const imageInput = document.getElementById("editorImage");
+    const imagePreview = document.getElementById("editorImagePreview");
+    const closeButton = document.getElementById("cardEditorClose");
+    const cancelButton = document.getElementById("editorCancel");
+    const deleteButton = document.getElementById("editorDelete");
+
+    let activeCard = null;
+    let pendingImage = null;
+
+    function loadState() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch {
+            return {};
+        }
+    }
+
+    function saveState(state) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function getCards() {
+        return [...document.querySelectorAll(".word-card.image-card[data-card-id]")];
+    }
+
+    function updateGrid(grid) {
+        if (!grid) return;
+        const cards = [...grid.querySelectorAll(".word-card")];
+        const columns = window.matchMedia("(max-width: 400px)").matches ? 2 : 3;
+        const rows = Math.max(1, Math.ceil(cards.length / columns));
+        grid.style.setProperty("--dynamic-rows", rows);
+        grid.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
+        grid.style.gridAutoRows = "unset";
+    }
+
+    function updateAllGrids() {
+        updateGrid(document.querySelector(".left-grid"));
+        updateGrid(document.querySelector(".right-grid"));
+    }
+
+    function cardData(card) {
+        const img = card.querySelector(".image-placeholder img");
+        const label = card.querySelector(":scope > span:not(.card-edit-label)");
+        return {
+            text: label ? label.textContent.trim() : "",
+            image: img?.getAttribute("src") || "",
+            alt: img?.getAttribute("alt") || ""
+        };
+    }
+
+    function applySavedState() {
+        const state = loadState();
+
+        getCards().forEach(card => {
+            const data = state[card.dataset.cardId];
+            if (!data) return;
+
+            if (data.deleted) {
+                card.remove();
+                return;
+            }
+
+            const label = card.querySelector(":scope > span:not(.card-edit-label)");
+            const img = card.querySelector(".image-placeholder img");
+
+            if (label && typeof data.text === "string") label.textContent = data.text;
+
+            if (img && typeof data.image === "string" && data.image) {
+                img.src = data.image;
+                img.alt = data.text || data.alt || "";
+            }
+
+            card.dataset.word = data.text || card.dataset.word || "";
+        });
+
+        updateAllGrids();
+    }
+
+    function persistCard(card) {
+        const state = loadState();
+        state[card.dataset.cardId] = {
+            ...cardData(card),
+            deleted: false
+        };
+        saveState(state);
+    }
+
+    function showPreview(src, alt = "") {
+        if (!src) {
+            imagePreview.innerHTML = "<span>تصویر ندارد</span>";
+            return;
+        }
+
+        imagePreview.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = alt;
+        imagePreview.appendChild(img);
+    }
+
+    function openEditor(card) {
+        activeCard = card;
+        pendingImage = null;
+
+        const data = cardData(card);
+        textInput.value = data.text;
+        imageInput.value = "";
+        showPreview(data.image, data.text);
+
+        overlay.hidden = false;
+        document.body.classList.add("editor-open");
+        requestAnimationFrame(() => textInput.focus());
+    }
+
+    function closeEditor() {
+        overlay.hidden = true;
+        document.body.classList.remove("editor-open");
+        activeCard = null;
+        pendingImage = null;
+        form.reset();
+    }
+
+    function readImage(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function activateEditControl(control) {
+        const card = control.closest(".word-card.image-card");
+        if (card) openEditor(card);
+    }
+
+    document.addEventListener("click", (event) => {
+        const control = event.target.closest(".card-edit-button");
+        if (control) {
+            event.preventDefault();
+            event.stopPropagation();
+            activateEditControl(control);
+            return;
+        }
+
+        if (event.target === overlay) closeEditor();
+    }, true);
+
+    document.addEventListener("keydown", (event) => {
+        const control = event.target.closest?.(".card-edit-button");
+        if (control && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            event.stopPropagation();
+            activateEditControl(control);
+            return;
+        }
+
+        if (event.key === "Escape" && !overlay.hidden) closeEditor();
+    });
+
+    imageInput.addEventListener("change", async () => {
+        const file = imageInput.files?.[0];
+        if (!file) return;
+
+        try {
+            pendingImage = await readImage(file);
+            showPreview(pendingImage, textInput.value.trim());
+        } catch {
+            pendingImage = null;
+            alert("خواندن تصویر انجام نشد. لطفاً دوباره امتحان کن.");
+        }
+    });
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!activeCard) return;
+
+        const newText = textInput.value.trim();
+        if (!newText) {
+            textInput.focus();
+            return;
+        }
+
+        const img = activeCard.querySelector(".image-placeholder img");
+        const label = activeCard.querySelector(":scope > span:not(.card-edit-label)");
+
+        if (label) label.textContent = newText;
+        activeCard.dataset.word = newText;
+
+        if (img) {
+            if (pendingImage) img.src = pendingImage;
+            img.alt = newText;
+        }
+
+        persistCard(activeCard);
+        updateAllGrids();
+        closeEditor();
+    });
+
+    deleteButton.addEventListener("click", () => {
+        if (!activeCard) return;
+
+        const name = cardData(activeCard).text || "این کارت";
+        if (!window.confirm(`کارت «${name}» حذف شود؟`)) return;
+
+        const state = loadState();
+        state[activeCard.dataset.cardId] = {
+            ...cardData(activeCard),
+            deleted: true
+        };
+        saveState(state);
+
+        activeCard.remove();
+        updateAllGrids();
+        closeEditor();
+    });
+
+    closeButton.addEventListener("click", closeEditor);
+    cancelButton.addEventListener("click", closeEditor);
+    window.addEventListener("resize", updateAllGrids);
+
+    // Developer helper: reset all saved card customizations.
+    window.resetOrkidCardCustomizations = () => {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    };
+
+    applySavedState();
+})();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js", { scope: "/" })
+            .then(registration => console.log("PWA ready:", registration.scope))
+            .catch(err => console.error("PWA error:", err));
+    });
+}
+</script>
+
+
+
+    <!-- =========================
+         CARD EDITOR
+    ========================== -->
+    <div id="cardEditorOverlay" class="card-editor-overlay" hidden>
+        <div class="card-editor-modal" role="dialog" aria-modal="true" aria-labelledby="cardEditorTitle">
+            <div class="card-editor-header">
+                <h2 id="cardEditorTitle">ویرایش کارت</h2>
+                <button id="cardEditorClose" class="card-editor-close" type="button" aria-label="بستن">×</button>
+            </div>
+
+            <form id="cardEditorForm" class="card-editor-form">
+                <div class="editor-image-preview-wrap">
+                    <div class="editor-image-preview" id="editorImagePreview">
+                        <span>تصویر ندارد</span>
+                    </div>
+                </div>
+
+                <label class="editor-field">
+                    <span>متن کارت</span>
+                    <input id="editorText" type="text" maxlength="40" autocomplete="off" required>
+                </label>
+
+                <label class="editor-field">
+                    <span>تصویر کارت</span>
+                    <input id="editorImage" type="file" accept="image/*">
+                    <small>می‌توانی یک تصویر از گوشی یا کامپیوتر انتخاب کنی. تصویر در همین مرورگر ذخیره می‌شود.</small>
+                </label>
+
+                <div class="editor-actions">
+                    <button id="editorDelete" class="editor-delete" type="button">حذف کارت</button>
+                    <div class="editor-actions-right">
+                        <button id="editorCancel" class="editor-cancel" type="button">انصراف</button>
+                        <button class="editor-save" type="submit">ذخیره تغییرات</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </body>
 
