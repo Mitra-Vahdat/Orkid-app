@@ -1,78 +1,224 @@
 /* =========================================================
-   CARD EDITOR / PERSISTENT CUSTOMIZATION
+   ORKID CARD CUSTOMIZATION
    ========================================================= */
 
-.word-card.image-card {
-    isolation: isolate;
-}
-
-.card-edit-button {
-    position: absolute;
-    top: 7px;
-    left: 7px;
-    z-index: 20;
-    width: 34px;
-    height: 34px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.94);
-    color: var(--text);
+/* ---------- Top edit toolbar ---------- */
+.customization-toolbar {
+    height: 58px;
+    min-height: 58px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 18px;
+    padding: 8px 18px;
+    background: #ffffff;
+    border-bottom: 1px solid #dddddd;
+    direction: rtl;
+    position: relative;
+    z-index: 1000;
+}
+
+.customization-title {
+    margin: 0;
+    color: #d40000;
     font-family: "Vazirmatn", sans-serif;
     font-size: 20px;
+    font-weight: 700;
     line-height: 1;
+    white-space: nowrap;
+}
+
+.customization-save {
+    border: 1px solid #b90000;
+    border-radius: 9px;
+    background: #d40000;
+    color: #ffffff;
+    min-height: 40px;
+    padding: 0 20px;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.10);
-    transition: transform 0.15s ease, background-color 0.2s ease;
+    transition: background-color .18s ease, transform .12s ease;
+}
+
+.customization-save:hover {
+    background: #b80000;
+}
+
+.customization-save:active {
+    transform: scale(.97);
+}
+
+.customization-save.saved {
+    background: #16803a;
+    border-color: #16803a;
+}
+
+.customization-toast {
+    position: fixed;
+    top: 68px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    padding: 9px 16px;
+    border-radius: 9px;
+    background: #16803a;
+    color: #ffffff;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 14px;
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.customization-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* The original app is 100vh; the edit toolbar occupies 58px above it. */
+body.card-customization-page {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body.card-customization-page > .app {
+    width: 100%;
+    height: calc(100vh - 58px);
+    min-height: 0;
+    flex: 1 1 auto;
+}
+
+/* ---------- Cards ---------- */
+.word-card.image-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Keep the card itself square. The grid controls its width; height follows it. */
+.left-grid .word-card.image-card,
+.right-grid .word-card.image-card {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    align-self: start;
+}
+
+/* Image and text occupy separate areas. */
+.word-card.image-card .image-placeholder,
+.right-grid .image-placeholder {
+    position: static;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.word-card.image-card .image-placeholder img,
+.right-grid .image-placeholder img {
+    display: block !important;
+    width: 72% !important;
+    height: 72% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 120px !important;
+    max-height: 120px !important;
+    object-fit: contain !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.word-card.image-card .word-label {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    flex: 0 0 2.5em;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    white-space: normal;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ---------- Edit button ---------- */
+.card-edit-button {
+    position: absolute !important;
+    top: 7px !important;
+    left: 7px !important;
+    z-index: 50 !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid #aaa !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.96) !important;
+    color: #111 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: "Vazirmatn", sans-serif !important;
+    font-size: 19px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 7px rgba(0,0,0,.10);
+    transition: transform .15s ease, background-color .2s ease;
 }
 
 .card-edit-button:hover {
-    background: var(--card-hover);
+    background: #f2f2f2 !important;
     transform: scale(1.06);
 }
 
 .card-edit-button:active {
-    transform: scale(0.93);
+    transform: scale(.93);
 }
 
 .card-edit-label {
     display: none !important;
 }
 
+/* ---------- Dynamic square grid ----------
+   JavaScript changes --card-columns after deletions.
+   Fewer columns means the remaining square cards become larger.
+   The number of columns is never chosen in a way that distorts a card.
+*/
 .left-grid,
 .right-grid {
-    grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
+    grid-template-columns: repeat(var(--card-columns, 3), minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: auto !important;
+    align-content: start;
 }
 
-/* The number of rows is recalculated by JavaScript after cards are
-   edited/deleted, so remaining cards expand into the freed space. */
-@media (max-width: 700px) {
-    .left-grid,
-    .right-grid {
-        grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
-        grid-auto-rows: unset;
-    }
+.left-grid .word-card,
+.right-grid .word-card {
+    height: auto !important;
 }
 
-@media (max-width: 400px) {
-    .left-grid,
-    .right-grid {
-        grid-template-rows: repeat(var(--dynamic-rows, 1), minmax(0, 1fr));
-        grid-auto-rows: unset;
-    }
-
-    .card-edit-button {
-        width: 30px;
-        height: 30px;
-        top: 5px;
-        left: 5px;
-        font-size: 18px;
-    }
+/* Small utility cards remain normal controls. */
+.right-grid .small-card {
+    aspect-ratio: 1 / 1;
+    height: auto !important;
+    align-self: start;
 }
 
-/* Modal */
+/* ---------- Editor modal ---------- */
 body.editor-open {
     overflow: hidden !important;
 }
@@ -85,7 +231,7 @@ body.editor-open {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.34);
+    background: rgba(0,0,0,.34);
     backdrop-filter: blur(3px);
 }
 
@@ -101,7 +247,7 @@ body.editor-open {
     color: var(--text);
     border: 1px solid var(--section-border);
     border-radius: 18px;
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 18px 60px rgba(0,0,0,.18);
     direction: rtl;
 }
 
@@ -187,11 +333,6 @@ body.editor-open {
     outline: none;
 }
 
-.editor-field input[type="text"]:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-}
-
 .editor-field input[type="file"] {
     width: 100%;
     padding: 10px;
@@ -245,11 +386,42 @@ body.editor-open {
     font-weight: 700;
 }
 
-.editor-actions button:hover {
-    filter: brightness(0.98);
-}
-
 @media (max-width: 600px) {
+    .customization-toolbar {
+        height: 52px;
+        min-height: 52px;
+        gap: 12px;
+        padding: 6px 12px;
+    }
+
+    .customization-title {
+        font-size: 16px;
+    }
+
+    .customization-save {
+        min-height: 36px;
+        padding: 0 13px;
+        font-size: 13px;
+    }
+
+    body.card-customization-page > .app {
+        height: calc(100vh - 52px);
+    }
+
+    .customization-toast {
+        top: 60px;
+    }
+
+    .card-edit-button {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        min-height: 30px !important;
+        top: 5px !important;
+        left: 5px !important;
+        font-size: 17px !important;
+    }
+
     .card-editor-overlay {
         align-items: flex-end;
         padding: 0;
@@ -260,10 +432,6 @@ body.editor-open {
         max-height: 92vh;
         border-radius: 20px 20px 0 0;
         border-bottom: 0;
-    }
-
-    .card-editor-header {
-        padding: 15px 16px;
     }
 
     .card-editor-form {
@@ -294,111 +462,79 @@ body.editor-open {
 }
 
 
-/* --- FIXES: editor DOM, image rendering, and card label separation --- */
+/* ---------- Image-only card mode ---------- */
 
-.word-card.image-card {
-    position: relative;
-    overflow: hidden;
-}
-
-.word-card.image-card .word-label {
-    position: relative;
-    z-index: 5;
-    width: 100%;
-    flex: 0 0 2.5em;
-    min-height: 2.5em;
+.customization-toolbar-actions {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    white-space: normal;
-    overflow: hidden;
-    pointer-events: none;
+    gap: 10px;
 }
 
-.word-card.image-card .image-placeholder {
-    position: static;
-    width: 100%;
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+.customization-layout {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid #c40000;
+    border-radius: 9px;
+    background: #fff;
+    color: #c40000;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .18s ease;
 }
 
-.word-card.image-card .image-placeholder img {
-    display: block !important;
-    width: min(88px, 80%) !important;
-    height: min(88px, 80%) !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    max-width: 88px !important;
-    max-height: 88px !important;
-    object-fit: contain !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+.customization-layout:hover {
+    background: #fff1f1;
 }
 
-.card-edit-button {
-    position: absolute !important;
-    top: 7px !important;
-    left: 7px !important;
-    z-index: 50 !important;
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 50% !important;
-    background: rgba(255,255,255,.96) !important;
-    color: #111 !important;
+.customization-layout.active {
+    background: #c40000;
+    color: #fff;
+}
+
+.cards-image-only .word-card.image-card {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 7px rgba(0,0,0,.12) !important;
-    line-height: 1 !important;
-    font-size: 19px !important;
-    font-family: "Vazirmatn", sans-serif !important;
-    pointer-events: auto !important;
 }
 
-.card-edit-button span {
-    position: static !important;
-    width: auto !important;
-    height: auto !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: inline !important;
-    clip: auto !important;
-    overflow: visible !important;
+.cards-image-only .word-card.image-card .image-placeholder {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    flex: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-@media (max-width: 700px) {
-    .word-card.image-card .image-placeholder img {
-        width: min(72px, 80%) !important;
-        height: min(72px, 80%) !important;
+.cards-image-only .word-card.image-card .image-placeholder img,
+.cards-image-only .right-grid .image-placeholder img {
+    width: 76% !important;
+    height: 76% !important;
+    max-width: 180px !important;
+    max-height: 180px !important;
+    object-fit: contain !important;
+}
+
+.cards-image-only .word-card.image-card .word-label {
+    display: none !important;
+}
+
+.cards-image-only .word-card.image-card .card-edit-button {
+    z-index: 100 !important;
+}
+
+@media (max-width: 600px) {
+    .customization-toolbar-actions {
+        gap: 6px;
     }
 
-    .card-edit-button {
-        width: 30px !important;
-        height: 30px !important;
-        min-width: 30px !important;
-        min-height: 30px !important;
-        top: 5px !important;
-        left: 5px !important;
-        font-size: 17px !important;
-    }
-}
-
-@media (max-width: 400px) {
-    .word-card.image-card .image-placeholder img {
-        width: min(58px, 80%) !important;
-        height: min(58px, 80%) !important;
+    .customization-layout {
+        min-height: 36px;
+        padding: 0 11px;
+        font-size: 13px;
     }
 }
