@@ -1,504 +1,246 @@
-/* =========================================
-   THEME VARIABLES
-========================================= */
+
 
 :root {
-    /* پس‌زمینه‌ها */
     --page-bg: #fff9f9;
     --section-bg: #fffdfd;
 
-    /* کارت‌ها */
     --card-bg: #ffeaea;
     --card-hover: #ffe2e2;
 
-    /* رنگ اصلی */
     --accent: #e8aebc;
     --accent-light: #f8dfe5;
     --accent-soft: #fdecef;
 
-    /* حاشیه‌ها */
     --border: #b8aaaa;
     --section-border: #afa1a1;
     --icon-border: #8f8585;
 
-    /* کنترل‌ها */
     --control-bg: #eae0ee;
     --control-border: #cdbfd0;
     --control-hover: #e4d8e8;
 
-    /* متن */
     --text: #000000;
 
-    /* هایلایت */
     --highlight-bg: #eae0ee;
     --highlight-text: #000000;
+    --app-brightness: 100%;
 }
 
-
-/* =========================================
-   GREEN THEME
-========================================= */
-
 body[data-theme="green"] {
-
     --page-bg: #f7fcf8;
     --section-bg: #fcfffd;
-
     --card-bg: #eaf7ed;
     --card-hover: #dff1e4;
-
     --accent: #a8cfb5;
     --accent-light: #dcefe1;
     --accent-soft: #eaf7ed;
-
     --border: #bfdac6;
     --section-border: #b8d1be;
     --icon-border: #91ad98;
-
     --control-bg: #e4f0e7;
     --control-border: #bfd8c5;
     --control-hover: #d8eade;
-
     --highlight-bg: #dcefe1;
-    --highlight-text: #000000;
 }
 
-
-/* =========================================
-   YELLOW THEME
-========================================= */
-
 body[data-theme="yellow"] {
-
     --page-bg: #fffdf5;
     --section-bg: #fffefb;
-
     --card-bg: #fcf5dc;
     --card-hover: #f8edcf;
-
     --accent: #e8cf91;
     --accent-light: #f7ebc8;
     --accent-soft: #fcf5dc;
-
     --border: #ead9a9;
     --section-border: #e2d29f;
     --icon-border: #bcae80;
-
     --control-bg: #f7edcf;
     --control-border: #e2d3a7;
     --control-hover: #f0e4c3;
-
     --highlight-bg: #f7ebc8;
-    --highlight-text: #000000;
 }
 
-
-/* =========================================
-   PINK THEME
-========================================= */
-
 body[data-theme="pink"] {
-
     --page-bg: #fff9f9;
     --section-bg: #fffdfd;
-
     --card-bg: #ffeaea;
     --card-hover: #ffe2e2;
-
     --accent: #e8aebc;
     --accent-light: #f8dfe5;
     --accent-soft: #fdecef;
-
     --border: #b8aaaa;
     --section-border: #afa1a1;
     --icon-border: #8f8585;
-
     --control-bg: #eae0ee;
     --control-border: #cdbfd0;
     --control-hover: #e4d8e8;
-
     --highlight-bg: #eae0ee;
-    --highlight-text: #000000;
 }
-
-
-/* =========================================
-   BLUE THEME
-========================================= */
-
-body[data-theme="blue"] {
-
-    --page-bg: #f6fbff;
-    --section-bg: #fcfeff;
-
-    --card-bg: #eaf5fb;
-    --card-hover: #dceef8;
-
-    --accent: #a8c9df;
-    --accent-light: #dcecf6;
-    --accent-soft: #eaf5fb;
-
-    --border: #c4dce9;
-    --section-border: #b9d3e2;
-    --icon-border: #8eaabd;
-
-    --control-bg: #e5f0f7;
-    --control-border: #c2dbe8;
-    --control-hover: #d8e9f2;
-
-    --highlight-bg: #dcecf6;
-    --highlight-text: #000000;
-}
-
-
-/* =========================================
-   RESET
-========================================= */
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
-
 
 html,
 body {
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
-
 
 body {
-
-    font-family: "Vazirmatn", sans-serif;
-
     background: var(--page-bg);
-
     color: var(--text);
-
+    font-family: "Vazirmatn", sans-serif;
     overflow: hidden;
-
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease;
+    direction: rtl;
 }
 
-
-/* =========================================
-   MAIN APP
-========================================= */
-
 .app {
-
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 
     display: grid;
-
-    grid-template-columns:
-        25.2%
-        49.7%
-        25.1%;
-
-    background: var(--page-bg);
+    grid-template-columns: 25.2% 49.6% 25.2%;
 
     direction: ltr;
 
-    filter: brightness(var(--app-brightness, 100%));
-
-    transition:
-        background-color 0.25s ease;
+    background: var(--page-bg);
 }
 
-/* =========================================
-   LEFT SIDEBAR
-========================================= */
-
-.left-sidebar {
-
+.left-sidebar,
+.right-sidebar {
     height: 100vh;
+    min-width: 0;
 
-    border-left: 1px solid var(--section-border);
-
-    display: flex;
-
-    flex-direction: column;
-
-    padding: 28px 22px 22px;
-
-    direction: rtl;
-
-    background: var(--section-bg);
-
-    transition:
-        background-color 0.25s ease,
-        border-color 0.25s ease;
-}
-
-
-/* =========================================
-   TOP ICONS
-========================================= */
-
-.top-icons {
-
-    width: 100%;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 28px;
-
-    margin-bottom: 34px;
-
-    flex-shrink: 0;
-}
-
-
-.circle-icon {
-
-    width: 52px;
-    height: 52px;
-
-    min-width: 52px;
-    min-height: 52px;
-
-    padding: 8px;
-
-    border-radius: 50%;
+    padding: 10px;
 
     background: var(--page-bg);
 
-    border: 1px solid var(--icon-border);
+    direction: rtl;
+}
 
-    cursor: pointer;
+.left-sidebar {
+    border-right: 1px solid var(--section-border);
+}
+
+.right-sidebar {
+    border-left: 1px solid var(--section-border);
+}
+
+.top-icons {
+    width: 100%;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    overflow: hidden;
+    gap: 14px;
 
-    flex-shrink: 0;
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease;
-}
-
-
-.circle-icon img {
-
-    width: 30px;
-    height: 30px;
-
-    max-width: 30px;
-    max-height: 30px;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-
-.circle-icon svg {
-
-    width: 30px;
-    height: 30px;
-
-    max-width: 30px;
-    max-height: 30px;
-
-    display: block;
-}
-
-
-.circle-icon:hover {
-
-    background: var(--card-hover);
-}
-
-
-.circle-icon:active {
-
-    transform: scale(0.94);
-}
-
-
-/* =========================================
-   LEFT WORD GRID
-========================================= */
-
-.left-grid {
-
-    flex: 1;
-
-    min-height: 0;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    grid-template-rows:
-        repeat(4, minmax(0, 1fr));
-
-    gap: 20px;
-}
-
-
-/* =========================================
-   RIGHT SIDEBAR
-========================================= */
-
-.right-sidebar {
-
-    height: 100vh;
-
-    border-right: 1px solid var(--section-border);
-
-    padding: 40px 22px 22px;
+    margin-bottom: 10px;
 
     direction: rtl;
+}
+
+.circle-icon {
+    width: 44px;
+    height: 44px;
+
+    min-width: 44px;
+    min-height: 44px;
+
+    padding: 7px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--icon-border);
 
     background: var(--section-bg);
 
-    transition:
-        background-color 0.25s ease,
-        border-color 0.25s ease;
-}
-
-
-/* =========================================
-   RIGHT WORD GRID
-========================================= */
-
-/* =========================
-   RIGHT SIDEBAR
-========================= */
-
-.right-sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 0;
-    padding: 12px;
-    box-sizing: border-box;
-}
-
-.right-grid {
-    flex: 1;
-    min-height: 0;
-
-    display: grid;
-
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-
-    grid-template-rows: repeat(5, minmax(0, 1fr));
-
-    gap: 10px;
-
-    width: 100%;
-    height: 100%;
-}
-
-.right-grid .word-card {
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-
-    margin: 0;
-    padding: 8px;
-
-    box-sizing: border-box;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-}
-
-.right-grid .image-placeholder {
-    width: 100%;
-    height: 70%;
-    
     display: flex;
     align-items: center;
     justify-content: center;
-
-    overflow: hidden;
-}
-
-.right-grid .image-placeholder img {
-    max-width: 90%;
-    max-height: 90%;
-
-    width: auto;
-    height: auto;
-
-    object-fit: contain;
-}
-
-.right-grid .word-label {
-    width: 100%;
-
-    text-align: center;
-
-    margin-top: 5px;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-/* =========================================
-   WORD CARDS
-========================================= */
-
-.word-card {
-
-    width: 100%;
-    height: 100%;
-
-    min-height: 0;
-
-    border-radius: 5px;
-
-    border: 1px solid var(--border);
-
-    background: var(--card-bg);
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: clamp(18px, 1.7vw, 28px);
-
-    color: var(--text);
 
     cursor: pointer;
 
+    transition:
+        background-color 0.2s ease,
+        transform 0.12s ease,
+        border-color 0.2s ease;
+}
+
+.circle-icon:hover {
+    background: var(--card-hover);
+}
+
+.circle-icon:active {
+    transform: scale(0.94);
+}
+
+.circle-icon img,
+.circle-icon svg {
+    width: 25px;
+    height: 25px;
+
+    max-width: 25px;
+    max-height: 25px;
+
+    object-fit: contain;
+    display: block;
+}
+
+.left-grid,
+.right-grid {
+    width: 100%;
+    height: calc(100vh - 64px);
+
+    display: grid;
+
+    gap: 8px;
+
+    align-content: stretch;
+}
+
+.left-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+
+.right-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.word-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
     position: relative;
 
-    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: var(--card-bg);
+
+    color: var(--text);
+
+    font-family: "Vazirmatn", sans-serif;
+
+    font-size: clamp(15px, 1.7vw, 22px);
+    font-weight: 600;
+
+    padding: 7px;
+
+    cursor: pointer;
 
     display: flex;
-
     flex-direction: column;
-
+    align-items: center;
     justify-content: flex-end;
 
-    align-items: center;
-
-    padding: 12px;
+    overflow: hidden;
 
     transition:
         transform 0.12s ease,
@@ -506,51 +248,51 @@ body {
         border-color 0.2s ease;
 }
 
-
 .word-card:hover {
-
     background: var(--card-hover);
 }
 
-
 .word-card:active {
-
     transform: scale(0.97);
 }
 
+.word-card > span {
+    position: relative;
+    z-index: 2;
 
-/* =========================================
-   IMAGE AREA
-========================================= */
+    display: block;
+
+    max-width: 100%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    line-height: 1.2;
+}
 
 .image-card {
-
     justify-content: flex-end;
 }
 
-
 .image-placeholder {
-
     position: absolute;
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 52px;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 38px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     overflow: hidden;
 }
 
-
 .image-placeholder img {
-
-    width: 75%;
-    height: 75%;
+    width: 78%;
+    height: 78%;
 
     max-width: 100%;
     max-height: 100%;
@@ -560,54 +302,26 @@ body {
     display: block;
 }
 
-
-.word-card span {
-
-    position: relative;
-
-    z-index: 2;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================
-   SMALL CARDS
-========================================= */
-
 .small-card {
-
     justify-content: center;
-
     padding: 0;
 }
 
-
 .small-card span {
-
     font-size: 28px;
 }
 
-
+.small-card .plus,
 .plus {
-
     font-size: 38px !important;
-
     font-weight: 300;
 }
 
-
-/* =========================================
-   CENTER SECTION
-========================================= */
-
 .center-section {
-
     width: 100%;
     height: 100vh;
 
     display: flex;
-
     flex-direction: column;
 
     border-left: 1px solid var(--section-border);
@@ -618,130 +332,9 @@ body {
     overflow: hidden;
 
     background: var(--section-bg);
-
-    transition:
-        background-color 0.25s ease,
-        border-color 0.25s ease;
 }
-
-
-/* =========================================
-   MAIN CONTENT
-========================================= */
-
-.main-content {
-
-    order: 1;
-
-    flex: 1 1 auto;
-
-    min-height: 0;
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-
-    background: var(--section-bg);
-}
-
-
-/* =========================================
-   SENTENCE DISPLAY
-========================================= */
-
-.sentence-display {
-
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-
-    padding: 30px 40px;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    direction: rtl;
-
-    font-size: clamp(30px, 3vw, 48px);
-
-    font-weight: 500;
-
-    line-height: 1.8;
-
-    text-align: center;
-}
-
-
-/* =========================================
-   SELECTED WORD
-========================================= */
-
-.selected-word {
-
-    display: inline;
-
-    background: transparent;
-
-    border: none;
-
-    padding: 0;
-    margin: 0;
-
-    font-family: "Vazirmatn", sans-serif;
-
-    font-size: inherit;
-
-    font-weight: 500;
-
-    color: var(--text);
-
-    border-radius: 8px;
-
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        padding 0.15s ease,
-        transform 0.15s ease;
-}
-
-
-/* =========================================
-   READING HIGHLIGHT
-========================================= */
-
-.selected-word.reading {
-
-    background: var(--highlight-bg);
-
-    color: var(--highlight-text);
-
-    padding: 3px 10px;
-
-    border-radius: 10px;
-
-    transform: scale(1.04);
-}
-
-
-/* =========================================
-   SENTENCE BAR
-========================================= */
 
 .sentence-bar {
-
     order: 2;
 
     flex: 0 0 155px;
@@ -753,7 +346,6 @@ body {
     border-bottom: 1px solid var(--section-border);
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -766,15 +358,8 @@ body {
     background: var(--section-bg);
 }
 
-
-/* =========================================
-   SENTENCE WORD BUTTONS
-========================================= */
-
 .sentence-word {
-
     height: 82px;
-
     min-width: 125px;
 
     padding: 0 22px;
@@ -788,7 +373,6 @@ body {
     font-family: "Vazirmatn", sans-serif;
 
     font-size: clamp(22px, 2.2vw, 32px);
-
     font-weight: 500;
 
     color: var(--text);
@@ -803,25 +387,81 @@ body {
         transform 0.12s ease;
 }
 
-
 .sentence-word:hover {
-
     background: var(--card-hover);
 }
 
-
 .sentence-word:active {
-
     transform: scale(0.97);
 }
 
+.main-content {
+    order: 1;
 
-/* =========================================
-   BOTTOM CONTROLS
-========================================= */
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    overflow: auto;
+}
+
+.sentence-display {
+    width: 100%;
+    min-height: 100px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    direction: rtl;
+
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 500;
+
+    line-height: 1.7;
+
+    word-break: keep-all;
+}
+
+.selected-word {
+    display: inline-block;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease,
+        color 0.15s ease;
+
+    border-radius: 10px;
+
+    padding: 2px 7px;
+}
+
+.selected-word.reading {
+    background: var(--highlight-bg);
+    color: var(--highlight-text);
+
+    padding: 3px 10px;
+
+    border-radius: 10px;
+
+    transform: scale(1.04);
+}
 
 .bottom-controls {
-
     order: 3;
 
     flex: 0 0 175px;
@@ -834,7 +474,6 @@ body {
     display: flex;
 
     justify-content: space-evenly;
-
     align-items: center;
 
     padding: 10px 70px;
@@ -846,15 +485,8 @@ body {
     background: var(--section-bg);
 }
 
-
-/* =========================================
-   CONTROL BUTTON
-========================================= */
-
 .control-button {
-
     border: none;
-
     background: transparent;
 
     font-family: "Vazirmatn", sans-serif;
@@ -866,21 +498,13 @@ body {
     display: flex;
 
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
 
     flex-shrink: 0;
 }
 
-
-/* =========================================
-   CONTROL CIRCLES
-========================================= */
-
 .control-circle {
-
     width: 78px;
     height: 78px;
 
@@ -890,11 +514,9 @@ body {
     border-radius: 50%;
 
     background: var(--control-bg);
-
     border: 1px solid var(--control-border);
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -906,745 +528,34 @@ body {
         transform 0.15s ease;
 }
 
-
-.control-circle img {
-
-    width: 48px;
-    height: 48px;
-
-    max-width: 48px;
-    max-height: 48px;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-
-.control-circle svg {
-
-    width: 48px;
-    height: 48px;
-
-    max-width: 48px;
-    max-height: 48px;
-
-    display: block;
-}
-
-
 .control-button:hover .control-circle {
-
     background: var(--control-hover);
 }
 
-
 .control-button:active .control-circle {
-
     transform: scale(0.94);
 }
 
+.control-circle img,
+.control-circle svg {
+    width: 48px;
+    height: 48px;
 
-/* =========================================
-   SPEAKING
-========================================= */
+    max-width: 48px;
+    max-height: 48px;
 
-.main-control.speaking {
-
-    transform: scale(1.03);
-}
-
-
-.main-control .speaking-circle {
-
-    background: var(--control-hover);
-
-    animation:
-        speakingPulse 1.2s ease-in-out infinite;
-}
-
-
-@keyframes speakingPulse {
-
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.06);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-
-}
-
-
-/* =========================================
-   TABLET
-========================================= */
-
-@media (max-width: 1100px) {
-
-    .app {
-
-        grid-template-columns:
-            27%
-            46%
-            27%;
-    }
-
-
-    .left-sidebar {
-
-        padding: 20px 14px 18px;
-    }
-
-
-    .right-sidebar {
-
-        padding: 28px 14px 18px;
-    }
-
-
-    .left-grid,
-    .right-grid {
-
-        gap: 14px;
-    }
-
-
-    .top-icons {
-
-        gap: 18px;
-
-        margin-bottom: 24px;
-    }
-
-
-    .circle-icon {
-
-        width: 46px;
-        height: 46px;
-
-        min-width: 46px;
-        min-height: 46px;
-    }
-
-
-    .circle-icon img,
-    .circle-icon svg {
-
-        width: 26px;
-        height: 26px;
-
-        max-width: 26px;
-        max-height: 26px;
-    }
-
-
-    .word-card {
-
-        font-size:
-            clamp(15px, 1.7vw, 22px);
-    }
-
-
-    .sentence-bar {
-
-        gap: 10px;
-
-        padding: 15px;
-    }
-
-
-    .sentence-word {
-
-        min-width: 80px;
-
-        height: 70px;
-
-        padding: 0 12px;
-
-        font-size: 22px;
-    }
-
-
-    .bottom-controls {
-
-        padding: 10px 25px;
-    }
-
-
-    .control-circle {
-
-        width: 68px;
-        height: 68px;
-
-        min-width: 68px;
-        min-height: 68px;
-    }
-
-
-    .control-circle img,
-    .control-circle svg {
-
-        width: 42px;
-        height: 42px;
-
-        max-width: 42px;
-        max-height: 42px;
-    }
-
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 700px) {
-
-    body {
-
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-
-    .app {
-
-        width: 100%;
-
-        min-height: 100vh;
-
-        height: auto;
-
-        display: flex;
-
-        flex-direction: column;
-    }
-
-
-    /* =====================================
-       CENTER
-    ===================================== */
-
-    .center-section {
-
-        order: 1;
-
-        width: 100%;
-
-        height: auto;
-
-        min-height: 225px;
-
-        display: flex;
-
-        flex-direction: column;
-
-        border-left: none;
-        border-right: none;
-    }
-
-
-    .sentence-bar {
-
-        flex: 0 0 100px;
-
-        height: 100px;
-
-        gap: 8px;
-
-        padding: 12px;
-
-        overflow-x: auto;
-
-        justify-content: flex-start;
-    }
-
-
-    .sentence-word {
-
-        flex: 0 0 auto;
-
-        height: 62px;
-
-        min-width: 90px;
-
-        font-size: 20px;
-
-        border-radius: 12px;
-    }
-
-
-    .main-content {
-
-        display: flex;
-
-        flex: 1 1 auto;
-
-        min-height: 300px;
-
-        width: 100%;
-    }
-
-
-    .sentence-display {
-
-        min-height: 300px;
-
-        font-size:
-            clamp(28px, 7vw, 40px);
-
-        padding: 20px;
-
-        gap: 8px;
-    }
-
-
-    .bottom-controls {
-
-        flex: 0 0 125px;
-
-        height: 125px;
-
-        padding: 10px 20px;
-    }
-
-
-    .control-circle {
-
-        width: 60px;
-        height: 60px;
-
-        min-width: 60px;
-        min-height: 60px;
-    }
-
-
-    .control-circle img,
-    .control-circle svg {
-
-        width: 38px;
-        height: 38px;
-
-        max-width: 38px;
-        max-height: 38px;
-    }
-
-
-    /* =====================================
-       LEFT
-    ===================================== */
-
-    .left-sidebar {
-
-        order: 2;
-
-        width: 100%;
-
-        height: auto;
-
-        min-height: 500px;
-
-        border-left: none;
-        border-right: none;
-
-        border-top: 1px solid var(--section-border);
-
-        padding: 20px 15px;
-    }
-
-
-    .top-icons {
-
-        gap: 20px;
-
-        margin-bottom: 20px;
-    }
-
-
-    .circle-icon {
-
-        width: 48px;
-        height: 48px;
-
-        min-width: 48px;
-        min-height: 48px;
-    }
-
-
-    .circle-icon img,
-    .circle-icon svg {
-
-        width: 27px;
-        height: 27px;
-
-        max-width: 27px;
-        max-height: 27px;
-    }
-
-
-    .left-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-        grid-template-rows: none;
-
-        grid-auto-rows: 150px;
-
-        gap: 12px;
-    }
-
-
-    /* =====================================
-       RIGHT
-    ===================================== */
-
-    .right-sidebar {
-
-        order: 3;
-
-        width: 100%;
-
-        height: auto;
-
-        border-right: none;
-
-        border-top: 1px solid var(--section-border);
-
-        padding: 20px 15px;
-    }
-
-
-    .right-grid {
-
-        height: auto;
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-        grid-template-rows: none;
-
-        grid-auto-rows: 150px;
-
-        gap: 12px;
-    }
-
-
-    .word-card {
-
-        font-size: 20px;
-    }
-
-
-    .image-placeholder {
-
-        bottom: 45px;
-    }
-
-
-    .image-placeholder img {
-
-        width: 75%;
-        height: 75%;
-    }
-
-
-    .small-card span {
-
-        font-size: 24px;
-    }
-
-
-    .plus {
-
-        font-size: 32px !important;
-    }
-
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 400px) {
-
-    .center-section {
-
-        min-height: 210px;
-    }
-
-
-    .sentence-word {
-
-        min-width: 82px;
-
-        font-size: 18px;
-    }
-
-
-    .left-grid,
-    .right-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        grid-auto-rows: 135px;
-
-        gap: 10px;
-    }
-
-
-    .word-card {
-
-        font-size: 19px;
-    }
-
-
-    .control-circle {
-
-        width: 56px;
-        height: 56px;
-
-        min-width: 56px;
-        min-height: 56px;
-    }
-
-}
-
-/* =========================================================
-   CARD IMAGE + TEXT SIZING FIX
-   ========================================================= */
-
-.word-card {
-    padding: 8px;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    font-size: clamp(17px, 1.45vw, 24px);
-}
-
-/* Give every card a flexible image area and a separate text area. */
-.image-card .image-placeholder,
-.right-grid .image-placeholder {
-    position: static;
-    inset: auto;
-    width: 100%;
-    height: auto;
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-/* Keep the whole image visible instead of stretching/cropping it. */
-.image-card .image-placeholder img,
-.right-grid .image-placeholder img {
-    display: block;
-    width: 88px;
-    height: 88px;
-    min-width: 88px;
-    min-height: 88px;
-    max-width: 88px;
-    max-height: 88px;
     object-fit: contain;
-    flex: 0 0 88px;
+
+    display: block;
 }
 
-/* Reserve enough space for one- or two-line Persian labels. */
-.word-card > span {
-    position: relative;
-    z-index: 2;
-    flex: 0 0 2.5em;
-    width: 100%;
-    min-width: 0;
-    min-height: 2.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    white-space: normal;
-    overflow: hidden;
-    line-height: 1.2;
-    font-weight: 700;
-    overflow-wrap: break-word;
-    word-break: normal;
-}
-
-/* Keep the "..." and "+" cards compact. */
-.small-card {
-    justify-content: center;
-    padding: 0;
-}
-
-.small-card > span {
-    flex: 0 0 auto;
-    min-height: 0;
-    width: auto;
-    white-space: nowrap;
-    line-height: 1;
-}
-
-.small-card .plus {
-    font-size: clamp(28px, 2.2vw, 38px) !important;
-}
-
-/* Slightly tighter right-side cards. */
-.right-grid .word-card {
-    padding: 7px;
-}
-
-.right-grid .word-card > span {
-    flex-basis: 2.5em;
-    min-height: 2.5em;
-}
-
-/* Tablet */
-@media (max-width: 1100px) {
-    .word-card {
-        font-size: clamp(15px, 1.65vw, 21px);
-    }
-
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        max-width: 90%;
-        max-height: 90%;
-    }
-}
-
-/* Mobile */
-@media (max-width: 700px) {
-    .word-card {
-        font-size: 18px;
-        padding: 6px;
-    }
-
-    .word-card > span {
-        flex-basis: 2.45em;
-        min-height: 2.45em;
-        line-height: 1.15;
-    }
-
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        max-width: 90%;
-        max-height: 90%;
-    }
-}
-
-/* Small mobile */
-@media (max-width: 400px) {
-    .word-card {
-        font-size: 17px;
-    }
-}
-
-
-/* =========================================================
-   STRICTLY EQUAL IMAGE SIZE
-   همه تصاویر کارت‌ها یک ابعاد ثابت دارند
-   ========================================================= */
-
-.image-card .image-placeholder img,
-.right-grid .image-placeholder img {
-    width: 88px !important;
-    height: 88px !important;
-    min-width: 88px !important;
-    min-height: 88px !important;
-    max-width: 88px !important;
-    max-height: 88px !important;
-    object-fit: contain !important;
-}
-
-/* متن همه کارت‌ها بولد */
-.word-card > span {
-    font-weight: 700 !important;
-}
-
-/* موبایل */
-@media (max-width: 700px) {
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        width: 72px !important;
-        height: 72px !important;
-        min-width: 72px !important;
-        min-height: 72px !important;
-        max-width: 72px !important;
-        max-height: 72px !important;
-    }
-}
-
-/* موبایل کوچک */
-@media (max-width: 400px) {
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        width: 64px !important;
-        height: 64px !important;
-        min-width: 64px !important;
-        min-height: 64px !important;
-        max-width: 64px !important;
-        max-height: 64px !important;
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVE LAYOUT V3
-   هدف: حفظ نسبت دسکتاپ در نمایشگرهای کوچک و جلوگیری از
-   بریده شدن تصاویر
-   ========================================================= */
-
-/* دسکتاپ: نسبت سه بخش مثل طرح اصلی */
-@media (min-width: 1101px) {
-    .app {
-        grid-template-columns: 25.2% 49.6% 25.2%;
-    }
-
-    .left-grid,
-    .right-grid {
-        gap: 12px;
-    }
-
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        width: 88px !important;
-        height: 88px !important;
-        min-width: 88px !important;
-        min-height: 88px !important;
-        max-width: 88px !important;
-        max-height: 88px !important;
-    }
-}
-
-/* ---------------------------------------------------------
-   تبلت / لپ‌تاپ باریک / حالت landscape
-   این بخش برای چیزی مثل viewport حدود 914×412 است.
-   --------------------------------------------------------- */
 @media (min-width: 701px) and (max-width: 1100px) {
 
     .app {
-        width: 100%;
-        height: 100vh;
         grid-template-columns: 25.2% 49.6% 25.2%;
     }
 
-    /* ستون‌های طرفین فضای داخلی بیشتری برای کارت‌ها می‌گیرند */
-    .left-sidebar {
-        padding: 10px 10px 10px;
-    }
-
+    .left-sidebar,
     .right-sidebar {
         padding: 10px;
     }
@@ -1675,60 +586,31 @@ body {
         gap: 8px;
     }
 
-    /*
-       اندازه تصویر در هر دو ستون دقیقاً یکی است.
-       در این viewport حدود 49px می‌شود و دیگر از کارت بیرون نمی‌زند.
-    */
     .image-card .image-placeholder img,
     .right-grid .image-placeholder img {
-        width: clamp(38px, 5.35vw, 88px) !important;
-        height: clamp(38px, 5.35vw, 88px) !important;
-        min-width: clamp(38px, 5.35vw, 88px) !important;
-        min-height: clamp(38px, 5.35vw, 88px) !important;
-        max-width: clamp(38px, 5.35vw, 88px) !important;
-        max-height: clamp(38px, 5.35vw, 88px) !important;
-        object-fit: contain !important;
+        width: clamp(38px, 5.35vw, 88px);
+        height: clamp(38px, 5.35vw, 88px);
+
+        min-width: clamp(38px, 5.35vw, 88px);
+        min-height: clamp(38px, 5.35vw, 88px);
+
+        max-width: clamp(38px, 5.35vw, 88px);
+        max-height: clamp(38px, 5.35vw, 88px);
+
+        object-fit: contain;
     }
 
     .word-card {
         padding: 5px;
         font-size: clamp(14px, 1.55vw, 20px);
-        justify-content: space-between;
-    }
-
-    .word-card > span {
-        flex: 0 0 auto;
-        min-height: 1.35em;
-        max-height: 2.7em;
-        font-weight: 700 !important;
-        line-height: 1.2;
-        font-size: inherit;
-    }
-
-    /* فضای عکس و متن از هم جدا می‌مانند */
-    .image-card .image-placeholder,
-    .right-grid .image-placeholder {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex: 1 1 auto;
-        min-height: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    /* مرکز صفحه در حالت landscape */
-    .main-content {
-        flex: 1 1 auto;
-        min-height: 0;
     }
 
     .sentence-bar {
         flex: 0 0 20%;
         height: 20%;
+
         min-height: 78px;
+
         gap: 10px;
         padding: 10px 14px;
     }
@@ -1736,20 +618,25 @@ body {
     .sentence-word {
         height: 62px;
         min-width: 82px;
+
         padding: 0 12px;
+
         font-size: clamp(18px, 2vw, 26px);
     }
 
     .bottom-controls {
         flex: 0 0 23%;
         height: 23%;
+
         min-height: 90px;
+
         padding: 8px 30px;
     }
 
     .control-circle {
         width: 60px;
         height: 60px;
+
         min-width: 60px;
         min-height: 60px;
     }
@@ -1758,6 +645,7 @@ body {
     .control-circle svg {
         width: 38px;
         height: 38px;
+
         max-width: 38px;
         max-height: 38px;
     }
@@ -1768,50 +656,304 @@ body {
     }
 }
 
-/* ---------------------------------------------------------
-   موبایل عمودی
-   --------------------------------------------------------- */
 @media (max-width: 700px) {
 
-    .app {
-        height: auto;
-        min-height: 100vh;
+    body {
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        width: 58px !important;
-        height: 58px !important;
-        min-width: 58px !important;
-        min-height: 58px !important;
-        max-width: 58px !important;
-        max-height: 58px !important;
+    .app {
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .center-section {
+        order: 1;
+
+        width: 100%;
+        height: auto;
+        min-height: 225px;
+
+        display: flex;
+        flex-direction: column;
+
+        border-left: none;
+        border-right: none;
+    }
+
+    .sentence-bar {
+        flex: 0 0 100px;
+        height: 100px;
+
+        gap: 8px;
+        padding: 12px;
+
+        overflow-x: auto;
+
+        justify-content: flex-start;
+    }
+
+    .sentence-word {
+        flex: 0 0 auto;
+
+        height: 62px;
+        min-width: 90px;
+
+        font-size: 20px;
+
+        border-radius: 12px;
+    }
+
+    .main-content {
+        display: flex;
+
+        flex: 1 1 auto;
+
+        min-height: 300px;
+
+        width: 100%;
+    }
+
+    .sentence-display {
+        min-height: 300px;
+
+        font-size: clamp(28px, 7vw, 40px);
+
+        padding: 20px;
+
+        gap: 8px;
+    }
+
+    .bottom-controls {
+        flex: 0 0 125px;
+        height: 125px;
+
+        padding: 10px 20px;
+    }
+
+    .control-circle {
+        width: 60px;
+        height: 60px;
+
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .control-circle img,
+    .control-circle svg {
+        width: 38px;
+        height: 38px;
+
+        max-width: 38px;
+        max-height: 38px;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
+
+        border-left: none;
+        border-right: none;
+
+        padding: 15px;
+    }
+
+    .left-sidebar {
+        order: 2;
+        border-top: 1px solid var(--section-border);
+    }
+
+    .right-sidebar {
+        order: 3;
+        border-top: 1px solid var(--section-border);
+    }
+
+    .left-grid,
+    .right-grid {
+        width: 100%;
+        height: auto;
+
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-rows: minmax(130px, 1fr);
+
+        gap: 8px;
     }
 
     .word-card {
-        padding: 5px;
-        font-size: 17px;
+        min-height: 130px;
+        font-size: 18px;
     }
 
-    .word-card > span {
-        font-weight: 700 !important;
-        line-height: 1.15;
+    .image-placeholder {
+        bottom: 38px;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
 
-    .image-card .image-placeholder img,
-    .right-grid .image-placeholder img {
-        width: 50px !important;
-        height: 50px !important;
-        min-width: 50px !important;
-        min-height: 50px !important;
-        max-width: 50px !important;
-        max-height: 50px !important;
+    .top-icons {
+        gap: 8px;
+    }
+
+    .circle-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .circle-icon img,
+    .circle-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .sentence-word {
+        min-width: 82px;
+        font-size: 18px;
     }
 
     .word-card {
+        min-height: 115px;
         font-size: 16px;
     }
 }
+
+.app {
+    grid-template-columns: minmax(270px, 31%) minmax(360px, 38%) minmax(270px, 31%);
+}
+
+.left-grid,
+.right-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.left-grid .word-card,
+.right-grid .word-card {
+    font-size: clamp(18px, 1.8vw, 28px);
+    border-radius: 16px;
+}
+
+.left-grid .image-placeholder img,
+.right-grid .image-placeholder img {
+    width: 84%;
+    height: 84%;
+}
+
+.sentence-word.sentence-no {
+    background: #f6b7b7;
+    border-color: #dfa0a0;
+}
+
+.sentence-word.sentence-yes {
+    background: #bfe5c8;
+    border-color: #9dcea9;
+}
+
+.sentence-word.sentence-pain {
+    background: #d9b79f;
+    border-color: #c59c80;
+}
+
+.sentence-word.sentence-help {
+    background: #f7e5a7;
+    border-color: #dfca7c;
+}
+
+.sentence-word.sentence-no:hover { background: #f1a8a8; }
+.sentence-word.sentence-yes:hover { background: #aeddb9; }
+.sentence-word.sentence-pain:hover { background: #cfa88d; }
+.sentence-word.sentence-help:hover { background: #f2dc8e; }
+
+.bottom-controls {
+    justify-content: center;
+    padding: 10px;
+}
+
+.bottom-controls .control-circle {
+    width: 104px;
+    height: 104px;
+    min-width: 104px;
+    min-height: 104px;
+}
+
+.bottom-controls .control-circle img,
+.bottom-controls .control-circle svg {
+    width: 62px;
+    height: 62px;
+    max-width: 62px;
+    max-height: 62px;
+}
+
+.sentence-display {
+    gap: 16px;
+}
+
+.selected-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 110px;
+}
+
+.selected-item-image {
+    width: clamp(72px, 8vw, 130px);
+    height: clamp(72px, 8vw, 130px);
+    object-fit: contain;
+    display: block;
+}
+
+.cards-image-only .word-card.image-card > span,
+.cards-image-only .sentence-word,
+.cards-image-only .selected-word {
+    font-size: 0 !important;
+    color: transparent !important;
+}
+
+.cards-image-only .word-card.image-card .image-placeholder {
+    bottom: 4px;
+}
+
+.cards-image-only .word-card.image-card .image-placeholder img {
+    width: 88%;
+    height: 88%;
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+    .app {
+        grid-template-columns: 30% 40% 30%;
+    }
+}
+
+@media (max-width: 700px) {
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .left-grid,
+    .right-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-auto-rows: minmax(150px, 1fr);
+    }
+}
+
+
+.sentence-no{background:#f7caca!important}
+.sentence-yes{background:#cce8cf!important}
+.sentence-pain{background:#dfc7b8!important}
+.sentence-help{background:#f5e6a8!important}
+.selected-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;max-width:min(260px,42%);padding:8px}
+.selected-item-image{display:block;width:min(210px,100%);height:min(210px,24vh);object-fit:contain}
+.cards-image-only .sentence-word{font-size:0!important;color:transparent!important}
+.cards-image-only .selected-word{display:none!important}

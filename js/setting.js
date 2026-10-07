@@ -16,11 +16,6 @@ const backButton =
 const customizeCards =
     document.getElementById("customizeCards");
 
-
-// =========================================
-// DEFAULT SETTINGS
-// =========================================
-
 const defaultSettings = {
 
     theme: "pink",
@@ -30,11 +25,6 @@ const defaultSettings = {
     voice: "female"
 
 };
-
-
-// =========================================
-// LOAD SAVED SETTINGS
-// =========================================
 
 const savedTheme =
     localStorage.getItem("aac-theme")
@@ -47,11 +37,6 @@ const savedBrightness =
 const savedVoice =
     localStorage.getItem("aac-voice")
     || defaultSettings.voice;
-
-
-// =========================================
-// APPLY THEME
-// =========================================
 
 function applyTheme(theme) {
 
@@ -80,11 +65,6 @@ function applyTheme(theme) {
     );
 }
 
-
-// =========================================
-// THEME BUTTONS
-// =========================================
-
 themeButtons.forEach(button => {
 
     button.addEventListener("click", function () {
@@ -96,11 +76,6 @@ themeButtons.forEach(button => {
     });
 
 });
-
-
-// =========================================
-// APPLY BRIGHTNESS
-// =========================================
 
 function applyBrightness(value) {
 
@@ -122,11 +97,6 @@ function applyBrightness(value) {
 
 }
 
-
-// =========================================
-// BRIGHTNESS SLIDER
-// =========================================
-
 if (brightnessSlider) {
 
     brightnessSlider.addEventListener(
@@ -142,11 +112,6 @@ if (brightnessSlider) {
 
 }
 
-
-// =========================================
-// APPLY VOICE
-// =========================================
-
 function applyVoice(voice) {
 
     voiceButtons.forEach(button => {
@@ -155,12 +120,10 @@ function applyVoice(voice) {
 
     });
 
-
     const selectedButton =
         document.querySelector(
             `[data-voice="${voice}"]`
         );
-
 
     if (selectedButton) {
 
@@ -168,18 +131,12 @@ function applyVoice(voice) {
 
     }
 
-
     localStorage.setItem(
         "aac-voice",
         voice
     );
 
 }
-
-
-// =========================================
-// VOICE BUTTONS
-// =========================================
 
 voiceButtons.forEach(button => {
 
@@ -196,11 +153,6 @@ voiceButtons.forEach(button => {
 
 });
 
-
-// =========================================
-// BACK TO MAIN PAGE
-// =========================================
-
 if (backButton) {
 
     backButton.addEventListener(
@@ -215,11 +167,6 @@ if (backButton) {
 
 }
 
-
-// =========================================
-// CARD CUSTOMIZATION
-// =========================================
-
 if (customizeCards) {
 
     customizeCards.addEventListener(
@@ -233,11 +180,6 @@ if (customizeCards) {
     );
 
 }
-
-
-// =========================================
-// INITIAL SETTINGS
-// =========================================
 
 applyTheme(savedTheme);
 

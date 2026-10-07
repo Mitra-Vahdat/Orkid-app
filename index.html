@@ -1,378 +1,139 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
 
+<html dir="rtl" lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AAC Communication UI</title>
-
-    <link rel="stylesheet" href="./css/style.css">
-
-<link rel="manifest" href="/manifest.json">
-
-<meta name="theme-color" content="#ffffff">
-
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ارکید">
-
-    <!-- Vazirmatn -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AAC Communication UI</title>
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./manifest.json" rel="manifest"/>
+<meta content="#ffffff" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ارکید" name="apple-mobile-web-app-title"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 </head>
-
 <body>
-
-    <div class="app">
-
-        <!-- =========================
-             LEFT SIDEBAR
-        ========================== -->
-
-        <aside class="left-sidebar">
-
-            <div class="top-icons">
-
-                <button class="circle-icon">
-                    <img src="images/ico/mdi-light--account.svg" alt="حساب کاربری">
-                </button>
-
-                <button class="circle-icon">
-                    <img src="images/ico/mdi-light--clock.svg" alt="تاریخچه">
-                </button>
-
-                <button class="circle-icon" id="settingsButton" type="button">
-                    <img src="images/ico/settings.png" alt="تنظیمات">
-                </button>
-
-            </div>
-
-
-            <div class="left-grid">
-
-                <!-- ردیف ۱ -->
-
-                <!-- بابا -->
-                <button class="word-card image-card" data-word="بابا">
-                    <div class="image-placeholder">
-                        <img src="images/cards/بابا.png" alt="بابا">
-                    </div>
-                    <span>بابا</span>
-                </button>
-
-                <button class="word-card image-card" data-word="مامان">
-                    <div class="image-placeholder">
-                        <img src="images/cards/مامان.png" alt="مامان">
-                    </div>
-                    <span>مامان</span>
-                </button>
-
-                <button class="word-card image-card" data-word="تکرار">
-                    <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-1.png">
-                    </div>
-                    <span>تکرار</span>
-                </button>
+<div class="app">
+<aside class="left-sidebar">
+<div class="top-icons">
+<button class="circle-icon" id="educationButton" type="button">
+<img alt="آموزش" src="images/ico/mdi-light--account.svg"/>
+</button>
+<button class="circle-icon">
+<img alt="تاریخچه" src="images/ico/mdi-light--clock.svg"/>
+</button>
+<button class="circle-icon" id="settingsButton" type="button">
+<img alt="تنظیمات" src="images/ico/settings.png"/>
+</button>
+</div>
+<div class="left-grid">
+<button class="word-card image-card" data-card-id="left-1" data-word="بابا">
+<div class="image-placeholder">
+<img alt="بابا" src="images/cards/بابا.png"/>
+</div>
+<span class="word-label">بابا</span>
+</button>
+<button class="word-card image-card" data-card-id="left-2" data-word="مامان">
+<div class="image-placeholder">
+<img alt="مامان" src="images/cards/مامان.png"/>
+</div>
+<span class="word-label">مامان</span>
+</button>
+<button class="word-card image-card" data-card-id="left-3" data-word="تکرار">
+<div class="image-placeholder">
+<img src="images/cards/غریبه.png"/>
+</div>
+<span class="word-label">تکرار</span>
+</button>
+<button class="word-card image-card" data-card-id="left-4" data-word="دوست">
+<div class="image-placeholder">
+<img alt="دوست" src="images/cards/قلب.png"/>
+</div>
+<span class="word-label">دوست</span>
+</button>
 
 
 
-                <button class="word-card image-card" data-word="دوست">
-                    <div class="image-placeholder">
-                        <img src="images/cards/قلب.png" alt="دوست">
-                    </div>
-                    <span>دوست</span>
-                </button>
-
-                <button class="word-card image-card" data-word="من">
-                    <div class="image-placeholder">
-                        <img src="images/man.png" alt="من">
-                    </div>
-                    <span>من</span>
-                </button>
-
-                <button class="word-card image-card" data-word="غریبه">
-                    <div class="image-placeholder">
-                        <img src="images/cards/NEW-LEFT-2.png">
-                    </div>
-                    <span>غریبه</span>
-                </button>
 
 
 
-                <button class="word-card image-card" data-word="بیرون">
-                    <div class="image-placeholder">
-                        <img src="images/cards/درخت.png" alt="بیرون">
-                    </div>
-                    <span>پارک</span>
-                </button>
-
-                <!-- خانه -->
-                <button class="word-card image-card" data-word="خانه">
-                    <div class="image-placeholder">
-                        <img src="images/cards/خانه.png" alt="خانه">
-                    </div>
-                    <span>خانه</span>
-                </button>
-
-                <!-- کارت جدید سمت چپ ۳ -->
-                <button class="word-card image-card" data-word="مدرسه">
-                    <div class="image-placeholder">
-                        <img src="images/cards/مدرسه.png">
-                    </div>
-                    <span>مدرسه</span>
-                </button>
 
 
-                <!-- ردیف ۴ -->
-
-                <!-- خوشحال -->
-                <button class="word-card image-card" data-word="خوشحال">
-                    <div class="image-placeholder">
-                        <img src="images/cards/خوشحال.png" alt="خوشحال">
-                    </div>
-                    <span>خوشحال</span>
-                </button>
-
-                <!-- ناراحت -->
-                <button class="word-card image-card" data-word="ناراحت">
-                    <div class="image-placeholder">
-                        <img src="images/cards/ناراحت.png" alt="ناراحت">
-                    </div>
-                    <span>ناراحت</span>
-                </button>
-
-                <!-- کارت جدید سمت چپ ۴ -->
-                <button class="word-card image-card" data-word="کلمه جدید ۴">
-                    <div class="image-placeholder">
-                        <img src="images/cards/">
-                    </div>
-                    <span>ترس</span>
-                </button>
-
-            </div>
-
-        </aside>
-
-
-        <!-- =========================
-             CENTER
-        ========================== -->
-
-        <main class="center-section">
-
-            <!-- Sentence Bar -->
-
-            <div class="sentence-bar">
-
-                <button class="sentence-word" data-word="نه">
+</div>
+</aside>
+<main class="center-section">
+<div class="sentence-bar">
+<button class="sentence-word sentence-no" data-word="نه">
                     نه
                 </button>
-
-                <button class="sentence-word" data-word="آره">
+<button class="sentence-word sentence-yes" data-word="آره">
                     آره
                 </button>
-
-                <button class="sentence-word" data-word="درد دارم">
+<button class="sentence-word sentence-pain" data-word="درد دارم">
                     درد دارم
                 </button>
-
-                <button class="sentence-word" data-word="کمک">
+<button class="sentence-word sentence-help" data-word="کمک">
                     کمک
                 </button>
-
-            </div>
-
-
-
-            <div class="main-content">
-                <div id="sentence-display" class="sentence-display"></div>
-            </div>
-
-
-            <!-- Bottom Controls -->
-
-            <div class="bottom-controls">
-
-                <!-- حذف -->
-                <button class="control-button" aria-label="حذف">
-                    <div class="control-circle">
-                        <img src="images/ico/mdi-light--delete.svg" alt="حذف">
-                    </div>
-                </button>
+</div>
+<div class="main-content">
+<div class="sentence-display" id="sentence-display"></div>
+</div>
+<div class="bottom-controls">
+<button aria-label="حذف" class="control-button">
+<div class="control-circle">
+<img alt="حذف" src="images/ico/mdi-light--delete.svg"/>
+</div>
+</button>
 
 
-                <!-- قبلی -->
-                <button class="control-button" aria-label="قبلی">
-                    <div class="control-circle">
-                        <img src="images/ico/mdi-light--rewind.svg" alt="قبلی">
-                    </div>
-                </button>
-
-            </div>
-
-        </main>
-
-
-        <!-- =========================
-             RIGHT SIDEBAR
-        ========================== -->
-
-        <aside class="right-sidebar">
-
-            <div class="right-grid">
-
-                <!-- ردیف ۱ -->
-
-                <!-- آب -->
-                <button class="word-card image-card" data-word="آب">
-                    <div class="image-placeholder">
-                        <img src="images/cards/water-glass-color-icon.svg" alt="آب">
-                    </div>
-                    <span>آب</span>
-                </button>
-
-                <!-- غذا -->
-                <button class="word-card image-card" data-word="غذا">
-                    <div class="image-placeholder">
-                        <img src="images/cards/سیب.png" alt="غذا">
-                    </div>
-                    <span>میوه</span>
-                </button>
-
-                <!-- کارت جدید سمت راست ۱ -->
-                <button class="word-card image-card" data-word="غذا">
-                    <div class="image-placeholder">
-                        <img src="images/cards/">
-                    </div>
-                    <span>غذا</span>
-                </button>
-
-
-                <!-- ردیف ۲ -->
-
-                <!-- بازی -->
-                <button class="word-card image-card" data-word="بازی">
-                    <div class="image-placeholder">
-                        <img src="images/cards/توپ.png" alt="بازی">
-                    </div>
-                    <span>توپ</span>
-                </button>
-                <button class="word-card image-card" data-word="عروسک">
-                    <div class="image-placeholder">
-                        <img src="images/cards/عروسک.png">
-                    </div>
-                    <span>عروسک</span>
-                </button>
-
-                <!-- بخوابم -->
-                <button class="word-card image-card" data-word="بخوابم">
-                    <div class="image-placeholder">
-                        <img src="images/cards/خواب.png" alt="بخوابم">
-                    </div>
-                    <span>بخوابم</span>
-                </button>
-
-                <!-- کارت جدید سمت راست ۲ -->
-                
-
-
-                <!-- ردیف ۳ -->
-
-                <!-- بروم -->
-                <button class="word-card image-card" data-word="بروم">
-                    <div class="image-placeholder">
-                        <img src="images/beram.png" alt="بروم">
-                    </div>
-                    <span>بروم</span>
-                </button>
-
-                <!-- می‌خواهم -->
-                <button class="word-card image-card" data-word="می‌خواهم">
-                    <div class="image-placeholder">
-                        <img src="images/mikham.png" alt="می‌خواهم">
-                    </div>
-                    <span>می‌خواهم</span>
-                </button>
-
-                <!-- کارت جدید سمت راست ۳ -->
-                <button class="word-card image-card" data-word="بغل">
-                    <div class="image-placeholder">
-                        <img src="images/cards/آغوش.png">
-                    </div>
-                    <span>بغل</span>
-                </button>
-
-
-                <!-- ردیف ۴ -->
-
-                <!-- دستشویی -->
-                <button class="word-card image-card" data-word="دستشویی">
-                    <div class="image-placeholder">
-                        <img src="images/dastshooei.png" alt="دستشویی">
-                    </div>
-                    <span>دستشویی</span>
-                </button>
-
-                <!-- بخورم -->
-                <button class="word-card image-card" data-word="بخورم">
-                    <div class="image-placeholder">
-                        <img src="images/cards/" alt="بخورم">
-                    </div>
-                    <span>بخورم</span>
-                </button>
-
-                <!-- کارت جدید سمت راست ۴ -->
-                <button class="word-card image-card" data-word='تاب'>
-                    <div class="image-placeholder">
-                        <img src="images/cards/تاب.png">
-                    </div>
-                    <span>تاب</span>
-                </button>
-
-
-                <!-- ردیف ۵ -->
-
-                <!-- کارت جدید سمت راست ۵ -->
-                <button class="word-card image-card" data-word='کارتون'>
-                    <div class="image-placeholder">
-                        <img src="images/cards/تلویزیون.png">
-                    </div>
-                    <span>کارتون</span>
-                </button>
-
-                <!-- بیشتر -->
-                <button class="word-card small-card" aria-label="بیشتر">
-                    <span>...</span>
-                </button>
-
-                <!-- افزودن -->
-                <button class="word-card small-card" aria-label="افزودن">
-                    <span class="plus">+</span>
-                </button>
-
-            </div>
-
-        </aside>
-
-    </div>
-
-    <script src="./js/script.js"></script>
-
-    <script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js", { scope: "/" })
-            .then(registration => console.log("PWA ready:", registration.scope))
-            .catch(err => console.error("PWA error:", err));
-    });
-}
-</script>
+</div>
+</main>
+<aside class="right-sidebar">
+<div class="right-grid">
+<button class="word-card image-card" data-card-id="right-1" data-word="آب">
+<div class="image-placeholder">
+<img alt="آب" src="images/cards/water-glass-color-icon.svg"/>
+</div>
+<span class="word-label">آب</span>
+</button>
+<button class="word-card image-card" data-card-id="right-2" data-word="غذا">
+<div class="image-placeholder">
+<img alt="غذا" src="images/cards/سیب.png"/>
+</div>
+<span class="word-label">میوه</span>
+</button>
+<button class="word-card image-card" data-card-id="right-3" data-word="غذا">
+<div class="image-placeholder">
+</div>
+<span class="word-label">غذا</span>
+</button>
+<button class="word-card image-card" data-card-id="right-4" data-word="بازی">
+<div class="image-placeholder">
+<img alt="بازی" src="images/cards/توپ.png"/>
+</div>
+<span class="word-label">توپ</span>
+</button>
 
 
 
+
+
+
+
+
+
+
+
+</div>
+</aside>
+</div>
+<script src="./js/card-state.js"></script>
+<script src="./js/script.js"></script>
+<script src="./js/pwa.js"></script>
 </body>
-
 </html>

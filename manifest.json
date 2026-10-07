@@ -1,12 +1,12 @@
 {
-  "id": "/",
+  "id": "./",
   "name": "ارکید | همراه ارتباطی",
   "short_name": "ارکید",
   "description": "سامانه ارتباطی و کمک‌یار گفتاری ارکید",
   "lang": "fa-IR",
   "dir": "rtl",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display_override": [
     "standalone",
     "fullscreen"
@@ -15,16 +15,15 @@
   "orientation": "landscape",
   "background_color": "#fffdfd",
   "theme_color": "#ffffff",
-
   "icons": [
     {
-      "src": "/images/orkid-icon-192.png",
+      "src": "./images/orkid-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/orkid-icon-512.png",
+      "src": "./images/orkid-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"

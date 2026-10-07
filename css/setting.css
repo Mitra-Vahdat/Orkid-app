@@ -1,6 +1,4 @@
-/* =========================================
-   RESET
-========================================= */
+
 
 * {
     margin: 0;
@@ -8,13 +6,11 @@
     box-sizing: border-box;
 }
 
-
 html,
 body {
     width: 100%;
     height: 100%;
 }
-
 
 body {
     font-family: "Vazirmatn", sans-serif;
@@ -30,14 +26,7 @@ body {
         color 0.35s ease;
 }
 
-
-/* =========================================
-   THEMES
-========================================= */
-
 :root {
-
-    /* Pink */
 
     --page-bg: #fff8fa;
 
@@ -58,11 +47,6 @@ body {
     --white: #ffffff;
 }
 
-
-/* =========================================
-   GREEN
-========================================= */
-
 body[data-theme="green"] {
 
     --page-bg: #f7fcf8;
@@ -77,11 +61,6 @@ body[data-theme="green"] {
 
     --primary-border: #c2ddca;
 }
-
-
-/* =========================================
-   YELLOW
-========================================= */
 
 body[data-theme="yellow"] {
 
@@ -98,11 +77,6 @@ body[data-theme="yellow"] {
     --primary-border: #ead9a9;
 }
 
-
-/* =========================================
-   BLUE
-========================================= */
-
 body[data-theme="blue"] {
 
     --page-bg: #f6fbff;
@@ -118,11 +92,6 @@ body[data-theme="blue"] {
     --primary-border: #c4dce9;
 }
 
-
-/* =========================================
-   PAGE
-========================================= */
-
 .settings-page {
 
     width: 100vw;
@@ -136,11 +105,6 @@ body[data-theme="blue"] {
     transition:
         background 0.35s ease;
 }
-
-
-/* =========================================
-   HEADER
-========================================= */
 
 .settings-header {
 
@@ -167,7 +131,6 @@ body[data-theme="blue"] {
         border-color 0.35s ease;
 }
 
-
 .settings-header h1 {
 
     text-align: center;
@@ -179,15 +142,9 @@ body[data-theme="blue"] {
     color: var(--text);
 }
 
-
 .header-space {
     width: 50px;
 }
-
-
-/* =========================================
-   BACK BUTTON
-========================================= */
 
 .back-button {
 
@@ -214,7 +171,6 @@ body[data-theme="blue"] {
         transform 0.15s ease;
 }
 
-
 .back-button span {
 
     font-family: Arial, sans-serif;
@@ -228,22 +184,15 @@ body[data-theme="blue"] {
     transform: translateY(-3px);
 }
 
-
 .back-button:hover {
 
     background: var(--primary-light);
 }
 
-
 .back-button:active {
 
     transform: scale(0.93);
 }
-
-
-/* =========================================
-   CONTENT
-========================================= */
 
 .settings-content {
 
@@ -257,11 +206,6 @@ body[data-theme="blue"] {
 
     flex: 1;
 }
-
-
-/* =========================================
-   SETTING SECTION
-========================================= */
 
 .setting-section {
 
@@ -280,7 +224,6 @@ body[data-theme="blue"] {
         border-color 0.35s ease;
 }
 
-
 .setting-section h2 {
 
     font-size: 22px;
@@ -289,7 +232,6 @@ body[data-theme="blue"] {
 
     margin-bottom: 5px;
 }
-
 
 .setting-description {
 
@@ -300,11 +242,6 @@ body[data-theme="blue"] {
     margin-bottom: 24px;
 }
 
-
-/* =========================================
-   THEME OPTIONS
-========================================= */
-
 .theme-options {
 
     display: grid;
@@ -314,7 +251,6 @@ body[data-theme="blue"] {
 
     gap: 18px;
 }
-
 
 .theme-button {
 
@@ -336,7 +272,6 @@ body[data-theme="blue"] {
         border-color 0.2s ease;
 }
 
-
 .theme-button span {
 
     width: 48px;
@@ -350,68 +285,50 @@ body[data-theme="blue"] {
         0 3px 8px rgba(0,0,0,0.08);
 }
 
-
-/* Pink */
-
 .theme-pink {
 
     background: #fdecef;
 }
-
 
 .theme-pink span {
 
     background: #e8aebc;
 }
 
-
-/* Green */
-
 .theme-green {
 
     background: #eaf7ed;
 }
-
 
 .theme-green span {
 
     background: #a8cfb5;
 }
 
-
-/* Yellow */
-
 .theme-yellow {
 
     background: #fcf5dc;
 }
-
 
 .theme-yellow span {
 
     background: #e8cf91;
 }
 
-
-/* Blue */
-
 .theme-blue {
 
     background: #eaf5fb;
 }
-
 
 .theme-blue span {
 
     background: #a8c9df;
 }
 
-
 .theme-button:hover {
 
     transform: translateY(-2px);
 }
-
 
 .theme-button.active {
 
@@ -419,11 +336,6 @@ body[data-theme="blue"] {
 
     transform: scale(1.02);
 }
-
-
-/* =========================================
-   BRIGHTNESS
-========================================= */
 
 .setting-title-row {
 
@@ -436,12 +348,10 @@ body[data-theme="blue"] {
     margin-bottom: 25px;
 }
 
-
 .setting-title-row h2 {
 
     margin-bottom: 0;
 }
-
 
 .value-label {
 
@@ -460,11 +370,6 @@ body[data-theme="blue"] {
     text-align: center;
 }
 
-
-/* =========================================
-   RANGE
-========================================= */
-
 .brightness-control {
 
     width: 100%;
@@ -476,7 +381,6 @@ body[data-theme="blue"] {
     gap: 15px;
 }
 
-
 .brightness-icon {
 
     font-size: 20px;
@@ -486,14 +390,12 @@ body[data-theme="blue"] {
     flex-shrink: 0;
 }
 
-
 .brightness-icon.small {
 
     font-size: 27px;
 
     color: var(--primary);
 }
-
 
 #brightnessSlider {
 
@@ -513,9 +415,6 @@ body[data-theme="blue"] {
 
     cursor: pointer;
 }
-
-
-/* Chrome / Edge */
 
 #brightnessSlider::-webkit-slider-thumb {
 
@@ -538,9 +437,6 @@ body[data-theme="blue"] {
     cursor: pointer;
 }
 
-
-/* Firefox */
-
 #brightnessSlider::-moz-range-thumb {
 
     width: 20px;
@@ -558,11 +454,6 @@ body[data-theme="blue"] {
     cursor: pointer;
 }
 
-
-/* =========================================
-   VOICE
-========================================= */
-
 .voice-options {
 
     display: grid;
@@ -572,7 +463,6 @@ body[data-theme="blue"] {
 
     gap: 18px;
 }
-
 
 .voice-button {
 
@@ -605,7 +495,6 @@ body[data-theme="blue"] {
         transform 0.15s ease;
 }
 
-
 .voice-icon {
 
     width: 52px;
@@ -629,14 +518,12 @@ body[data-theme="blue"] {
     font-weight: bold;
 }
 
-
 .voice-button:hover {
 
     background: var(--primary-soft);
 
     transform: translateY(-2px);
 }
-
 
 .voice-button.active {
 
@@ -645,16 +532,10 @@ body[data-theme="blue"] {
     background: var(--primary-soft);
 }
 
-
-/* =========================================
-   CARD CUSTOMIZATION
-========================================= */
-
 .card-customization {
 
     margin-top: 5px;
 }
-
 
 .customize-button {
 
@@ -689,7 +570,6 @@ body[data-theme="blue"] {
         transform 0.15s ease;
 }
 
-
 .customize-button:hover {
 
     background: var(--primary-soft);
@@ -697,12 +577,10 @@ body[data-theme="blue"] {
     transform: translateY(-2px);
 }
 
-
 .customize-button:active {
 
     transform: scale(0.99);
 }
-
 
 .customize-icon {
 
@@ -725,7 +603,6 @@ body[data-theme="blue"] {
     flex-shrink: 0;
 }
 
-
 .customize-text {
 
     display: flex;
@@ -737,7 +614,6 @@ body[data-theme="blue"] {
     flex: 1;
 }
 
-
 .customize-text strong {
 
     font-size: 19px;
@@ -745,14 +621,12 @@ body[data-theme="blue"] {
     font-weight: 600;
 }
 
-
 .customize-text span {
 
     font-size: 14px;
 
     color: var(--muted);
 }
-
 
 .arrow {
 
@@ -765,17 +639,11 @@ body[data-theme="blue"] {
     transform: rotate(180deg);
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
-
 @media (max-width: 700px) {
 
     body {
         overflow-y: auto;
     }
-
 
     .settings-header {
 
@@ -787,19 +655,16 @@ body[data-theme="blue"] {
         padding: 0 15px;
     }
 
-
     .settings-header h1 {
 
         font-size: 24px;
     }
-
 
     .back-button {
 
         width: 45px;
         height: 45px;
     }
-
 
     .settings-content {
 
@@ -808,7 +673,6 @@ body[data-theme="blue"] {
         padding: 25px 0;
     }
 
-
     .setting-section {
 
         padding: 22px;
@@ -816,18 +680,15 @@ body[data-theme="blue"] {
         border-radius: 18px;
     }
 
-
     .setting-section h2 {
 
         font-size: 19px;
     }
 
-
     .theme-options {
 
         gap: 10px;
     }
-
 
     .theme-button {
 
@@ -836,19 +697,16 @@ body[data-theme="blue"] {
         border-radius: 14px;
     }
 
-
     .theme-button span {
 
         width: 38px;
         height: 38px;
     }
 
-
     .voice-options {
 
         gap: 10px;
     }
-
 
     .voice-button {
 
@@ -861,7 +719,6 @@ body[data-theme="blue"] {
         font-size: 16px;
     }
 
-
     .voice-icon {
 
         width: 42px;
@@ -869,7 +726,6 @@ body[data-theme="blue"] {
 
         font-size: 22px;
     }
-
 
     .customize-button {
 
@@ -880,7 +736,6 @@ body[data-theme="blue"] {
         gap: 12px;
     }
 
-
     .customize-icon {
 
         width: 48px;
@@ -889,12 +744,10 @@ body[data-theme="blue"] {
         font-size: 23px;
     }
 
-
     .customize-text strong {
 
         font-size: 16px;
     }
-
 
     .customize-text span {
 

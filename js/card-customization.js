@@ -1,825 +1,96 @@
-// =========================================
-// CARD CUSTOMIZATION
-// =========================================
+document.body.dataset.theme = localStorage.getItem("aac-theme") || "pink";
+const brightness = localStorage.getItem("aac-brightness") || "100";
+document.documentElement.style.setProperty("--app-brightness", `${brightness}%`);
+document.body.style.filter = `brightness(${brightness}%)`;
 
+(() => {
+    "use strict";
+    const overlay = document.getElementById("cardEditorOverlay");
+    const form = document.getElementById("cardEditorForm");
+    const textInput = document.getElementById("editorText");
+    const imageInput = document.getElementById("editorImage");
+    const preview = document.getElementById("editorImagePreview");
+    const layoutButton = document.getElementById("toggleCardLayout");
+    let activeCard = null;
+    let pendingImage = null;
 
-// =========================================
-// DEFAULT CARDS
-// =========================================
-
-const defaultCards = [
-
-    // LEFT
-
-    {
-        id: "left-1",
-        name: "بابا",
-        image: "images/cards/بابا.png"
-    },
-
-    {
-        id: "left-2",
-        name: "مامان",
-        image: "images/cards/مامان.png"
-    },
-
-    {
-        id: "left-3",
-        name: "کلمه جدید ۱",
-        image: "images/cards/NEW-LEFT-1.png"
-    },
-
-    {
-        id: "left-4",
-        name: "دوست",
-        image: "images/cards/قلب.png"
-    },
-
-    {
-        id: "left-5",
-        name: "من",
-        image: "images/man.png"
-    },
-
-    {
-        id: "left-6",
-        name: "کلمه جدید ۲",
-        image: "images/cards/NEW-LEFT-2.png"
-    },
-
-    {
-        id: "left-7",
-        name: "بیرون",
-        image: "images/cards/درخت.png"
-    },
-
-    {
-        id: "left-8",
-        name: "خانه",
-        image: "images/cards/خانه.png"
-    },
-
-    {
-        id: "left-9",
-        name: "کلمه جدید ۳",
-        image: "images/cards/NEW-LEFT-3.png"
-    },
-
-    {
-        id: "left-10",
-        name: "خوشحال",
-        image: "images/cards/خوشحال.png"
-    },
-
-    {
-        id: "left-11",
-        name: "ناراحت",
-        image: "images/cards/ناراحت.png"
-    },
-
-    {
-        id: "left-12",
-        name: "کلمه جدید ۴",
-        image: "images/cards/NEW-LEFT-4.png"
-    },
-
-
-    // RIGHT
-
-    {
-        id: "right-1",
-        name: "آب",
-        image: "images/cards/water-glass-color-icon.svg"
-    },
-
-    {
-        id: "right-2",
-        name: "غذا",
-        image: "images/cards/سیب.png"
-    },
-
-    {
-        id: "right-3",
-        name: "کلمه جدید ۱",
-        image: "images/cards/NEW-RIGHT-1.png"
-    },
-
-    {
-        id: "right-4",
-        name: "بازی",
-        image: "images/cards/توپ.png"
-    },
-
-    {
-        id: "right-5",
-        name: "بخوابم",
-        image: "images/cards/خواب.png"
-    },
-
-    {
-        id: "right-6",
-        name: "کلمه جدید ۲",
-        image: "images/cards/NEW-RIGHT-2.png"
-    },
-
-    {
-        id: "right-7",
-        name: "بروم",
-        image: "images/beram.png"
-    },
-
-    {
-        id: "right-8",
-        name: "می‌خواهم",
-        image: "images/mikham.png"
-    },
-
-    {
-        id: "right-9",
-        name: "کلمه جدید ۳",
-        image: "images/cards/NEW-RIGHT-3.png"
-    },
-
-    {
-        id: "right-10",
-        name: "دستشویی",
-        image: "images/dastshooei.png"
-    },
-
-    {
-        id: "right-11",
-        name: "بخورم",
-        image: "images/cards/"
-    },
-
-    {
-        id: "right-12",
-        name: "کلمه جدید ۴",
-        image: "images/cards/NEW-RIGHT-4.png"
-    },
-
-    {
-        id: "right-13",
-        name: "کلمه جدید ۵",
-        image: "images/cards/NEW-RIGHT-5.png"
+    function imageOnly() { return localStorage.getItem("orkid-card-image-only-mode") === "true"; }
+    function applyImageOnly() {
+        const enabled = imageOnly();
+        document.body.classList.toggle("cards-image-only", enabled);
+        layoutButton.textContent = enabled ? "نمایش متن" : "حذف متن";
+        layoutButton.classList.toggle("active", enabled);
     }
-
-];
-
-
-// =========================================
-// STORAGE KEY
-// =========================================
-
-const CARDS_STORAGE_KEY = "aac-cards";
-
-
-// =========================================
-// DOM
-// =========================================
-
-const cardsContainer =
-    document.getElementById("cardsContainer");
-
-const editModal =
-    document.getElementById("editModal");
-
-const cardNameInput =
-    document.getElementById("cardNameInput");
-
-const cardImageInput =
-    document.getElementById("cardImageInput");
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-const closeModalButton =
-    document.getElementById("closeModalButton");
-
-const cancelEditButton =
-    document.getElementById("cancelEditButton");
-
-const confirmEditButton =
-    document.getElementById("confirmEditButton");
-
-const saveChangesButton =
-    document.getElementById("saveChangesButton");
-
-const backButton =
-    document.getElementById("backButton");
-
-
-// =========================================
-// CURRENT CARDS
-// =========================================
-
-let cards = loadCards();
-
-let editingCardId = null;
-
-let selectedNewImage = null;
-
-
-// =========================================
-// LOAD CARDS
-// =========================================
-
-function loadCards() {
-
-    const savedCards =
-        localStorage.getItem(CARDS_STORAGE_KEY);
-
-    if (!savedCards) {
-
-        return defaultCards.map(card => ({
-            ...card,
-            deleted: false
-        }));
-
+    function layout() {
+        document.querySelectorAll(".left-grid,.right-grid").forEach(grid => {
+            const n = grid.querySelectorAll(".word-card[data-card-id]").length;
+            const cols = n <= 1 ? 1 : 2;
+            grid.style.setProperty("--card-columns", cols);
+            grid.style.gridTemplateColumns = `repeat(${cols},minmax(0,1fr))`;
+            grid.style.gridTemplateRows = `repeat(${Math.max(1,Math.ceil(n/cols))},minmax(0,1fr))`;
+        });
     }
-
-    try {
-
-        const parsedCards =
-            JSON.parse(savedCards);
-
-        if (!Array.isArray(parsedCards)) {
-
-            return defaultCards.map(card => ({
-                ...card,
-                deleted: false
-            }));
-
-        }
-
-        return parsedCards;
-
-    } catch (error) {
-
-        console.error(
-            "خطا در خواندن کارت‌ها:",
-            error
-        );
-
-        return defaultCards.map(card => ({
-            ...card,
-            deleted: false
-        }));
-
+    function data(card) {
+        const img = card.querySelector(".image-placeholder img");
+        return { text: card.dataset.word || card.querySelector(".word-label")?.textContent.trim() || "", image: img?.getAttribute("src") || "", alt: img?.alt || "" };
     }
-
-}
-
-
-// =========================================
-// SAVE CARDS TO BROWSER
-// =========================================
-
-function saveCardsToBrowser() {
-
-    try {
-
-        localStorage.setItem(
-            CARDS_STORAGE_KEY,
-            JSON.stringify(cards)
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "خطا در ذخیره کارت‌ها:",
-            error
-        );
-
-        alert(
-            "ذخیره کارت انجام نشد. ممکن است حجم تصویر انتخاب‌شده زیاد باشد."
-        );
-
-        return false;
-
+    function showPreview(src, alt="") {
+        preview.replaceChildren();
+        if (!src) { preview.textContent = "تصویر ندارد"; return; }
+        const img = document.createElement("img"); img.src=src; img.alt=alt; preview.appendChild(img);
     }
-
-}
-
-
-// =========================================
-// RENDER CARDS
-// =========================================
-
-function renderCards() {
-
-    cardsContainer.innerHTML = "";
-
-
-    const activeCards =
-        cards.filter(card => !card.deleted);
-
-
-    if (activeCards.length === 0) {
-
-        const emptyState =
-            document.createElement("div");
-
-        emptyState.className =
-            "empty-state";
-
-        emptyState.textContent =
-            "هیچ کارتی وجود ندارد.";
-
-        cardsContainer.appendChild(
-            emptyState
-        );
-
-        return;
-
+    function open(card) {
+        activeCard=card; pendingImage=null;
+        const d=data(card); textInput.value=d.text; imageInput.value=""; showPreview(d.image,d.text);
+        overlay.hidden=false; document.body.classList.add("editor-open"); textInput.focus();
     }
+    function close() { overlay.hidden=true; document.body.classList.remove("editor-open"); activeCard=null; pendingImage=null; form.reset(); }
+    function readImage(file) { return new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file); }); }
 
+    window.OrkidCardState?.apply();
+    applyImageOnly(); layout();
 
-    cards.forEach((card, index) => {
+    document.addEventListener("click", e => {
+        const edit=e.target.closest(".card-edit-button");
+        if (edit) { e.preventDefault(); e.stopPropagation(); const card=edit.closest(".word-card[data-card-id]"); if(card) open(card); }
+        else if (e.target===overlay) close();
+    }, true);
 
-        if (card.deleted) {
-            return;
-        }
-
-
-        const cardElement =
-            document.createElement("article");
-
-        cardElement.className =
-            "custom-card";
-
-
-        // =====================================
-        // IMAGE
-        // =====================================
-
-        const imageBox =
-            document.createElement("div");
-
-        imageBox.className =
-            "custom-card-image";
-
-
-        const image =
-            document.createElement("img");
-
-        image.src = card.image;
-
-        image.alt = card.name;
-
-        imageBox.appendChild(image);
-
-
-        // =====================================
-        // INFO
-        // =====================================
-
-        const info =
-            document.createElement("div");
-
-        info.className =
-            "custom-card-info";
-
-
-        const name =
-            document.createElement("div");
-
-        name.className =
-            "custom-card-name";
-
-        name.textContent =
-            card.name;
-
-
-        const number =
-            document.createElement("div");
-
-        number.className =
-            "custom-card-number";
-
-        number.textContent =
-            `کارت ${index + 1}`;
-
-
-        info.appendChild(name);
-
-        info.appendChild(number);
-
-
-        // =====================================
-        // ACTIONS
-        // =====================================
-
-        const actions =
-            document.createElement("div");
-
-        actions.className =
-            "card-actions";
-
-
-        const editButton =
-            document.createElement("button");
-
-        editButton.className =
-            "edit-card-button";
-
-        editButton.type =
-            "button";
-
-        editButton.textContent =
-            "اصلاح";
-
-
-        editButton.addEventListener(
-            "click",
-            function () {
-
-                openEditModal(card.id);
-
-            }
-        );
-
-
-        const deleteButton =
-            document.createElement("button");
-
-        deleteButton.className =
-            "delete-card-button";
-
-        deleteButton.type =
-            "button";
-
-        deleteButton.textContent =
-            "حذف";
-
-
-        deleteButton.addEventListener(
-            "click",
-            function () {
-
-                deleteCard(card.id);
-
-            }
-        );
-
-
-        actions.appendChild(editButton);
-
-        actions.appendChild(deleteButton);
-
-
-        // =====================================
-        // APPEND
-        // =====================================
-
-        cardElement.appendChild(imageBox);
-
-        cardElement.appendChild(info);
-
-        cardElement.appendChild(actions);
-
-        cardsContainer.appendChild(cardElement);
-
+    imageInput.addEventListener("change", async () => {
+        const file=imageInput.files?.[0]; if(!file) return;
+        pendingImage=await readImage(file); showPreview(pendingImage,textInput.value.trim());
     });
 
-}
-
-
-// =========================================
-// OPEN EDIT MODAL
-// =========================================
-
-function openEditModal(cardId) {
-
-    const card =
-        cards.find(
-            item => item.id === cardId
-        );
-
-
-    if (!card) {
-        return;
-    }
-
-
-    editingCardId =
-        cardId;
-
-
-    selectedNewImage =
-        null;
-
-
-    cardNameInput.value =
-        card.name;
-
-
-    imagePreview.src =
-        card.image;
-
-
-    cardImageInput.value =
-        "";
-
-
-    editModal.classList.add("active");
-
-    editModal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-
-    cardNameInput.focus();
-
-}
-
-
-// =========================================
-// CLOSE MODAL
-// =========================================
-
-function closeEditModal() {
-
-    editModal.classList.remove(
-        "active"
-    );
-
-    editModal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
-    editingCardId =
-        null;
-
-
-    selectedNewImage =
-        null;
-
-
-    cardImageInput.value =
-        "";
-
-}
-
-
-// =========================================
-// IMAGE SELECT
-// =========================================
-
-cardImageInput.addEventListener(
-    "change",
-    function () {
-
-        const file =
-            this.files[0];
-
-
-        if (!file) {
-            return;
-        }
-
-
-        if (!file.type.startsWith("image/")) {
-
-            alert(
-                "لطفاً یک فایل تصویری انتخاب کنید."
-            );
-
-            this.value = "";
-
-            return;
-
-        }
-
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            function (event) {
-
-                selectedNewImage =
-                    event.target.result;
-
-                imagePreview.src =
-                    selectedNewImage;
-
-            };
-
-
-        reader.readAsDataURL(file);
-
-    }
-);
-
-
-// =========================================
-// CONFIRM EDIT
-// =========================================
-
-confirmEditButton.addEventListener(
-    "click",
-    function () {
-
-        if (!editingCardId) {
-            return;
-        }
-
-
-        const newName =
-            cardNameInput.value.trim();
-
-
-        if (!newName) {
-
-            alert(
-                "لطفاً نام کارت را وارد کنید."
-            );
-
-            cardNameInput.focus();
-
-            return;
-
-        }
-
-
-        const card =
-            cards.find(
-                item =>
-                    item.id === editingCardId
-            );
-
-
-        if (!card) {
-            return;
-        }
-
-
-        // تغییر نام
-
-        card.name =
-            newName;
-
-
-        // تغییر تصویر در صورت انتخاب
-
-        if (selectedNewImage) {
-
-            card.image =
-                selectedNewImage;
-
-        }
-
-
-        closeEditModal();
-
-        renderCards();
-
-    }
-);
-
-
-// =========================================
-// DELETE CARD
-// =========================================
-
-function deleteCard(cardId) {
-
-    const card =
-        cards.find(
-            item => item.id === cardId
-        );
-
-
-    if (!card) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            `آیا می‌خواهید کارت «${card.name}» حذف شود؟`
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    card.deleted =
-        true;
-
-
-    renderCards();
-
-}
-
-
-// =========================================
-// CLOSE MODAL BUTTONS
-// =========================================
-
-closeModalButton.addEventListener(
-    "click",
-    closeEditModal
-);
-
-
-cancelEditButton.addEventListener(
-    "click",
-    closeEditModal
-);
-
-
-// =========================================
-// CLICK OUTSIDE MODAL
-// =========================================
-
-editModal.addEventListener(
-    "click",
-    function (event) {
-
-        if (
-            event.target === editModal
-        ) {
-
-            closeEditModal();
-
-        }
-
-    }
-);
-
-
-// =========================================
-// ESC
-// =========================================
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Escape" &&
-            editModal.classList.contains("active")
-        ) {
-
-            closeEditModal();
-
-        }
-
-    }
-);
-
-
-// =========================================
-// SAVE CHANGES
-// =========================================
-
-saveChangesButton.addEventListener(
-    "click",
-    function () {
-
-        const saved =
-            saveCardsToBrowser();
-
-
-        if (!saved) {
-            return;
-        }
-
-
-        window.location.href =
-            "./index.html";
-
-    }
-);
-
-
-// =========================================
-// BACK
-// =========================================
-
-backButton.addEventListener(
-    "click",
-    function () {
-
-        window.location.href =
-            "./settings.html";
-
-    }
-);
-
-
-// =========================================
-// INITIAL RENDER
-// =========================================
-
-renderCards();
+    form.addEventListener("submit", e => {
+        e.preventDefault(); if(!activeCard) return;
+        const id=activeCard.dataset.cardId;
+        const old=data(activeCard);
+        const newText=textInput.value.trim();
+        const newImage=pendingImage || old.image;
+        const label=activeCard.querySelector(".word-label");
+        if(label) label.textContent=newText;
+        activeCard.dataset.word=newText;
+        let img=activeCard.querySelector(".image-placeholder img");
+        if(newImage && !img){ img=document.createElement("img"); activeCard.querySelector(".image-placeholder")?.appendChild(img); }
+        if(img && newImage){ img.src=newImage; img.alt=newText; }
+        window.OrkidCardState.patch(id,{text:newText,image:newImage,alt:newText,deleted:false});
+        close();
+    });
+
+    document.getElementById("editorDelete").addEventListener("click", () => {
+        if(!activeCard) return;
+        const id=activeCard.dataset.cardId;
+        window.OrkidCardState.patch(id,{...data(activeCard),deleted:true});
+        activeCard.remove(); close(); layout();
+    });
+
+    layoutButton.addEventListener("click", () => {
+        localStorage.setItem("orkid-card-image-only-mode", String(!imageOnly()));
+        applyImageOnly();
+    });
+    document.getElementById("saveAllChanges").addEventListener("click", () => location.href="./index.html");
+    document.getElementById("cardEditorClose").addEventListener("click",close);
+    document.getElementById("editorCancel").addEventListener("click",close);
+    document.getElementById("settingsButton")?.addEventListener("click",()=>location.href="./settings.html");
+    window.addEventListener("resize",layout);
+})();

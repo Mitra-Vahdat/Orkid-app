@@ -1,8 +1,5 @@
-/* =========================================================
-   ORKID CARD CUSTOMIZATION
-   ========================================================= */
 
-/* ---------- Top edit toolbar ---------- */
+
 .customization-toolbar {
     height: 58px;
     min-height: 58px;
@@ -78,7 +75,6 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* The original app is 100vh; the edit toolbar occupies 58px above it. */
 body.card-customization-page {
     display: flex;
     flex-direction: column;
@@ -92,14 +88,12 @@ body.card-customization-page > .app {
     flex: 1 1 auto;
 }
 
-/* ---------- Cards ---------- */
 .word-card.image-card {
     position: relative;
     overflow: hidden;
     isolation: isolate;
 }
 
-/* Keep the card itself square. The grid controls its width; height follows it. */
 .left-grid .word-card.image-card,
 .right-grid .word-card.image-card {
     aspect-ratio: 1 / 1;
@@ -109,7 +103,6 @@ body.card-customization-page > .app {
     align-self: start;
 }
 
-/* Image and text occupy separate areas. */
 .word-card.image-card .image-placeholder,
 .right-grid .image-placeholder {
     position: static;
@@ -153,7 +146,6 @@ body.card-customization-page > .app {
     pointer-events: none;
 }
 
-/* ---------- Edit button ---------- */
 .card-edit-button {
     position: absolute !important;
     top: 7px !important;
@@ -193,11 +185,6 @@ body.card-customization-page > .app {
     display: none !important;
 }
 
-/* ---------- Dynamic square grid ----------
-   JavaScript changes --card-columns after deletions.
-   Fewer columns means the remaining square cards become larger.
-   The number of columns is never chosen in a way that distorts a card.
-*/
 .left-grid,
 .right-grid {
     grid-template-columns: repeat(var(--card-columns, 3), minmax(0, 1fr)) !important;
@@ -211,14 +198,12 @@ body.card-customization-page > .app {
     height: auto !important;
 }
 
-/* Small utility cards remain normal controls. */
 .right-grid .small-card {
     aspect-ratio: 1 / 1;
     height: auto !important;
     align-self: start;
 }
 
-/* ---------- Editor modal ---------- */
 body.editor-open {
     overflow: hidden !important;
 }
@@ -461,9 +446,6 @@ body.editor-open {
     }
 }
 
-
-/* ---------- Image-only card mode ---------- */
-
 .customization-toolbar-actions {
     display: flex;
     align-items: center;
@@ -537,4 +519,9 @@ body.editor-open {
         padding: 0 11px;
         font-size: 13px;
     }
+}
+
+.cards-image-only .sentence-word {
+    font-size: 0 !important;
+    color: transparent !important;
 }

@@ -1,429 +1,95 @@
-// =========================================
-// THEME
-// =========================================
-
 const savedTheme = localStorage.getItem("aac-theme") || "pink";
+const savedBrightness = localStorage.getItem("aac-brightness") || "100";
 document.body.dataset.theme = savedTheme;
-
-
-// =========================================
-// AAC SENTENCE BUILDER + TEXT TO SPEECH
-// =========================================
-
-let sentenceWords = [];
+document.documentElement.style.setProperty("--app-brightness", `${savedBrightness}%`);
+document.body.style.filter = `brightness(${savedBrightness}%)`;
+document.body.classList.toggle("cards-image-only", localStorage.getItem("orkid-card-image-only-mode") === "true");
 
 const sentenceDisplay = document.getElementById("sentence-display");
+let sentenceItems = [];
 
+function updateSidebarLayout() {
+    document.querySelectorAll(".left-grid, .right-grid").forEach(grid => {
+        const count = grid.querySelectorAll(".word-card.image-card[data-card-id]").length;
+        const columns = count <= 1 ? 1 : 2;
+        const rows = Math.max(1, Math.ceil(count / columns));
+        grid.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
+        grid.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
+    });
+}
 
-// =========================================
-// انتخاب تمام کارت‌های دارای data-word
-// =========================================
+function getCardImage(card) {
+    const image = card.querySelector(".image-placeholder img");
+    return image ? { src: image.src, alt: image.alt || card.dataset.word || "" } : null;
+}
 
-const wordButtons = document.querySelectorAll("[data-word]");
-
-
-// =========================================
-// دکمه‌های پایین
-// =========================================
-
-const controlButtons = document.querySelectorAll(".control-button");
-
-const deleteButton = controlButtons[0];
-const previousButton = controlButtons[1];
-
-// فعلاً دکمه «بگو» در HTML وجود ندارد
-const speakButton = null;
-
-
-// =========================================
-// وضعیت خواندن
-// =========================================
-
-let isSpeaking = false;
-let currentUtterance = null;
-
-
-// =========================================
-// اضافه کردن کلمه
-// =========================================
-
-function addWord(word) {
-
-    if (!word || word.trim() === "") {
-        return;
-    }
-
-    // اگر در حال خواندن هستیم،
-    // اجازه تغییر جمله نمی‌دهیم
-    if (isSpeaking) {
-        return;
-    }
-
-    sentenceWords.push(word);
-
+function addItem(word, image = null) {
+    const value = (word || "").trim();
+    if (!value) return;
+    sentenceItems.push({ word: value, image });
     renderSentence();
 }
 
-
-// =========================================
-// نمایش جمله
-// =========================================
-
 function renderSentence() {
-
-    if (!sentenceDisplay) {
-        return;
-    }
-
-    sentenceDisplay.innerHTML = "";
-
-    sentenceWords.forEach((word, index) => {
-
-        const wordElement = document.createElement("span");
-
-        wordElement.classList.add("selected-word");
-
-        wordElement.dataset.index = index;
-
-        wordElement.textContent = word;
-
-        sentenceDisplay.appendChild(wordElement);
-
-        // فاصله بین کلمات
-        if (index < sentenceWords.length - 1) {
-            sentenceDisplay.appendChild(
-                document.createTextNode(" ")
-            );
+    if (!sentenceDisplay) return;
+    sentenceDisplay.replaceChildren();
+    sentenceItems.forEach(item => {
+        const token = document.createElement("span");
+        token.className = "selected-item";
+        if (item.image?.src) {
+            const img = document.createElement("img");
+            img.className = "selected-item-image";
+            img.src = item.image.src;
+            img.alt = item.image.alt || item.word;
+            token.appendChild(img);
         }
-
+        if (!document.body.classList.contains("cards-image-only")) {
+            const text = document.createElement("span");
+            text.className = "selected-word";
+            text.textContent = item.word;
+            token.appendChild(text);
+        }
+        sentenceDisplay.appendChild(token);
     });
 }
 
+function speakText(text) {
+    if (!("speechSynthesis" in window) || !text) return;
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "fa-IR";
+    utterance.rate = 0.85;
+    const preferred = localStorage.getItem("aac-voice") || "female";
+    const voices = speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith("fa"));
+    if (voices.length) utterance.voice = preferred === "male" ? voices[voices.length - 1] : voices[0];
+    speechSynthesis.speak(utterance);
+}
 
-// =========================================
-// کلیک روی کارت‌ها
-// =========================================
+window.OrkidCardState?.apply();
+updateSidebarLayout();
 
-wordButtons.forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        const word = this.dataset.word;
-
-        addWord(word);
-
+document.querySelectorAll(".word-card.image-card[data-card-id]").forEach(card => {
+    card.addEventListener("click", () => {
+        const word = card.dataset.word || "";
+        addItem(word, getCardImage(card));
+        speakText(word);
     });
-
 });
 
-
-// =========================================
-// دکمه قبلی
-// =========================================
-
-if (previousButton) {
-
-    previousButton.addEventListener("click", function () {
-
-        // اگر در حال خواندن است
-        // اجازه تغییر نمی‌دهیم
-        if (isSpeaking) {
-            return;
-        }
-
-        if (sentenceWords.length === 0) {
-            return;
-        }
-
-        sentenceWords.pop();
-
-        renderSentence();
-
+document.querySelectorAll(".sentence-word[data-word]").forEach(button => {
+    button.addEventListener("click", () => {
+        const word = button.dataset.word || "";
+        addItem(word);
+        speakText(word);
     });
-
-}
-
-
-// =========================================
-// دکمه حذف
-// =========================================
-
-if (deleteButton) {
-
-    deleteButton.addEventListener("click", function () {
-
-        // اگر در حال خواندن است
-        // اول خواندن را متوقف کن
-        if (isSpeaking) {
-            stopSpeaking();
-        }
-
-        sentenceWords = [];
-
-        renderSentence();
-
-    });
-
-}
-
-
-// =========================================
-// خواندن جمله
-// =========================================
-
-function speakSentence() {
-
-    if (!("speechSynthesis" in window)) {
-        return;
-    }
-
-    if (sentenceWords.length === 0) {
-        return;
-    }
-
-    // اگر مرورگر قبلاً چیزی می‌خواند
-    window.speechSynthesis.cancel();
-
-    const sentence = sentenceWords.join(" ");
-
-    currentUtterance =
-        new SpeechSynthesisUtterance(sentence);
-
-    // زبان فارسی
-    currentUtterance.lang = "fa-IR";
-
-    // سرعت خواندن
-    currentUtterance.rate = 0.85;
-
-    // زیر و بمی صدا
-    currentUtterance.pitch = 1;
-
-    // شروع وضعیت خواندن
-    isSpeaking = true;
-
-
-    // =====================================
-    // وقتی خواندن شروع می‌شود
-    // =====================================
-
-    currentUtterance.onstart = function () {
-
-        isSpeaking = true;
-
-        if (speakButton) {
-
-            speakButton.classList.add("speaking");
-
-            const circle =
-                speakButton.querySelector(".control-circle");
-
-            if (circle) {
-                circle.classList.add("speaking-circle");
-            }
-
-        }
-
-    };
-
-
-    // =====================================
-    // تشخیص کلمه در حال خواندن
-    // =====================================
-
-    currentUtterance.onboundary = function (event) {
-
-        const charIndex = event.charIndex;
-
-        highlightWord(charIndex);
-
-    };
-
-
-    // =====================================
-    // پایان خواندن
-    // =====================================
-
-    currentUtterance.onend = function () {
-
-        finishSpeaking();
-
-    };
-
-
-    // =====================================
-    // خطا
-    // =====================================
-
-    currentUtterance.onerror = function () {
-
-        finishSpeaking();
-
-    };
-
-
-    // =====================================
-    // شروع خواندن
-    // =====================================
-
-    window.speechSynthesis.speak(currentUtterance);
-}
-
-
-// =========================================
-// هایلایت کردن کلمه
-// =========================================
-
-function highlightWord(charIndex) {
-
-    if (!sentenceDisplay) {
-        return;
-    }
-
-    const wordElements =
-        sentenceDisplay.querySelectorAll(".selected-word");
-
-    let currentPosition = 0;
-
-    let activeIndex = -1;
-
-
-    for (let i = 0; i < sentenceWords.length; i++) {
-
-        const word = sentenceWords[i];
-
-        const wordStart = currentPosition;
-
-        const wordEnd =
-            currentPosition + word.length;
-
-
-        if (
-            charIndex >= wordStart &&
-            charIndex < wordEnd
-        ) {
-
-            activeIndex = i;
-
-            break;
-        }
-
-
-        // طول کلمه + فاصله
-        currentPosition += word.length + 1;
-
-    }
-
-
-    // حذف هایلایت قبلی
-    wordElements.forEach(element => {
-
-        element.classList.remove("reading");
-
-    });
-
-
-    // هایلایت کلمه فعلی
-    if (activeIndex !== -1) {
-
-        if (wordElements[activeIndex]) {
-
-            wordElements[activeIndex]
-                .classList.add("reading");
-
-        }
-
-    }
-
-}
-
-
-// =========================================
-// پایان وضعیت خواندن
-// =========================================
-
-function finishSpeaking() {
-
-    isSpeaking = false;
-
-    currentUtterance = null;
-
-
-    if (speakButton) {
-
-        speakButton.classList.remove("speaking");
-
-        const circle =
-            speakButton.querySelector(".control-circle");
-
-        if (circle) {
-            circle.classList.remove("speaking-circle");
-        }
-
-    }
-
-
-    // حذف هایلایت
-    if (sentenceDisplay) {
-
-        const wordElements =
-            sentenceDisplay.querySelectorAll(".selected-word");
-
-        wordElements.forEach(element => {
-
-            element.classList.remove("reading");
-
-        });
-
-    }
-
-}
-
-
-// =========================================
-// توقف خواندن
-// =========================================
-
-function stopSpeaking() {
-
-    if ("speechSynthesis" in window) {
-
-        window.speechSynthesis.cancel();
-
-    }
-
-    finishSpeaking();
-
-}
-
-
-// =========================================
-// دکمه تنظیمات
-// =========================================
-
-const settingsButton =
-    document.getElementById("settingsButton");
-
-if (settingsButton) {
-
-    settingsButton.addEventListener("click", function () {
-
-        window.location.href = "./settings.html";
-
-    });
-
-}
-
-// =========================================
-// LOAD SAVED BRIGHTNESS
-// =========================================
-
-const savedBrightness =
-    localStorage.getItem("aac-brightness") || "100";
-
-document.documentElement.style.setProperty(
-    "--app-brightness",
-    `${savedBrightness}%`
-);
-
-document.body.style.filter =
-    `brightness(${savedBrightness}%)`;
+});
+
+document.querySelector('.control-button[aria-label="حذف"]')?.addEventListener("click", () => {
+    speechSynthesis?.cancel();
+    sentenceItems = [];
+    renderSentence();
+});
+
+document.getElementById("educationButton")?.addEventListener("click", () => location.href = "./education.html");
+document.getElementById("settingsButton")?.addEventListener("click", () => location.href = "./settings.html");
+window.addEventListener("resize", updateSidebarLayout);
