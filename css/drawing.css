@@ -1,0 +1,85 @@
+
+html{min-height:100%;background:var(--page-bg)}
+body.drawing-body{min-height:100vh;overflow:hidden;background:var(--page-bg);color:var(--text);touch-action:none}
+.drawing-page{height:100vh;width:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;padding:20px clamp(16px,3vw,44px) 24px;background:var(--page-bg)}
+.drawing-topbar{display:flex;align-items:center;justify-content:space-between;direction:ltr;min-height:60px}
+.drawing-settings,.drawing-back{width:58px;height:58px;flex:0 0 58px;border-radius:50%;border:1px solid var(--icon-border);background:var(--section-bg);color:var(--text);display:grid;place-items:center;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.drawing-settings img{width:31px;height:31px;object-fit:contain}
+.drawing-back span{font-size:31px;line-height:1;transform:translateY(-1px)}
+.drawing-workspace{min-height:0;width:calc(100% - clamp(0px,1vw,14px));max-width:none;justify-self:center;border:1px solid var(--border);border-radius:26px;overflow:hidden;background:var(--drawing-paper);box-shadow:0 4px 18px rgba(0,0,0,.04)}
+#drawingCanvas{width:100%;height:100%;display:block;background:var(--drawing-paper);cursor:crosshair;touch-action:none}
+.drawing-controls{justify-self:center;align-self:center;display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 18px;border-radius:26px;background:var(--section-bg);border:1px solid var(--border);direction:ltr}
+.color-row{display:flex;align-items:center;justify-content:center;gap:11px}
+.color-button{width:54px;height:54px;border-radius:14px;border:3px solid transparent;background:var(--swatch);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);transition:transform .12s ease,border-color .12s ease}
+.color-button.active{border-color:var(--text);transform:scale(1.08)}
+.tool-circle{width:64px;height:64px;flex:0 0 64px;border-radius:50%;border:1px solid var(--border);background:var(--control-bg,#eee7f1);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.06)}
+.tool-circle img{width:33px;height:33px;object-fit:contain}
+.eraser-button img{color:var(--text)}
+.eraser-button.active{outline:3px solid var(--text);outline-offset:2px}
+.delete-button{background:var(--control-bg,#eee7f1)}
+@media(max-width:700px){
+.drawing-page{gap:10px;padding:12px 10px 14px}
+.drawing-settings,.drawing-back{width:48px;height:48px;flex-basis:48px}
+.drawing-settings img{width:27px;height:27px}
+.drawing-back span{font-size:27px}
+.drawing-workspace{border-radius:18px}
+.drawing-controls{gap:9px;padding:8px 10px;border-radius:20px;max-width:100%}
+.color-row{gap:6px}
+.color-button{width:42px;height:42px;border-radius:11px}
+.tool-circle{width:50px;height:50px;flex-basis:50px}
+.tool-circle img{width:27px;height:27px}
+}
+@media(max-width:430px){
+.color-button{width:36px;height:36px;border-radius:10px}
+.tool-circle{width:44px;height:44px;flex-basis:44px}
+.drawing-controls{gap:6px}
+}
+
+.drawing-body{
+--drawing-paper:color-mix(in srgb,var(--page-bg) 24%,white 76%);
+}
+.drawing-body[data-theme="pink"]{--drawing-paper:#fff8f9}
+.drawing-body[data-theme="blue"]{--drawing-paper:#f7fbff}
+.drawing-body[data-theme="green"]{--drawing-paper:#f7fcf9}
+.drawing-body[data-theme="purple"]{--drawing-paper:#fbf8ff}
+.drawing-body[data-theme="beige"]{--drawing-paper:#fffaf2}
+
+/* Larger child-friendly drawing controls */
+.drawing-controls{
+  gap:24px;
+  padding:16px 26px;
+  border-radius:32px;
+  min-height:100px;
+}
+.color-row{gap:16px}
+.color-button{
+  width:70px;
+  height:70px;
+  border-radius:18px;
+  border-width:4px;
+}
+.tool-circle{
+  width:78px;
+  height:78px;
+  flex-basis:78px;
+}
+.tool-circle img{width:39px;height:39px}
+
+@media(max-width:700px){
+  .drawing-controls{
+    gap:12px;
+    padding:13px 15px;
+    min-height:82px;
+    border-radius:25px;
+  }
+  .color-row{gap:9px}
+  .color-button{width:54px;height:54px;border-radius:14px}
+  .tool-circle{width:60px;height:60px;flex-basis:60px}
+  .tool-circle img{width:31px;height:31px}
+}
+@media(max-width:430px){
+  .drawing-controls{gap:7px;padding:11px 9px;min-height:72px}
+  .color-row{gap:5px}
+  .color-button{width:44px;height:44px;border-radius:12px}
+  .tool-circle{width:50px;height:50px;flex-basis:50px}
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ارکید</title>
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/drawing.css">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class="drawing-body">
+<main class="drawing-page">
+<nav class="drawing-topbar">
+<a class="drawing-settings" href="./settings.html" aria-label="تنظیمات"><img src="images/ico/settings.png" alt=""></a>
+<a class="drawing-back" href="./education.html" aria-label="بازگشت"><span aria-hidden="true">←</span></a>
+</nav>
+<section class="drawing-workspace">
+<canvas id="drawingCanvas" aria-label="drawing canvas"></canvas>
+</section>
+<div class="drawing-controls" role="toolbar">
+<button class="tool-circle eraser-button" id="eraserButton" type="button" aria-label="پاک‌کن"><img src="images/ico/eraser-placeholder.svg" alt=""></button>
+<div class="color-row" aria-label="colors">
+<button class="color-button active" type="button" data-color="#2f3437" style="--swatch:#2f3437" aria-label="color"></button>
+<button class="color-button" type="button" data-color="#e26d6d" style="--swatch:#e26d6d" aria-label="color"></button>
+<button class="color-button" type="button" data-color="#e8c95d" style="--swatch:#e8c95d" aria-label="color"></button>
+<button class="color-button" type="button" data-color="#72b985" style="--swatch:#72b985" aria-label="color"></button>
+<button class="color-button" type="button" data-color="#6f9ed6" style="--swatch:#6f9ed6" aria-label="color"></button>
+</div>
+<button class="tool-circle delete-button" id="clearButton" type="button" aria-label="حذف"><img src="images/ico/mdi-light--delete.svg" alt=""></button>
+</div>
+</main>
+<script src="./js/drawing.js"></script>
+<script src="./js/pwa.js"></script>
+</body>
+</html>
