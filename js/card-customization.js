@@ -1,8 +1,3 @@
-document.body.dataset.theme = localStorage.getItem("aac-theme") || "pink";
-const brightness = localStorage.getItem("aac-brightness") || "100";
-document.documentElement.style.setProperty("--app-brightness", `${brightness}%`);
-document.body.style.filter = `brightness(${brightness}%)`;
-
 (() => {
     "use strict";
     const overlay = document.getElementById("cardEditorOverlay");
@@ -13,6 +8,8 @@ document.body.style.filter = `brightness(${brightness}%)`;
     const layoutButton = document.getElementById("toggleCardLayout");
     let activeCard = null;
     let pendingImage = null;
+    let pendingSpeech = null;
+    let pendingSource = null;
 
     function imageOnly() { return localStorage.getItem("orkid-card-image-only-mode") === "true"; }
     function applyImageOnly() {
@@ -40,13 +37,14 @@ document.body.style.filter = `brightness(${brightness}%)`;
         const img = document.createElement("img"); img.src=src; img.alt=alt; preview.appendChild(img);
     }
     function open(card) {
-        activeCard=card; pendingImage=null;
+        activeCard=card; pendingImage=null; pendingSpeech=null; pendingSource=null;
         const d=data(card); textInput.value=d.text; imageInput.value=""; showPreview(d.image,d.text);
-        overlay.hidden=false; document.body.classList.add("editor-open"); textInput.focus();
+        overlay.hidden=false; window.dispatchEvent(new Event("orkid-editor-open")); document.body.classList.add("editor-open"); textInput.focus();
     }
-    function close() { overlay.hidden=true; document.body.classList.remove("editor-open"); activeCard=null; pendingImage=null; form.reset(); }
+    function close() { document.getElementById("lessonPicker").hidden=true; overlay.hidden=true; document.body.classList.remove("editor-open"); activeCard=null; pendingImage=null; pendingSpeech=null; pendingSource=null; form.reset(); }
     function readImage(file) { return new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file); }); }
 
+    window.addEventListener("orkid-ai-image-selected",event=>{pendingImage=event.detail.image;showPreview(pendingImage,textInput.value.trim());});
     window.OrkidCardState?.apply();
     applyImageOnly(); layout();
 
@@ -70,11 +68,11 @@ document.body.style.filter = `brightness(${brightness}%)`;
         const label=activeCard.querySelector(".word-label");
         if(label) label.textContent=newText;
         activeCard.dataset.word=newText;
+        activeCard.dataset.speech=pendingSpeech || newText;
         let img=activeCard.querySelector(".image-placeholder img");
         if(newImage && !img){ img=document.createElement("img"); activeCard.querySelector(".image-placeholder")?.appendChild(img); }
         if(img && newImage){ img.src=newImage; img.alt=newText; }
-        window.OrkidCardState.patch(id,{text:newText,image:newImage,alt:newText,deleted:false});
-        close();
+        try { window.OrkidCardState.patch(id,{text:newText,image:newImage,alt:newText,speechText:pendingSpeech || newText,source:pendingSource || "custom",deleted:false}); close(); } catch(error) { alert("ذخیره کارت ممکن نشد. ممکن است حافظه مرورگر پر شده باشد."); console.error(error); }
     });
 
     document.getElementById("editorDelete").addEventListener("click", () => {
@@ -92,5 +90,44 @@ document.body.style.filter = `brightness(${brightness}%)`;
     document.getElementById("cardEditorClose").addEventListener("click",close);
     document.getElementById("editorCancel").addEventListener("click",close);
     document.getElementById("settingsButton")?.addEventListener("click",()=>location.href="./settings.html");
+    const picker=document.getElementById("lessonPicker");
+    const category=document.getElementById("lessonCategory");
+    const choices=document.getElementById("lessonChoices");
+    Object.entries(lessons).forEach(([key,lesson])=>{
+        const option=document.createElement("option");option.value=key;option.textContent=lesson.title;category.appendChild(option);
+    });
+    function showChoices(){
+        choices.replaceChildren();
+        lessons[category.value].items.forEach((item,index)=>{
+            const button=document.createElement("button");button.type="button";button.className="lesson-choice";button.dataset.lessonIndex=index;
+            const img=document.createElement("img");img.src=item.image;img.alt=item.speechText;
+            const label=document.createElement("span");label.textContent=item.label;
+            button.append(img,label);
+            button.addEventListener("click",()=>{
+                pendingImage=item.image;pendingSpeech=item.speechText;
+                window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail:{category:category.value,index,action:item.speechText}}));
+                pendingSource={category:category.value,index};
+                textInput.value=item.label;showPreview(item.image,item.speechText);
+                closePicker();
+            });choices.appendChild(button);
+        });
+    }
+    function openPicker(){
+        showChoices();
+        overlay.hidden=true;
+        picker.hidden=false;
+        document.body.classList.add("lesson-picker-open");
+        category.focus();
+    }
+    function closePicker(){
+        picker.hidden=true;
+        document.body.classList.remove("lesson-picker-open");
+        if(activeCard){ overlay.hidden=false; document.getElementById("openLessonPicker").focus(); }
+    }
+    document.getElementById("openLessonPicker").addEventListener("click",openPicker);
+    document.getElementById("closeLessonPicker").addEventListener("click",closePicker);
+    picker.addEventListener("click",event=>{if(event.target===picker)closePicker();});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!picker.hidden){event.preventDefault();closePicker();}});
+    category.addEventListener("change",showChoices);
     window.addEventListener("resize",layout);
 })();

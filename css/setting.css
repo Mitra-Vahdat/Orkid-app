@@ -755,3 +755,4 @@ body[data-theme="blue"] {
     }
 
 }
+@media(max-width:760px){html,body{max-width:100%;overflow-x:hidden}img{max-width:100%}button,input,select{max-width:100%}main,section{min-width:0}}

@@ -957,3 +957,5 @@ body {
 .selected-item-image{display:block;width:min(210px,100%);height:min(210px,24vh);object-fit:contain}
 .cards-image-only .sentence-word{font-size:0!important;color:transparent!important}
 .cards-image-only .selected-word{display:none!important}
+
+@media(max-width:760px){html,body{max-width:100%;overflow-x:hidden}button,a,input,select{touch-action:manipulation}.app{max-width:100%;min-width:0}.word-card{min-width:0}.sentence-bar{max-width:100%}}

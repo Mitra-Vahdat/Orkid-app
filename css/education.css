@@ -27,3 +27,5 @@ body.education-body{overflow:auto;min-height:100vh;background:var(--page-bg);col
 body.lesson-open{overflow:hidden}
 @media(max-width:950px){.education-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lesson-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}}
 @media(max-width:560px){.education-page{padding:14px 12px 20px}.education-settings{width:48px;height:48px;flex-basis:48px}.education-back{font-size:15px;padding:10px 14px}.education-grid{grid-template-columns:1fr;grid-auto-rows:minmax(240px,1fr);gap:12px}.topic-page{height:auto;min-height:100vh;overflow:auto}.lesson-grid{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:minmax(300px,68vh)}.lesson-card{min-height:300px}.lesson-viewer-close{top:14px;left:14px;width:52px;height:52px;font-size:34px}}
+
+@media(max-width:760px){html,body{max-width:100%;overflow-x:hidden}img{max-width:100%}button,input,select{max-width:100%}main,section{min-width:0}}

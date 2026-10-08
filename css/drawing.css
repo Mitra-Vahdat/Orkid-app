@@ -83,3 +83,5 @@ body.drawing-body{min-height:100vh;overflow:hidden;background:var(--page-bg);col
   .color-button{width:44px;height:44px;border-radius:12px}
   .tool-circle{width:50px;height:50px;flex-basis:50px}
 }
+
+@media(max-width:600px){.drawing-page{height:100dvh;gap:9px;padding:10px 8px 12px}.drawing-workspace{width:100%}.drawing-controls{width:100%;max-width:100%;gap:clamp(3px,1.5vw,8px);padding:9px 6px;min-height:68px;justify-content:space-evenly}.color-row{gap:clamp(3px,1vw,7px)}.color-button{width:clamp(35px,10vw,48px);height:clamp(35px,10vw,48px)}.tool-circle{width:clamp(40px,12vw,54px);height:clamp(40px,12vw,54px);flex-basis:clamp(40px,12vw,54px)}}

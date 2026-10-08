@@ -44,7 +44,8 @@
             }
             const label = card.querySelector(".word-label, :scope > span:not(.card-edit-label):not(.card-edit-button)");
             if (label && typeof saved.text === "string") label.textContent = saved.text;
-            if (typeof saved.text === "string") card.dataset.word = saved.text;
+            if (typeof saved.text === "string") card.dataset.word = saved.speechText || saved.text;
+            if (saved.speechText) card.dataset.speech = saved.speechText;
             const imageBox = card.querySelector(".image-placeholder");
             let image = imageBox?.querySelector("img");
             if (saved.image) {

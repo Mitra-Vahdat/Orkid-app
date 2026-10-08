@@ -94,7 +94,15 @@
 <div class="editor-image-preview-wrap"><div id="editorImagePreview" class="editor-image-preview"></div></div>
 <label class="editor-field"><span>متن کارت</span><input id="editorText" type="text" autocomplete="off"></label>
 <label class="editor-field"><span>تصویر کارت</span><input id="editorImage" type="file" accept="image/*"><small>تصویر انتخاب‌شده داخل حافظه مرورگر ذخیره می‌شود.</small></label>
-<div class="editor-actions"><button id="editorDelete" class="editor-delete" type="button">حذف کارت</button><div class="editor-actions-right"><button id="editorCancel" class="editor-cancel" type="button">انصراف</button><button class="editor-save" type="submit">اعمال تغییر</button></div></div>
+<button id="openLessonPicker" type="button" class="editor-save">انتخاب از کارت‌های آموزشی</button>
+<details id="aiPersonalizePanel" class="ai-personalize"><summary>✨ ساخت تصویر آموزشی با هوش مصنوعی</summary>
+<div class="ai-content"><p class="ai-hint">ابتدا از بخش «انتخاب از کارت‌های آموزشی» یک فعالیت را انتخاب کنید، سپس عکس فرد آشنا را وارد کنید.</p>
+<label class="ai-field">عکس فرد آشنا<input id="aiReference" type="file" accept="image/jpeg,image/png,image/webp"></label>
+<label class="ai-consent"><input id="aiConsent" type="checkbox"> با رضایت صاحب عکس، آن را برای پردازش به سرویس ابری ارسال می‌کنم.</label>
+<div class="ai-actions"><button id="aiPrepare" type="button">نمایش عکس مرجع</button><button id="aiGenerate" type="button">ساخت تصویر با AI</button></div>
+<p id="aiStatus" role="status" aria-live="polite"></p>
+<div id="aiPreviewArea" hidden><img id="aiPreview" alt="پیش‌نمایش تصویر"/><p id="aiPreviewNote"></p><button id="aiUseReference" type="button">استفاده از این تصویر در کارت</button></div></div></details><div class="editor-actions"><button id="editorDelete" class="editor-delete" type="button">حذف کارت</button><div class="editor-actions-right"><button id="editorCancel" class="editor-cancel" type="button">انصراف</button><button class="editor-save" type="submit">اعمال تغییر</button></div></div>
 </form></section></div>
-<script src="./js/card-state.js"></script><script src="./js/card-customization.js"></script><script src="./js/pwa.js"></script>
+<section id="lessonPicker" class="lesson-picker" hidden role="dialog" aria-modal="true"><div class="lesson-picker-panel"><button type="button" id="closeLessonPicker">بستن</button><h2>انتخاب کارت آموزشی</h2><select id="lessonCategory" aria-label="دسته‌بندی"></select><div id="lessonChoices" class="lesson-choices"></div></div></section>
+<script src="./js/ai-personalization.js"></script><script src="./js/card-state.js"></script><script src="./js/education.js"></script><script src="./js/card-customization.js"></script><script src="./js/pwa.js"></script>
 </body></html>

@@ -70,7 +70,7 @@ updateSidebarLayout();
 
 document.querySelectorAll(".word-card.image-card[data-card-id]").forEach(card => {
     card.addEventListener("click", () => {
-        const word = card.dataset.word || "";
+        const word = card.dataset.speech || card.dataset.word || "";
         addItem(word, getCardImage(card));
         speakText(word);
     });
@@ -93,3 +93,5 @@ document.querySelector('.control-button[aria-label="حذف"]')?.addEventListener
 document.getElementById("educationButton")?.addEventListener("click", () => location.href = "./education.html");
 document.getElementById("settingsButton")?.addEventListener("click", () => location.href = "./settings.html");
 window.addEventListener("resize", updateSidebarLayout);
+
+document.getElementById("historyButton")?.addEventListener("click",()=>location.href="./drawing.html");
