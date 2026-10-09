@@ -14,7 +14,7 @@ function updateSidebarLayout() {
         const columns = count <= 1 ? 1 : 2;
         const rows = Math.max(1, Math.ceil(count / columns));
         grid.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
-        grid.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
+        grid.style.gridTemplateRows = window.matchMedia("(orientation: landscape) and (max-height: 700px) and (max-width: 1250px)").matches ? "none" : `repeat(${rows}, minmax(0, 1fr))`;
     });
 }
 

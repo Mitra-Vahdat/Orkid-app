@@ -24,7 +24,7 @@
             const cols = n <= 1 ? 1 : 2;
             grid.style.setProperty("--card-columns", cols);
             grid.style.gridTemplateColumns = `repeat(${cols},minmax(0,1fr))`;
-            if (window.matchMedia("(max-width: 800px)").matches) {
+            if (window.matchMedia("(max-width: 800px), (orientation: landscape) and (max-height: 700px) and (max-width: 1250px)").matches) {
                 grid.style.gridTemplateRows = "none";
                 grid.style.gridAutoRows = "auto";
             } else {
@@ -50,7 +50,7 @@
         document.body.classList.add("editor-open");
         document.querySelector(".card-editor-modal")?.scrollTo(0,0);
         // Mobile keyboards can shrink the visual viewport: don't auto-activate it.
-        if (!window.matchMedia("(max-width: 800px)").matches) textInput.focus({preventScroll:true});
+        if (!window.matchMedia("(max-width: 800px), (orientation: landscape) and (max-height: 700px) and (max-width: 1250px)").matches) textInput.focus({preventScroll:true});
     }
     function close() { document.getElementById("lessonPicker").hidden=true; overlay.hidden=true; document.body.classList.remove("editor-open","lesson-picker-open"); activeCard=null; pendingImage=null; pendingSpeech=null; pendingSource=null; form.reset(); }
     function readImage(file) { return new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file); }); }
