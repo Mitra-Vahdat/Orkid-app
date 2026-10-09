@@ -1,4 +1,4 @@
-const CACHE_NAME = "orkid-aac-v21";
+const CACHE_NAME = "orkid-aac-v22";
 const APP_SHELL = [
     "./index.html",
     "./drawing.html",

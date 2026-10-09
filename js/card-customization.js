@@ -10,6 +10,7 @@
     let pendingImage = null;
     let pendingSpeech = null;
     let pendingSource = null;
+    window.OrkidAiSelectedLesson = window.OrkidAiSelectedLesson || null;
 
     function imageOnly() { return localStorage.getItem("orkid-card-image-only-mode") === "true"; }
     function applyImageOnly() {
@@ -118,7 +119,9 @@
             button.append(img,label);
             button.addEventListener("click",()=>{
                 pendingImage=(img.getAttribute("src")||item.image);pendingSpeech=item.speechText;
-                window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail:{category:category.value,index,action:item.speechText}}));
+                const lessonDetail={category:category.value,index,action:item.speechText,label:item.label,image:(img.getAttribute("src")||item.image)};
+                window.OrkidAiSelectedLesson=lessonDetail;
+                window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail:lessonDetail}));
                 pendingSource={category:category.value,index};
                 textInput.value=item.label;showPreview(pendingImage,item.speechText);
                 closePicker();

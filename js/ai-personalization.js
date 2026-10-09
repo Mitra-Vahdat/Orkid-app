@@ -2,18 +2,42 @@
 'use strict';
 const $=id=>document.getElementById(id);
 let reference=null,candidate=null,selectedAction='';
+let selectedLesson=null;
 const status=s=>{$('aiStatus').textContent=s;};
 const setCandidate=(src,note)=>{candidate=src;$('aiPreview').src=src;$('aiPreviewNote').textContent=note;$('aiPreviewArea').hidden=false;};
-const reset=()=>{reference=null;candidate=null;selectedAction='';$('aiReference').value='';$('aiConsent').checked=false;$('aiPreviewArea').hidden=true;status('');};
+const reset=()=>{reference=null;candidate=null;selectedAction='';selectedLesson=null;window.OrkidAiSelectedLesson=null;$('aiReference').value='';$('aiConsent').checked=false;$('aiPreviewArea').hidden=true;status('');};
+async function urlToDataUrl(url){
+ const absolute=new URL(url, location.href).href;
+ const response=await fetch(absolute,{cache:'force-cache'});
+ if(!response.ok)throw new Error('بارگذاری تصویر کارت آموزشی انجام نشد.');
+ const blob=await response.blob();
+ if(!blob.type.startsWith('image/'))throw new Error('تصویر کارت آموزشی معتبر نیست.');
+ return await new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onload=()=>resolve(String(reader.result||''));
+  reader.onerror=()=>reject(new Error('خواندن تصویر کارت آموزشی ناموفق بود.'));
+  reader.readAsDataURL(blob);
+ });
+}
 window.addEventListener('orkid-editor-open',reset);
 window.addEventListener('orkid-lesson-selected',e=>{
- selectedAction=String(e.detail?.action||'').trim();
- status('فعالیت انتخاب‌شده: '+selectedAction+'. اکنون می‌توانید تصویر را تولید کنید.');
+ const detail=e.detail||{};
+ selectedLesson={
+  category:String(detail.category||''),
+  index:Number.isFinite(detail.index)?detail.index:Number(detail.index||0),
+  action:String(detail.action||'').trim(),
+  label:String(detail.label||detail.action||'').trim(),
+  image:String(detail.image||'').trim()
+ };
+ window.OrkidAiSelectedLesson=selectedLesson;
+ selectedAction=selectedLesson.action;
+ const categoryTitle=selectedLesson.category?` (${selectedLesson.category})`:'';
+ status('کارت آموزشی انتخاب شد: '+selectedAction+categoryTitle+'. اکنون می‌توانید عکس مرجع را آماده و تولید تصویر را اجرا کنید.');
 });
 const isOnline=()=>location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
 $('aiCheck').addEventListener('click',async()=>{
  if(!isOnline())return status('برای بررسی اتصال، سایت را روی Vercel باز کنید.');
- try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw Error('تابع API در Vercel یافت نشد.');const d=await r.json();status(d.ready?'کلید AvalAI و رمز والد روی سرور تعریف شده‌اند؛ اتصال واقعی با اولین درخواست تولید بررسی می‌شود.':'اتصال کامل نیست. کلید AvalAI و رمز والد را در تنظیمات Vercel وارد کنید.');}catch{status('امکان بررسی اتصال نیست. پروژه باید همراه پوشه api روی Vercel منتشر شود.');}
+ try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw Error('تابع API در Vercel یافت نشد.');const d=await r.json();status(d.ready?`اتصال اولیه برقرار است. مدل فعال: ${d.model}.`: 'اتصال کامل نیست. کلید AvalAI و رمز والد را در تنظیمات Vercel وارد کنید.');}catch{status('امکان بررسی اتصال نیست. پروژه باید همراه پوشه api روی Vercel منتشر شود.');}
 });
 $('aiPrepare').addEventListener('click',async()=>{
  const file=$('aiReference').files?.[0];
@@ -34,18 +58,21 @@ $('aiPrepare').addEventListener('click',async()=>{
 });
 $('aiGenerate').addEventListener('click',async()=>{
  if(!isOnline())return status('تولید تصویر فقط روی نسخه منتشرشده در Vercel فعال است.');
- const chosen=window.OrkidAiSelectedLesson;
+ const chosen=window.OrkidAiSelectedLesson||selectedLesson;
  const action=String(chosen?.action||selectedAction||'').trim();
- if(!action)return status('ابتدا «انتخاب از کارت‌های آموزشی» را بزنید و یک فعل از دسته افعال ۱ یا ۲ انتخاب کنید.');
+ if(!action)return status('ابتدا «انتخاب از کارت‌های آموزشی» را بزنید و یک فعل از دسته افعال ۱ یا «افعال ۲» انتخاب کنید.');
+ if(!chosen?.category || !/^verbs-/i.test(chosen.category))return status('برای شخصی‌سازی با هوش مصنوعی، فعلاً فقط یک کارت از دسته «افعال ۱» یا «افعال ۲» انتخاب کنید.');
+ if(!chosen?.image)return status('مسیر تصویر کارت آموزشی یافت نشد. دوباره کارت آموزشی را انتخاب کنید.');
  if(!reference)return status('ابتدا عکس مرجع را آماده کنید.');
  if(!$('aiConsent').checked)return status('رضایت صاحب عکس را تأیید کنید.');
  const key=$('aiParentKey').value.trim();if(!key)return status('رمز دسترسی والد را وارد کنید.');
- const button=$('aiGenerate');button.disabled=true;status('در حال ساخت تصویر…');
+ const button=$('aiGenerate');button.disabled=true;status('در حال ساخت تصویر بر اساس کارت آموزشی و چهره مرجع…');
  try{
-  const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Orkid-Parent-Key':key},body:JSON.stringify({image:reference,action,consent:true})});
+  const templateImage=await urlToDataUrl(chosen.image);
+  const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Orkid-Parent-Key':key},body:JSON.stringify({image:reference,templateImage,action,category:chosen.category,label:chosen.label,consent:true})});
   const result=await response.json();if(!response.ok)throw Error(result.error||'تولید تصویر ناموفق بود.');
   if(typeof result.image!=='string'||!result.image.startsWith('data:image/'))throw Error('پاسخ تصویر معتبر نیست.');
-  setCandidate(result.image,'خروجی هوش مصنوعی؛ ابتدا بررسی کنید، سپس آن را روی کارت اعمال کنید.');
+  setCandidate(result.image,'خروجی هوش مصنوعی؛ این بار با استفاده از کارت آموزشی انتخاب‌شده به‌عنوان الگوی ترکیب و استایل ساخته شده است.');
   status('تصویر جدید ساخته شد. پیش‌نمایش را بررسی کنید.');
  }catch(error){status('خطا: '+error.message);}finally{button.disabled=false;}
 });
