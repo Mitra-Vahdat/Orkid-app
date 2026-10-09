@@ -1,0 +1,60 @@
+/* Theme-consistent card editor, lesson picker and AI panel. Loaded after mobile rules. */
+body.card-customization-page {
+ --dialog-bg:var(--section-bg);
+ --dialog-card:var(--card-bg);
+ --dialog-border:var(--border);
+ --dialog-soft:var(--accent-soft);
+ --dialog-strong:var(--accent);
+ --dialog-ink:var(--text);
+ --dialog-muted:color-mix(in srgb,var(--text) 65%,var(--section-bg));
+}
+.card-editor-modal,.lesson-picker-panel {
+ background:var(--dialog-bg)!important;
+ color:var(--dialog-ink)!important;
+ border:1px solid var(--dialog-border)!important;
+}
+.card-editor-header {background:var(--dialog-soft)!important;border-bottom:1px solid var(--dialog-border)!important;}
+.card-editor-form {background:var(--dialog-bg)!important;}
+.card-editor-close,#closeLessonPicker,.editor-cancel,.editor-save,.editor-delete,
+.lesson-picker-panel select,.editor-field input,#aiParentKey {
+ color:var(--dialog-ink)!important;
+ border-color:var(--dialog-border)!important;
+ background:var(--dialog-card)!important;
+}
+.card-editor-form small,.ai-hint,#aiPreviewNote {color:var(--dialog-muted)!important;}
+.ai-personalize {
+ background:var(--dialog-soft)!important;
+ color:var(--dialog-ink)!important;
+ border:1px solid var(--dialog-border)!important;
+}
+.ai-personalize summary {color:var(--dialog-ink)!important;}
+.ai-personalize summary::before {color:var(--dialog-ink)!important;}
+.ai-personalize .ai-content {background:transparent!important;color:var(--dialog-ink)!important;}
+.ai-personalize .ai-actions button,#aiUseReference {
+ color:var(--dialog-ink)!important;
+ background:var(--dialog-strong)!important;
+ border:1px solid var(--dialog-border)!important;
+}
+.ai-personalize .ai-actions button:first-child {
+ background:var(--dialog-card)!important;
+ color:var(--dialog-ink)!important;
+ border:1px solid var(--dialog-border)!important;
+}
+.ai-personalize .ai-actions button:hover,#aiUseReference:hover {filter:brightness(.97);}
+#aiPreview {border-color:var(--dialog-border)!important;background:var(--dialog-bg)!important;}
+#aiStatus {color:var(--dialog-ink)!important;}
+.editor-field input[type=text],.editor-field input[type=file],
+.lesson-picker-panel select {background:var(--dialog-bg)!important;color:var(--dialog-ink)!important;}
+.lesson-choice {background:var(--dialog-card)!important;color:var(--dialog-ink)!important;border-color:var(--dialog-border)!important;}
+.lesson-picker-panel h2 {color:var(--dialog-ink)!important;}
+.education-picker-trigger,.education-picker-icon {border-color:var(--dialog-border)!important;}
+.education-picker-trigger {background:var(--dialog-card)!important;color:var(--dialog-ink)!important;}
+.education-picker-icon {background:var(--dialog-bg)!important;}
+#closeLessonPicker {min-height:44px!important;}
+.customization-toolbar {background:var(--dialog-bg)!important;border-bottom:1px solid var(--dialog-border)!important;}
+.customization-title {color:var(--dialog-ink)!important;}
+.customization-save,.customization-layout {border-color:var(--dialog-border)!important;background:var(--dialog-card)!important;color:var(--dialog-ink)!important;}
+@media(orientation:landscape) and (max-height:700px){
+ .ai-personalize .ai-actions {grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+ .ai-personalize .ai-actions button {white-space:normal;min-width:0;}
+}

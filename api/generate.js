@@ -9,7 +9,23 @@ const ACTIONS = Object.freeze({
  'بده':'handing over an object','بگیر':'receiving an object',
  'بازی کن':'playing with toys','بخوان':'reading a book','بنویس':'writing on paper',
  'باز کن':'opening a door','ببند':'closing a door','نگاه کن':'looking at an object',
- 'گوش کن':'listening carefully','کمک کن':'helping a person'
+ 'گوش کن':'listening carefully','کمک کن':'helping a person',
+ // Current verb cards in education/verbs-1
+ 'اجازه گرفتن':'politely asking for permission with one hand raised',
+ 'فوت کردن':'blowing air gently, as if blowing bubbles',
+ 'مسواک زدن':'brushing their teeth with a toothbrush',
+ 'غذا خوردن':'eating a meal with a spoon',
+ 'بغل کردن':'hugging a loved one',
+ 'خندیدن':'laughing happily',
+ 'گوش دادن':'listening attentively',
+ 'اشاره کردن':'pointing at an object',
+ 'دعا کردن':'praying peacefully',
+ 'داد زدن':'shouting with their mouth open',
+ 'خوابیدن':'sleeping peacefully in a bed',
+ 'تاب بازی':'swinging on a playground swing',
+ 'تلفن کردن':'talking on a phone',
+ 'دستشویی رفتن':'walking to the bathroom door',
+ 'نوشتن':'writing on paper with a pen'
 });
 const MAX_BODY = 800_000;
 function reply(res, status, body){ return res.status(status).json(body); }
@@ -38,7 +54,7 @@ export default async function handler(req,res){
  const body=req.body && typeof req.body==='object' ? req.body : {};
  const {image,action,consent}=body;
  if(consent!==true)return reply(res,400,{error:'رضایت صاحب عکس باید تأیید شود.'});
- if(typeof action!=='string'||!Object.hasOwn(ACTIONS,action))return reply(res,422,{error:'یک کارت از دسته افعال آموزشی انتخاب کنید.'});
+ if(typeof action!=='string'||!Object.hasOwn(ACTIONS,action))return reply(res,422,{error:'فعالیت انتخاب‌شده برای تولید تصویر پشتیبانی نمی‌شود. لطفاً از بخش افعال ۱ یا افعال ۲ یک فعالیت انتخاب کنید.'});
  if(typeof image!=='string'||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image)||image.length>650_000)return reply(res,413,{error:'عکس JPEG معتبر با حجم کمتر انتخاب کنید.'});
  const raw=Buffer.from(image.slice(image.indexOf(',')+1),'base64');
  if(raw.length>480_000||raw.length<100||raw[0]!==0xff||raw[1]!==0xd8)return reply(res,422,{error:'داده عکس JPEG معتبر نیست.'});

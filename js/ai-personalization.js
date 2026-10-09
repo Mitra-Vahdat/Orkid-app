@@ -6,7 +6,10 @@ const status=s=>{$('aiStatus').textContent=s;};
 const setCandidate=(src,note)=>{candidate=src;$('aiPreview').src=src;$('aiPreviewNote').textContent=note;$('aiPreviewArea').hidden=false;};
 const reset=()=>{reference=null;candidate=null;selectedAction='';$('aiReference').value='';$('aiConsent').checked=false;$('aiPreviewArea').hidden=true;status('');};
 window.addEventListener('orkid-editor-open',reset);
-window.addEventListener('orkid-lesson-selected',e=>{selectedAction=e.detail.action;status('کارت انتخاب‌شده: '+selectedAction);});
+window.addEventListener('orkid-lesson-selected',e=>{
+ selectedAction=String(e.detail?.action||'').trim();
+ status('فعالیت انتخاب‌شده: '+selectedAction+'. اکنون می‌توانید تصویر را تولید کنید.');
+});
 const isOnline=()=>location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
 $('aiCheck').addEventListener('click',async()=>{
  if(!isOnline())return status('برای بررسی اتصال، سایت را روی Vercel باز کنید.');
@@ -31,13 +34,15 @@ $('aiPrepare').addEventListener('click',async()=>{
 });
 $('aiGenerate').addEventListener('click',async()=>{
  if(!isOnline())return status('تولید تصویر فقط روی نسخه منتشرشده در Vercel فعال است.');
- if(!selectedAction)return status('از دسته افعال ۱ یا افعال ۲ یک کارت آموزشی انتخاب کنید.');
+ const chosen=window.OrkidAiSelectedLesson;
+ const action=String(chosen?.action||selectedAction||'').trim();
+ if(!action)return status('ابتدا «انتخاب از کارت‌های آموزشی» را بزنید و یک فعل از دسته افعال ۱ یا ۲ انتخاب کنید.');
  if(!reference)return status('ابتدا عکس مرجع را آماده کنید.');
  if(!$('aiConsent').checked)return status('رضایت صاحب عکس را تأیید کنید.');
  const key=$('aiParentKey').value.trim();if(!key)return status('رمز دسترسی والد را وارد کنید.');
  const button=$('aiGenerate');button.disabled=true;status('در حال ساخت تصویر…');
  try{
-  const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Orkid-Parent-Key':key},body:JSON.stringify({image:reference,action:selectedAction,consent:true})});
+  const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Orkid-Parent-Key':key},body:JSON.stringify({image:reference,action,consent:true})});
   const result=await response.json();if(!response.ok)throw Error(result.error||'تولید تصویر ناموفق بود.');
   if(typeof result.image!=='string'||!result.image.startsWith('data:image/'))throw Error('پاسخ تصویر معتبر نیست.');
   setCandidate(result.image,'خروجی هوش مصنوعی؛ ابتدا بررسی کنید، سپس آن را روی کارت اعمال کنید.');

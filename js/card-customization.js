@@ -43,6 +43,7 @@
         const img = document.createElement("img"); img.src=src; img.alt=alt; preview.appendChild(img);
     }
     function open(card) {
+        window.OrkidAiSelectedLesson=null;
         activeCard=card; pendingImage=null; pendingSpeech=null; pendingSource=null;
         const d=data(card); textInput.value=d.text; imageInput.value=""; showPreview(d.image,d.text);
         overlay.hidden=false;
@@ -118,7 +119,9 @@
             button.append(img,label);
             button.addEventListener("click",()=>{
                 pendingImage=(img.getAttribute("src")||item.image);pendingSpeech=item.speechText;
-                window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail:{category:category.value,index,action:item.speechText}}));
+                const detail={category:category.value,index,action:item.speechText,label:item.label};
+                window.OrkidAiSelectedLesson=detail;
+                window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail}));
                 pendingSource={category:category.value,index};
                 textInput.value=item.label;showPreview(pendingImage,item.speechText);
                 closePicker();
