@@ -153,19 +153,7 @@ voiceButtons.forEach(button => {
 
 });
 
-if (backButton) {
-
-    backButton.addEventListener(
-        "click",
-        function () {
-
-            window.location.href =
-                "./index.html";
-
-        }
-    );
-
-}
+// Back navigation is managed by navigation.js.
 
 if (customizeCards) {
 
@@ -193,3 +181,4 @@ if (brightnessSlider) {
 applyBrightness(savedBrightness);
 
 applyVoice(savedVoice);
+const themeDialog=document.getElementById("themeDialog");document.getElementById("openThemeDialog")?.addEventListener("click",()=>themeDialog.hidden=false);document.getElementById("closeThemeDialog")?.addEventListener("click",()=>themeDialog.hidden=true);themeDialog?.addEventListener("click",e=>{if(e.target===themeDialog)themeDialog.hidden=true});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&themeDialog)themeDialog.hidden=true});themeButtons.forEach(b=>b.addEventListener("click",()=>themeDialog.hidden=true));

@@ -61,43 +61,20 @@
                     رنگ مورد علاقه‌ات را انتخاب کن
                 </p>
 
-                <div class="theme-options">
-
-                    <button
-                        class="theme-button theme-pink active"
-                        data-theme="pink"
-                        aria-label="تم صورتی"
-                    >
-                        <span></span>
-                    </button>
-
-                    <button
-                        class="theme-button theme-green"
-                        data-theme="green"
-                        aria-label="تم سبز"
-                    >
-                        <span></span>
-                    </button>
-
-                    <button
-                        class="theme-button theme-yellow"
-                        data-theme="yellow"
-                        aria-label="تم زرد"
-                    >
-                        <span></span>
-                    </button>
-
-                    <button
-                        class="theme-button theme-blue"
-                        data-theme="blue"
-                        aria-label="تم آبی"
-                    >
-                        <span></span>
-                    </button>
-
-                </div>
-
-            </section>
+                <button type="button" id="openThemeDialog" class="theme-open-button" aria-haspopup="dialog">🎨 انتخاب رنگ صفحه</button>
+<div id="themeDialog" class="theme-dialog" hidden>
+ <div class="theme-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="themeDialogTitle">
+  <div class="theme-dialog-head"><h2 id="themeDialogTitle">انتخاب تم</h2><button type="button" id="closeThemeDialog" aria-label="بستن پنجره">✕</button></div>
+  <div class="theme-options">
+   <button type="button" class="theme-button theme-pink" data-theme="pink" aria-label="صورتی"><span></span><small>صورتی</small></button>
+   <button type="button" class="theme-button theme-green" data-theme="green" aria-label="سبز"><span></span><small>سبز</small></button>
+   <button type="button" class="theme-button theme-yellow" data-theme="yellow" aria-label="زرد"><span></span><small>زرد</small></button>
+   <button type="button" class="theme-button theme-blue" data-theme="blue" aria-label="آبی"><span></span><small>آبی</small></button>
+   <button type="button" class="theme-button theme-purple" data-theme="purple" aria-label="بنفش پاستلی"><span></span><small>بنفش پاستلی</small></button>
+  </div>
+ </div>
+</div>
+</section>
 
             <section class="setting-section">
 
@@ -211,14 +188,23 @@
                 </button>
 
             </section>
-
+            <section class="setting-section">
+              <h2>افزودن کارت</h2>
+              <p class="setting-description">برای هر ردیف به‌صورت جداگانه کارت اضافه کنید.</p>
+              <div class="add-card-options">
+                <button type="button" class="add-card-row" data-side="left">＋ افزودن کارت به ردیف افراد</button>
+                <button type="button" class="add-card-row" data-side="right">＋ افزودن کارت به ردیف نیازها</button>
+              </div>
+              <p id="addCardMessage" role="status" aria-live="polite"></p>
+            </section>
         </section>
 
     </main>
 
     <script src="./js/setting.js"></script>
+<script src="./js/card-additions.js"></script>
 
     <script src="./js/pwa.js"></script>
-</body>
+<script src="./js/navigation.js"></script></body>
 
 </html>

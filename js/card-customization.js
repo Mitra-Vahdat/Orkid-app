@@ -47,6 +47,8 @@
     window.addEventListener("orkid-ai-image-selected",event=>{pendingImage=event.detail.image;showPreview(pendingImage,textInput.value.trim());});
     window.OrkidCardState?.apply();
     applyImageOnly(); layout();
+    const requestedId=new URLSearchParams(location.search).get("edit");
+    if(requestedId){const requested=[...document.querySelectorAll(".word-card[data-card-id]")].find(c=>c.dataset.cardId===requestedId);if(requested)requestAnimationFrame(()=>open(requested));}
 
     document.addEventListener("click", e => {
         const edit=e.target.closest(".card-edit-button");
@@ -129,5 +131,6 @@
     picker.addEventListener("click",event=>{if(event.target===picker)closePicker();});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!picker.hidden){event.preventDefault();closePicker();}});
     category.addEventListener("change",showChoices);
+    document.addEventListener("orkid-added-cards-rendered",()=>{layout();const id=new URLSearchParams(location.search).get("edit");if(id){const card=[...document.querySelectorAll(".word-card[data-card-id]")].find(c=>c.dataset.cardId===id);if(card)open(card);}});
     window.addEventListener("resize",layout);
 })();

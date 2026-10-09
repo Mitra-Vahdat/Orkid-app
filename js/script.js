@@ -68,12 +68,11 @@ function speakText(text) {
 window.OrkidCardState?.apply();
 updateSidebarLayout();
 
-document.querySelectorAll(".word-card.image-card[data-card-id]").forEach(card => {
-    card.addEventListener("click", () => {
-        const word = card.dataset.speech || card.dataset.word || "";
-        addItem(word, getCardImage(card));
-        speakText(word);
-    });
+document.addEventListener("click", event => {
+ const card=event.target.closest(".word-card.image-card[data-card-id]");
+ if(!card)return;
+ const word=card.dataset.speech || card.dataset.word || "";
+ addItem(word,getCardImage(card));speakText(word);
 });
 
 document.querySelectorAll(".sentence-word[data-word]").forEach(button => {
@@ -95,3 +94,5 @@ document.getElementById("settingsButton")?.addEventListener("click", () => locat
 window.addEventListener("resize", updateSidebarLayout);
 
 document.getElementById("historyButton")?.addEventListener("click",()=>location.href="./drawing.html");
+
+document.addEventListener("orkid-added-cards-rendered",updateSidebarLayout);
