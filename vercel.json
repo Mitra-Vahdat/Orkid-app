@@ -1,1 +1,23 @@
-{"version":2,"headers":[{"source":"/api/(.*)","headers":[{"key":"Cache-Control","value":"no-store"},{"key":"X-Content-Type-Options","value":"nosniff"}]}]}
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/generate.js": {
+      "maxDuration": 300
+    }
+  }
+}

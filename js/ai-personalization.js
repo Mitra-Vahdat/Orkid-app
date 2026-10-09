@@ -66,7 +66,7 @@ $('aiGenerate').addEventListener('click',async()=>{
  if(!reference)return status('ابتدا عکس مرجع را آماده کنید.');
  if(!$('aiConsent').checked)return status('رضایت صاحب عکس را تأیید کنید.');
  const key=$('aiParentKey').value.trim();if(!key)return status('رمز دسترسی والد را وارد کنید.');
- const button=$('aiGenerate');button.disabled=true;status('در حال ساخت تصویر بر اساس کارت آموزشی و چهره مرجع…');
+ const button=$('aiGenerate');button.disabled=true;status('در حال ساخت تصویر بر اساس کارت آموزشی و چهره مرجع… این مرحله ممکن است چند دقیقه طول بکشد؛ صفحه را نبندید.');
  try{
   const templateImage=await urlToDataUrl(chosen.image);
   const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Orkid-Parent-Key':key},body:JSON.stringify({image:reference,templateImage,action,category:chosen.category,label:chosen.label,consent:true})});

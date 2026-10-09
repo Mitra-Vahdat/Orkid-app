@@ -101,7 +101,7 @@ function authorized(req){
   return Boolean(secret&&secret.length>=16&&matchKey(req.headers['x-orkid-parent-key'],secret));
 }
 function configured(){return Boolean(process.env.AVALAI_API_KEY?.trim());}
-const model=()=>process.env.AVALAI_IMAGE_MODEL?.trim()||'gpt-image-2.5-sunburst';
+const model=()=>process.env.AVALAI_IMAGE_MODEL?.trim()||'gpt-image-2.5-flare';
 function errorForStatus(status){
   if(status===401||status===403)return 'کلید AvalAI معتبر نیست یا حساب به این مدل دسترسی ندارد.';
   if(status===402)return 'اعتبار حساب AvalAI برای این درخواست کافی نیست.';
@@ -176,13 +176,15 @@ export default async function handler(req,res){
     return respond(res,422,{error:'تصویر مرجع یا تصویر کارت آموزشی معتبر نیست.'});
   }
   const prompt=buildPrompt(action,label);
-  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),60000);
+  // Allow slow image edits time to finish under Vercel Fluid Compute (Hobby max 300s).
+  // Abort before Vercel does, so clients receive a useful error instead of an opaque 504.
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),240000);
   try{
     const payload={
       model:model(),
       prompt,
       size:OUTPUT_SIZE,
-      quality:'xhigh',
+      quality:'high',
       output_format:'png',
       images:[
         { image_url: template.dataUrl },
@@ -205,6 +207,6 @@ export default async function handler(req,res){
     return respond(res,200,{image:`data:${mediaType(output)};base64,${output.toString('base64')}`,model:model()});
   }catch(error){
     console.error('AvalAI image edit error',error?.name,error?.message);
-    return respond(res,502,{error:error?.name==='AbortError'?'پاسخ AvalAI دیر رسید؛ دوباره تلاش کنید یا محدودیت زمانی Vercel را بررسی کنید.':'دریافت تصویر از AvalAI انجام نشد؛ لاگ تابع را بررسی کنید.'});
+    return respond(res,502,{error:error?.name==='AbortError'?'پاسخ AvalAI بیش از ۴ دقیقه طول کشید. وضعیت Fluid Compute و مدل تصویر را در Vercel بررسی کنید. برای مدل سریع‌تر، gpt-image-2.5-flare را انتخاب کنید؛ درخواست ناموفق را بدون بررسی مصرف حساب تکرار نکنید.':'دریافت تصویر از AvalAI انجام نشد؛ لاگ تابع را بررسی کنید.'});
   }finally{clearTimeout(timeout);}
 }
