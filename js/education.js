@@ -36,12 +36,16 @@ if(grid){
         button.addEventListener("click",()=>{
             viewerImage.src=item.image;viewerImage.alt=item.speechText;
             viewerText.textContent=item.label;
-            viewer.hidden=false;document.body.classList.add("lesson-open");
+            viewer.hidden=false;
+            viewer.removeAttribute("hidden");
+            viewer.classList.add("is-open");
+            viewer.setAttribute("aria-hidden","false");
+            document.body.classList.add("lesson-open");
             speak(item.speechText);
         });
         grid.appendChild(button);
     });
-    const closeViewer=()=>{viewer.hidden=true;document.body.classList.remove("lesson-open");speechSynthesis?.cancel();};
+    const closeViewer=()=>{viewer.hidden=true;viewer.setAttribute("hidden","");viewer.classList.remove("is-open");viewer.setAttribute("aria-hidden","true");document.body.classList.remove("lesson-open");speechSynthesis?.cancel();};
     close.addEventListener("click",closeViewer);
     viewer.addEventListener("click",e=>{if(e.target===viewer)closeViewer();});
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!viewer.hidden)closeViewer();});

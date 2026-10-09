@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
 
 html{background:var(--page-bg)}
 body.education-body{overflow:auto;min-height:100vh;background:var(--page-bg);color:var(--text)}
@@ -31,3 +32,55 @@ body.lesson-open{overflow:hidden}
 @media(max-width:760px){html,body{max-width:100%;overflow-x:hidden}img{max-width:100%}button,input,select{max-width:100%}main,section{min-width:0}}
 
 @media(max-width:760px){.topic-page{height:auto!important;min-height:100dvh;overflow:visible!important}.lesson-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:none!important;grid-auto-rows:minmax(185px,auto)!important;gap:12px!important;flex:initial!important}.lesson-card{min-height:185px!important;max-height:none!important;padding:10px!important}.lesson-card-image{height:135px!important;min-height:100px!important;flex:initial!important;width:100%;object-fit:contain!important}.lesson-card strong{font-size:clamp(15px,4vw,21px)!important;white-space:normal;overflow-wrap:anywhere}.education-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:minmax(175px,auto)!important}.education-card{min-height:175px!important}.education-card-image{min-height:100px}.education-card-copy strong{font-size:clamp(16px,4vw,23px)}}@media(max-width:350px){.lesson-grid,.education-grid{grid-template-columns:1fr!important}}
+
+/* Education typography and fullscreen viewer reinforcement */
+body.education-body,
+body.education-body *,
+.education-page,
+.topic-page,
+.lesson-viewer,
+.lesson-viewer *{
+    font-family:"Vazirmatn",sans-serif !important;
+}
+
+.lesson-viewer[hidden]{
+    display:none !important;
+}
+.lesson-viewer{
+    position:fixed !important;
+    inset:0 !important;
+    z-index:99999 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    display:grid !important;
+    grid-template-rows:auto minmax(0,1fr) auto !important;
+    align-items:center !important;
+    justify-items:center !important;
+    padding:12px 14px 18px !important;
+    box-sizing:border-box !important;
+    background:rgba(255,255,255,.96) !important;
+    backdrop-filter:blur(4px);
+}
+.lesson-viewer img{
+    width:min(96vw,1180px) !important;
+    height:min(calc(100dvh - 128px),82vh) !important;
+    max-width:96vw !important;
+    max-height:calc(100dvh - 128px) !important;
+    object-fit:contain !important;
+    border-radius:22px !important;
+    margin:0 auto !important;
+}
+.lesson-viewer-text{
+    width:100% !important;
+    text-align:center !important;
+    font-size:clamp(24px,5dvh,42px) !important;
+    line-height:1.2 !important;
+    padding:0 14px 6px !important;
+}
+.lesson-viewer-close{
+    position:fixed !important;
+    top:12px !important;
+    left:12px !important;
+    z-index:100000 !important;
+}

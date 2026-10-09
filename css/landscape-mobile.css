@@ -167,3 +167,128 @@
   .lesson-choice {min-height:100px!important;}
   .drawing-page {grid-template-rows:35px minmax(0,1fr) auto!important;}
 }
+
+
+/* Round 2 mobile-landscape fixes */
+@media (orientation: landscape) and (max-height: 700px) and (max-width: 1250px){
+  /* Education categories: 3 cards per row */
+  .education-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    grid-auto-rows:minmax(146px,1fr) !important;
+    gap:10px !important;
+  }
+  .education-card{
+    min-height:146px !important;
+    height:auto !important;
+  }
+  .education-card-image{
+    min-height:82px !important;
+  }
+  .education-card-copy strong{
+    font-size:clamp(15px,2.8dvh,24px) !important;
+  }
+  .education-card-copy span{
+    font-size:clamp(11px,2.15dvh,16px) !important;
+  }
+
+  /* Topic cards keep roomy desktop-like layout */
+  .lesson-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    grid-auto-rows:minmax(132px,1fr) !important;
+    gap:8px !important;
+  }
+
+  /* Full-screen viewer on category-card click */
+  .lesson-viewer{
+    padding:8px 10px 14px !important;
+    grid-template-rows:auto minmax(0,1fr) auto !important;
+  }
+  .lesson-viewer img{
+    width:min(95vw,1100px) !important;
+    height:min(calc(100dvh - 110px),84vh) !important;
+    max-height:calc(100dvh - 110px) !important;
+  }
+  .lesson-viewer-text{
+    font-size:clamp(20px,5.2dvh,32px) !important;
+    padding-bottom:4px !important;
+  }
+  .lesson-viewer-close{
+    width:44px !important;
+    height:44px !important;
+    font-size:26px !important;
+  }
+
+  /* Main-page middle buttons and delete button */
+  .center-section{
+    display:grid !important;
+    grid-template-rows:minmax(0,1fr) auto auto !important;
+    align-content:stretch !important;
+    overflow:hidden !important;
+  }
+  .main-content{
+    order:1 !important;
+    min-height:0 !important;
+    height:100% !important;
+    overflow:auto !important;
+  }
+  .sentence-bar{
+    order:2 !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+    gap:8px !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:78px !important;
+    padding:10px 12px !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+  }
+  .sentence-word{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:58px !important;
+    height:auto !important;
+    padding:8px 4px !important;
+    border-radius:20px !important;
+    font-size:clamp(14px,3dvh,22px) !important;
+    line-height:1.15 !important;
+    white-space:normal !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+  }
+  .bottom-controls{
+    order:3 !important;
+    width:100% !important;
+    min-height:96px !important;
+    padding:10px 0 14px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+  }
+  .bottom-controls .control-button{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:auto !important;
+    min-width:0 !important;
+    padding:0 !important;
+    margin:0 auto !important;
+  }
+  .bottom-controls .control-circle{
+    width:72px !important;
+    height:72px !important;
+    min-width:72px !important;
+    min-height:72px !important;
+    margin:0 auto !important;
+  }
+  .bottom-controls .control-circle img{
+    width:42px !important;
+    height:42px !important;
+  }
+}
