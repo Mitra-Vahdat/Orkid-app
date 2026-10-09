@@ -181,4 +181,11 @@ if (brightnessSlider) {
 applyBrightness(savedBrightness);
 
 applyVoice(savedVoice);
-const themeDialog=document.getElementById("themeDialog");document.getElementById("openThemeDialog")?.addEventListener("click",()=>themeDialog.hidden=false);document.getElementById("closeThemeDialog")?.addEventListener("click",()=>themeDialog.hidden=true);themeDialog?.addEventListener("click",e=>{if(e.target===themeDialog)themeDialog.hidden=true});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&themeDialog)themeDialog.hidden=true});themeButtons.forEach(b=>b.addEventListener("click",()=>themeDialog.hidden=true));
+const themeDialog=document.getElementById("themeDialog");
+const themeTrigger=document.getElementById("openThemeDialog");
+const dismissTheme=()=>{if(!themeDialog)return;themeDialog.hidden=true;themeTrigger?.focus({preventScroll:true});};
+themeTrigger?.addEventListener("click",()=>{if(themeDialog){themeDialog.hidden=false;document.getElementById("closeThemeDialog")?.focus({preventScroll:true});}});
+document.getElementById("closeThemeDialog")?.addEventListener("click",dismissTheme);
+themeDialog?.addEventListener("click",e=>{if(e.target===themeDialog)dismissTheme()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!themeDialog?.hidden)dismissTheme()});
+themeButtons.forEach(b=>b.addEventListener("click",dismissTheme));

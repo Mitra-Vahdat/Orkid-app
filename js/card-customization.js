@@ -24,7 +24,13 @@
             const cols = n <= 1 ? 1 : 2;
             grid.style.setProperty("--card-columns", cols);
             grid.style.gridTemplateColumns = `repeat(${cols},minmax(0,1fr))`;
-            grid.style.gridTemplateRows = `repeat(${Math.max(1,Math.ceil(n/cols))},minmax(0,1fr))`;
+            if (window.matchMedia("(max-width: 800px)").matches) {
+                grid.style.gridTemplateRows = "none";
+                grid.style.gridAutoRows = "auto";
+            } else {
+                grid.style.gridTemplateRows = `repeat(${Math.max(1,Math.ceil(n/cols))},minmax(0,1fr))`;
+                grid.style.gridAutoRows = "";
+            }
         });
     }
     function data(card) {
@@ -39,9 +45,14 @@
     function open(card) {
         activeCard=card; pendingImage=null; pendingSpeech=null; pendingSource=null;
         const d=data(card); textInput.value=d.text; imageInput.value=""; showPreview(d.image,d.text);
-        overlay.hidden=false; window.dispatchEvent(new Event("orkid-editor-open")); document.body.classList.add("editor-open"); textInput.focus();
+        overlay.hidden=false;
+        window.dispatchEvent(new Event("orkid-editor-open"));
+        document.body.classList.add("editor-open");
+        document.querySelector(".card-editor-modal")?.scrollTo(0,0);
+        // Mobile keyboards can shrink the visual viewport: don't auto-activate it.
+        if (!window.matchMedia("(max-width: 800px)").matches) textInput.focus({preventScroll:true});
     }
-    function close() { document.getElementById("lessonPicker").hidden=true; overlay.hidden=true; document.body.classList.remove("editor-open"); activeCard=null; pendingImage=null; pendingSpeech=null; pendingSource=null; form.reset(); }
+    function close() { document.getElementById("lessonPicker").hidden=true; overlay.hidden=true; document.body.classList.remove("editor-open","lesson-picker-open"); activeCard=null; pendingImage=null; pendingSpeech=null; pendingSource=null; form.reset(); }
     function readImage(file) { return new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file); }); }
 
     window.addEventListener("orkid-ai-image-selected",event=>{pendingImage=event.detail.image;showPreview(pendingImage,textInput.value.trim());});
@@ -124,12 +135,12 @@
     function closePicker(){
         picker.hidden=true;
         document.body.classList.remove("lesson-picker-open");
-        if(activeCard){ overlay.hidden=false; document.getElementById("openLessonPicker").focus(); }
+        if(activeCard){ overlay.hidden=false; if(!window.matchMedia("(max-width: 800px)").matches) document.getElementById("openLessonPicker").focus({preventScroll:true}); }
     }
     document.getElementById("openLessonPicker").addEventListener("click",openPicker);
     document.getElementById("closeLessonPicker").addEventListener("click",closePicker);
     picker.addEventListener("click",event=>{if(event.target===picker)closePicker();});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!picker.hidden){event.preventDefault();closePicker();}});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){if(!picker.hidden){event.preventDefault();closePicker();}else if(!overlay.hidden){event.preventDefault();close();}}});
     category.addEventListener("change",showChoices);
     document.addEventListener("orkid-added-cards-rendered",()=>{layout();const id=new URLSearchParams(location.search).get("edit");if(id){const card=[...document.querySelectorAll(".word-card[data-card-id]")].find(c=>c.dataset.cardId===id);if(card)open(card);}});
     window.addEventListener("resize",layout);
