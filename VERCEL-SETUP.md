@@ -1,25 +1,30 @@
-# Orkid — Vercel + Cloudflare Workers AI (free allowance)
+# فعال‌سازی Cloudflare AI برای Orkid روی Vercel
 
-## Deploy
+## نصب و انتشار
 
-Upload `orkid_clean` as the repository root, or set Vercel Root Directory to `orkid_clean`.
-Framework Preset: Other. Do not specify a build command. Vercel deploys `api/generate.js` as a serverless function alongside static HTML files.
+- **پوشه `orkid_clean` را به عنوان ریشه پروژه در Vercel انتخاب کنید.** Framework preset: Other؛ بدون build command.
+- سرور داخل پوشه `api/` به‌صورت Vercel Function اجرا می‌شود؛ به سرور Python/SQLite نیاز نیست.
+- ابتدا یک حساب Cloudflare و توکن Workers AI بسازید (مجوز `Account > Workers AI > Read`).
+- در **Vercel → Project → Settings → Environment Variables** این سه مقدار را وارد کنید:
+  - `CLOUDFLARE_ACCOUNT_ID`: شناسه حساب Cloudflare
+  - `CLOUDFLARE_API_TOKEN`: توکن محرمانه Cloudflare Workers AI
+  - `ORKID_PARENT_ACCESS_KEY`: رمزی طولانی و تصادفی با حداقل ۱۶ نویسه که خودتان تعیین می‌کنید
+- پس از ثبت، پروژه را مجدداً Deploy کنید. **توکن Cloudflare را به‌هیچ‌وجه در کد مرورگر یا گفت‌وگو وارد نکنید.**
 
-## Cloudflare setup
+## آزمایش
 
-1. Create a Cloudflare account and enable Workers AI (subject to its current free quota).
-2. Find your Cloudflare Account ID in the dashboard.
-3. Create an API token with **Account > Workers AI > Read** permission.
-4. In Vercel Project Settings > Environment Variables, set:
-   - `CLOUDFLARE_ACCOUNT_ID` (Cloudflare account ID)
-   - `CLOUDFLARE_API_TOKEN` (secret token)
-5. Redeploy after saving variables.
+1. `https://YOUR-PROJECT.vercel.app/api/status` را باز کنید؛ باید `ready: true` باشد. این API رازها را برنمی‌گرداند.
+2. وارد صفحه شخصی‌سازی کارت شوید و یک کارت را برای ویرایش باز کنید.
+3. از «انتخاب از کارت‌های آموزشی» یک کارت از دسته افعال ۱ یا افعال ۲ انتخاب کنید.
+4. بخش «ساخت تصویر آموزشی با هوش مصنوعی» را باز کنید، عکس فرد دارای رضایت را انتخاب و روی «نمایش عکس مرجع» بزنید.
+5. رمز **`ORKID_PARENT_ACCESS_KEY`** را در فرم وارد کنید و رضایت را تأیید کنید؛ سپس «ساخت تصویر با AI» را بزنید.
+6. خروجی را بررسی کرده و در صورت رضایت روی «استفاده از این تصویر در کارت» و سپس «اعمال تغییر» بزنید.
 
-Model: `@cf/runwayml/stable-diffusion-v1-5-img2img` (beta). The serverless endpoint accepts an explicitly consented reference photo and an educational action, then returns a generated image. The photo is transmitted to Cloudflare only after pressing **Generate**; no image is stored by the endpoint. The current app saves accepted card images in browser localStorage. This is **not suitable for sensitive family images on shared devices**, and browser storage quotas may be exceeded.
+### محدودیت‌های مهم
 
-### Important limits
-
-* Image-to-image is **not** guaranteed to preserve identity. Verify model availability, quota, account eligibility and actual response format; no live API generation has been tested here.
-* The endpoint is unauthenticated for demo use and can be abused if the Vercel URL is public. Before public release, add parent accounts, authentication, per-user quotas, rate limits, anti-abuse, content moderation, privacy disclosures and a deletion policy. Never expose Cloudflare token in frontend code.
-* Browser `file://` mode cannot invoke `/api/generate`; deploy to Vercel for AI generation. Use `vercel dev` for local testing of the API.
-* Free quotas can change and may run out. A free Cloudflare account is required; this does not require an OpenAI API key.
+- مدل `@cf/runwayml/stable-diffusion-v1-5-img2img` است؛ حفظ دقیق هویت/چهره تضمین نمی‌شود. دسترسی و سهمیه Cloudflare ممکن است تغییر کند.
+- **آزمایش زنده** با حساب شما انجام نشده؛ برای آن باید مقادیر Environment Variables را در حساب خودتان تنظیم کنید.
+- رمز اشتراکی والد فقط حفاظ اولیه برای نمونه آزمایشی است و **کافی برای انتشار عمومی نیست**: برای انتشار عمومی، حساب کاربری والد، rate limiting سراسری، کنترل اعتبار و مالکیت، جلوگیری از سوءاستفاده، حریم خصوصی و سیاست حذف اضافه کنید.
+- تصویری که والد تأیید می‌کند فعلاً در localStorage مرورگر ذخیره می‌شود؛ این برای عکس حساس روی گوشی مشترک مناسب نیست و ممکن است سقف حافظه مرورگر پر شود. از ذخیره‌سازی امن مخصوص کاربر استفاده کنید.
+- این API عکس مرجع را در سرور ذخیره نمی‌کند، اما عکس برای تولید به Cloudflare ارسال می‌شود.
+- ارسال تصویر از حالت `file://` کار نمی‌کند؛ نسخه آنلاین روی Vercel را استفاده کنید.

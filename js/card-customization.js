@@ -113,14 +113,14 @@
         choices.replaceChildren();
         lessons[category.value].items.forEach((item,index)=>{
             const button=document.createElement("button");button.type="button";button.className="lesson-choice";button.dataset.lessonIndex=index;
-            const img=document.createElement("img");img.src=item.image;img.alt=item.speechText;
+            const img=document.createElement("img");orkidSetEducationImage(img,item);img.alt=item.speechText;
             const label=document.createElement("span");label.textContent=item.label;
             button.append(img,label);
             button.addEventListener("click",()=>{
-                pendingImage=item.image;pendingSpeech=item.speechText;
+                pendingImage=(img.getAttribute("src")||item.image);pendingSpeech=item.speechText;
                 window.dispatchEvent(new CustomEvent("orkid-lesson-selected",{detail:{category:category.value,index,action:item.speechText}}));
                 pendingSource={category:category.value,index};
-                textInput.value=item.label;showPreview(item.image,item.speechText);
+                textInput.value=item.label;showPreview(pendingImage,item.speechText);
                 closePicker();
             });choices.appendChild(button);
         });

@@ -600,3 +600,13 @@ body.editor-open {
 .education-picker-arrow{flex:0 0 auto;font-size:29px;line-height:1;color:var(--text,#385645);opacity:.7}
 @media(max-width:480px){.education-picker-trigger{min-height:72px;padding:10px;gap:9px;border-radius:15px}.education-picker-icon{width:44px;height:44px;flex-basis:44px;border-radius:12px}.education-picker-label strong{font-size:14px}.education-picker-label small{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.education-picker-trigger{transition:none}}
+
+/* Clearer AI controls on landscape phones and desktop */
+.ai-personalize .ai-field{display:grid;gap:7px;margin:9px 0;font-family:inherit;font-size:14px}
+.ai-personalize #aiParentKey{width:100%;min-height:44px;border:1px solid var(--border);border-radius:12px;background:var(--section-bg);padding:9px 12px;font:inherit;direction:ltr;text-align:left}
+.ai-personalize .ai-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ai-personalize .ai-actions button{min-height:46px;padding:8px;border-radius:12px;font:inherit;cursor:pointer}
+.ai-personalize .ai-actions button:disabled{opacity:.5;cursor:wait}
+.ai-personalize #aiStatus{min-height:20px;line-height:1.7;overflow-wrap:anywhere}
+@media(max-width:600px){.ai-personalize .ai-actions{grid-template-columns:1fr}}
+@media(orientation:landscape) and (max-height:700px){.ai-personalize .ai-actions{grid-template-columns:repeat(3,minmax(0,1fr));}.ai-personalize .ai-actions button{font-size:12px!important;padding:6px!important}}

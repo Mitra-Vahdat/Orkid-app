@@ -1,27 +1,79 @@
-// Vercel Node.js serverless function. Keep provider credentials in Vercel Environment Variables.
-const ACTIONS={"بخور":"eating food","بیا":"coming closer","برو":"walking","بخواب":"sleeping","بنشین":"sitting","بایست":"standing","بده":"giving an object","بگیر":"taking an object","بازی کن":"playing with toys","بخوان":"reading a book","بنویس":"writing","باز کن":"opening a door","ببند":"closing a door","نگاه کن":"looking","گوش کن":"listening","کمک کن":"helping someone"};
-const MODEL='@cf/runwayml/stable-diffusion-v1-5-img2img';
+// Orkid: private Vercel backend adapter for Cloudflare Workers AI.
+// Security: never send provider credentials to client. Parent access key is required.
+import { timingSafeEqual } from 'node:crypto';
+
+const MODEL = '@cf/runwayml/stable-diffusion-v1-5-img2img';
+const ACTIONS = Object.freeze({
+ 'بخور':'eating a meal', 'بیا':'walking toward the viewer','برو':'walking away',
+ 'بخواب':'sleeping peacefully','بنشین':'sitting on a chair','بایست':'standing upright',
+ 'بده':'handing over an object','بگیر':'receiving an object',
+ 'بازی کن':'playing with toys','بخوان':'reading a book','بنویس':'writing on paper',
+ 'باز کن':'opening a door','ببند':'closing a door','نگاه کن':'looking at an object',
+ 'گوش کن':'listening carefully','کمک کن':'helping a person'
+});
+const MAX_BODY = 800_000;
+function reply(res, status, body){ return res.status(status).json(body); }
+function equal(a,b){
+ if(typeof a!=='string'||typeof b!=='string')return false;
+ const aa=Buffer.from(a),bb=Buffer.from(b);
+ return aa.length===bb.length && timingSafeEqual(aa,bb);
+}
+function authorized(req){
+ const key=process.env.ORKID_PARENT_ACCESS_KEY;
+ if(!key||key.length<16)return false;
+ return equal(req.headers['x-orkid-parent-key'],key);
+}
+function configured(){return Boolean(process.env.CLOUDFLARE_ACCOUNT_ID&&process.env.CLOUDFLARE_API_TOKEN);}
 export default async function handler(req,res){
- res.setHeader('Cache-Control','no-store');
- if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});
- const origin=req.headers.origin;const host=req.headers.host;
- if(origin){try{if(new URL(origin).host!==host)return res.status(403).json({error:'Origin not allowed'});}catch{return res.status(403).json({error:'Invalid origin'});}}
- const {CLOUDFLARE_ACCOUNT_ID,CLOUDFLARE_API_TOKEN}=process.env;
- if(!CLOUDFLARE_ACCOUNT_ID||!CLOUDFLARE_API_TOKEN)return res.status(503).json({error:'Cloudflare AI is not configured in Vercel environment variables.'});
- const {image,action,consent}=req.body||{};
- if(consent!==true)return res.status(400).json({error:'Consent required'});
- if(typeof action!=='string'||!action.trim()||action.length>100)return res.status(400).json({error:'Invalid activity'});
- if(typeof image!=='string'||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image)||image.length>750000)return res.status(413).json({error:'Invalid or oversized reference image'});
- const prompt=`Child-friendly AAC educational illustration, an adult person resembling the supplied reference photo clearly ${ACTIONS[action]||'performing this activity: '+action.replace(/[^\p{L}\p{N} ]/gu,'')}, fully clothed, cheerful, simple solid pastel background, single subject, clean composition, no text, no lettering, square image`;
+ res.setHeader('Cache-Control','private, no-store, max-age=0');
+ res.setHeader('X-Content-Type-Options','nosniff');
+ if(req.method!=='POST')return reply(res,405,{error:'فقط درخواست POST پذیرفته می‌شود.'});
+ const origin=req.headers.origin;
+ const urlHost=req.headers['x-forwarded-host']||req.headers.host;
+ if(origin){try{if(new URL(origin).host!==urlHost)return reply(res,403,{error:'مبدأ درخواست معتبر نیست.'});}catch{return reply(res,403,{error:'مبدأ درخواست نامعتبر است.'});}}
+ if(!authorized(req))return reply(res,401,{error:'رمز دسترسی والد نادرست است یا روی Vercel تنظیم نشده.'});
+ if(!configured())return reply(res,503,{error:'متغیرهای Cloudflare در تنظیمات Vercel کامل نیستند.'});
+ const declared=Number(req.headers['content-length']||0);
+ if(declared>MAX_BODY)return reply(res,413,{error:'حجم درخواست زیاد است. عکس کوچک‌تر انتخاب کنید.'});
+ const body=req.body && typeof req.body==='object' ? req.body : {};
+ const {image,action,consent}=body;
+ if(consent!==true)return reply(res,400,{error:'رضایت صاحب عکس باید تأیید شود.'});
+ if(typeof action!=='string'||!Object.hasOwn(ACTIONS,action))return reply(res,422,{error:'یک کارت از دسته افعال آموزشی انتخاب کنید.'});
+ if(typeof image!=='string'||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image)||image.length>650_000)return reply(res,413,{error:'عکس JPEG معتبر با حجم کمتر انتخاب کنید.'});
+ const raw=Buffer.from(image.slice(image.indexOf(',')+1),'base64');
+ if(raw.length>480_000||raw.length<100||raw[0]!==0xff||raw[1]!==0xd8)return reply(res,422,{error:'داده عکس JPEG معتبر نیست.'});
+ const prompt=`Square child-friendly educational AAC picture of the adult in the reference photo clearly ${ACTIONS[action]}. Maintain general facial features and hairstyle where feasible, while keeping the action unmistakable. Single fully clothed adult, age-appropriate, simple pastel background, full scene with visible hands and relevant objects, pleasant illustrated storybook style, no lettering, no text.`;
+ const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),55000);
  try{
-  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),45000);
-  let response;
-  try{response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(CLOUDFLARE_ACCOUNT_ID)}/ai/run/${MODEL}`,{method:'POST',headers:{Authorization:`Bearer ${CLOUDFLARE_API_TOKEN}`,'Content-Type':'application/json'},body:JSON.stringify({prompt,negative_prompt:'words, letters, text, watermark, multiple faces, extra limbs, distorted anatomy',image_b64:image.split(',')[1],strength:.55,guidance:7.5,num_steps:20,width:512,height:512}),signal:controller.signal});}finally{clearTimeout(timer);}
-  if(!response.ok){console.error('Cloudflare inference error',response.status,(await response.text()).slice(0,500));return res.status(502).json({error:'Cloudflare AI request failed ('+response.status+'). Check model availability and free quota.'});}
-  const contentType=response.headers.get('content-type')||'';
-  let data;
-  if(contentType.includes('image/')){const bytes=Buffer.from(await response.arrayBuffer());if(bytes.length>4e6)return res.status(502).json({error:'Output too large'});data=`data:${contentType.split(';')[0]};base64,${bytes.toString('base64')}`;}
-  else {const json=await response.json();const result=json.result;if(typeof result==='string')data='data:image/png;base64,'+result;else if(result?.image)data='data:image/png;base64,'+result.image;else return res.status(502).json({error:'Unexpected provider response'});}
-  return res.status(200).json({image:data});
- }catch(e){console.error('Image generation failure',e.message);return res.status(502).json({error:'Image generation timed out or failed.'});}
+  const account=encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID);
+  const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/ai/run/${MODEL}`,{
+   method:'POST',signal:controller.signal,
+   headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,'Content-Type':'application/json'},
+   body:JSON.stringify({prompt,negative_prompt:'text, watermark, duplicate person, extra hands, distorted fingers, blurry, explicit, violent',image_b64:raw.toString('base64'),strength:0.6,guidance:7.5,num_steps:20,width:512,height:512})
+  });
+  if(!response.ok){
+   const providerError=(await response.text()).slice(0,1000);
+   console.error('Cloudflare API status',response.status,providerError);
+   const explain=response.status===429?'سهمیه یا محدودیت درخواست Cloudflare تمام شده است.':response.status===401||response.status===403?'توکن Cloudflare یا سطح دسترسی آن صحیح نیست.':response.status===404?'مدل انتخاب‌شده روی حساب Cloudflare در دسترس نیست.':'سرویس Cloudflare پاسخ ناموفق داد.';
+   return reply(res,502,{error:explain,providerStatus:response.status});
+  }
+  const ct=(response.headers.get('content-type')||'').toLowerCase();
+  let output;
+  if(ct.startsWith('image/')){
+   const bytes=Buffer.from(await response.arrayBuffer());
+   if(bytes.length>5_000_000)return reply(res,502,{error:'اندازه تصویر خروجی بیش از حد مجاز است.'});
+   const mime=ct.split(';')[0];output=`data:${mime};base64,${bytes.toString('base64')}`;
+  }else{
+   const data=await response.json();
+   if(data.success===false)throw Error('Provider reported unsuccessful generation');
+   const result=data.result;
+   const encoded=typeof result==='string'?result:result?.image;
+   if(typeof encoded!=='string'||!/^[A-Za-z0-9+/=]+$/.test(encoded)||encoded.length>7_000_000)throw Error('Unexpected provider image format');
+   output=`data:image/png;base64,${encoded}`;
+  }
+  return reply(res,200,{image:output,model:MODEL});
+ }catch(error){
+  console.error('Cloudflare generation error',error?.message);
+  return reply(res,502,{error:error?.name==='AbortError'?'زمان پاسخ‌گویی سرویس به پایان رسید. دوباره تلاش کنید.':'تولید تصویر در سرویس ابری ناموفق بود.'});
+ }finally{clearTimeout(timer);}
 }
