@@ -38,6 +38,55 @@ const ACTIONS = Object.freeze({
 const MAX_BODY = 800_000;
 const MAX_OUTPUT = 2_800_000; // Base64 response must stay below Vercel function response limits.
 const ENDPOINT = 'https://api.avalai.ir/v1/images/edits';
+const STYLE_GUIDE = `Create a square child-friendly AAC flashcard illustration in the same visual language as an educational card: simple clean cartoon illustration, centered subject, minimal clutter, soft pastel background, clear readable action, smooth outlines, soft colors, tidy composition, no text inside the image, no watermark.`;
+const ACTION_HINTS = Object.freeze({
+  "اجازه گرفتن": "The person should politely raise one hand as if asking permission in a simple classroom-like pose.",
+  "فوت کردن": "The person should be shown blowing with visible puffed lips, matching a simple action-card style.",
+  "مسواک زدن": "Show the person brushing their teeth with a toothbrush near the mouth.",
+  "غذا خوردن": "Show the person eating food clearly with a spoon or food in front of them.",
+  "بغل کردن": "Show a clear hugging pose in a very simple educational-card style.",
+  "خندیدن": "Show the person smiling or laughing clearly.",
+  "گوش دادن": "Show the person listening attentively with a listening gesture.",
+  "اشاره کردن": "Show the person pointing clearly with one finger.",
+  "دعا کردن": "Show the person in a simple praying pose.",
+  "داد زدن": "Show the person shouting with an expressive open mouth.",
+  "خوابیدن": "Show the person lying down asleep on a pillow or bed in the same cute educational-card style.",
+  "تاب بازی": "Show the person sitting on a swing in a simple playful pose.",
+  "تلفن زدن": "Show the person holding a phone and talking.",
+  "دستشویی رفتن": "Show the person in a toilet-related action-card context, child-friendly and simple.",
+  "نوشتن": "Show the person writing with a pencil or pen.",
+  "بازی کن": "Show the person playing in a simple educational-card style.",
+  "بخوان": "Show the person reading a book or reading clearly.",
+  "بنویس": "Show the person writing clearly.",
+  "باز کن": "Show the person opening something clearly.",
+  "ببند": "Show the person closing something clearly.",
+  "نگاه کن": "Show the person looking attentively.",
+  "گوش کن": "Show the person listening attentively.",
+  "کمک کن": "Show the person helping in a simple educational-card style.",
+  "بخور": "Show the person eating food clearly with a spoon or food in front of them.",
+  "بیا": "Show the person coming toward the viewer in a simple action pose.",
+  "برو": "Show the person going or walking away in a simple action pose.",
+  "بخواب": "Show the person lying down asleep on a pillow or bed in the same cute educational-card style.",
+  "بنشین": "Show the person sitting clearly.",
+  "بایست": "Show the person standing clearly.",
+  "بده": "Show the person giving an object clearly.",
+  "بگیر": "Show the person receiving or taking an object clearly."
+});
+function buildPrompt(action){
+  const normalized=ACTIONS[action]||action;
+  const hint=ACTION_HINTS[action]||ACTION_HINTS[normalized]||`Show the person clearly doing the action: ${normalized}.`;
+  return [
+    STYLE_GUIDE,
+    `Use the provided reference photo only to transfer the person's identity and face into the illustration.`,
+    `Important: make the result look like an AAC educational flashcard, very close to the original card style for the action “${normalized}”.`,
+    `Keep the same kind of pose, framing, clothing simplicity, props, and composition that a typical educational card for this action would have.`,
+    `Replace only the face and recognizable identity with the familiar person from the reference photo. Keep the rest of the illustration in the same simple flashcard style.`,
+    hint,
+    `The face should resemble the reference person, but rendered as a clean illustrated face, not as a realistic photo.`,
+    `Show only one person. No extra people, no extra faces, no duplicated limbs, no text, no letters, no watermark, no logo.`,
+    `Do not change the action to a different action. Keep the image safe, fully clothed, child-friendly, and simple.`
+  ].join(' ');
+}
 function respond(res,status,body){res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');return res.status(status).json(body);}
 function matchKey(incoming,secret){
   if(typeof incoming!=='string'||typeof secret!=='string')return false;
@@ -109,7 +158,7 @@ export default async function handler(req,res){
   if(typeof image!=='string'||image.length>650_000||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image))return respond(res,413,{error:'عکس JPEG با حجم مجاز انتخاب کنید.'});
   const bytes=Buffer.from(image.split(',')[1],'base64');
   if(bytes.length<100||bytes.length>480_000||bytes[0]!==0xff||bytes[1]!==0xd8)return respond(res,422,{error:'فایل مرجع JPEG معتبر نیست.'});
-  const prompt=`Create a child-friendly educational AAC illustration based on the provided adult reference photo. Show this same adult clearly doing this action: ${ACTIONS[action]}. Keep the adult's general recognizable appearance and hairstyle as much as possible, with a simple pastel background. Show the action clearly with appropriate objects; one fully clothed adult, no letters, no watermarks, no extra hands or faces. This is an authorized reference image supplied with consent.`;
+  const prompt=buildPrompt(action);
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),55000);
   try{
     const payload=new FormData();
