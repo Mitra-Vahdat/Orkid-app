@@ -1,95 +1,135 @@
-// Orkid: private Vercel backend adapter for Cloudflare Workers AI.
-// Security: never send provider credentials to client. Parent access key is required.
+// Orkid private AvalAI adapter for Vercel Functions.
+// No AvalAI token or raw reference photo is stored on the server.
 import { timingSafeEqual } from 'node:crypto';
 
-const MODEL = '@cf/runwayml/stable-diffusion-v1-5-img2img';
 const ACTIONS = Object.freeze({
- 'بخور':'eating a meal', 'بیا':'walking toward the viewer','برو':'walking away',
- 'بخواب':'sleeping peacefully','بنشین':'sitting on a chair','بایست':'standing upright',
- 'بده':'handing over an object','بگیر':'receiving an object',
- 'بازی کن':'playing with toys','بخوان':'reading a book','بنویس':'writing on paper',
- 'باز کن':'opening a door','ببند':'closing a door','نگاه کن':'looking at an object',
- 'گوش کن':'listening carefully','کمک کن':'helping a person',
- // Current verb cards in education/verbs-1
- 'اجازه گرفتن':'politely asking for permission with one hand raised',
- 'فوت کردن':'blowing air gently, as if blowing bubbles',
- 'مسواک زدن':'brushing their teeth with a toothbrush',
- 'غذا خوردن':'eating a meal with a spoon',
- 'بغل کردن':'hugging a loved one',
- 'خندیدن':'laughing happily',
- 'گوش دادن':'listening attentively',
- 'اشاره کردن':'pointing at an object',
- 'دعا کردن':'praying peacefully',
- 'داد زدن':'shouting with their mouth open',
- 'خوابیدن':'sleeping peacefully in a bed',
- 'تاب بازی':'swinging on a playground swing',
- 'تلفن کردن':'talking on a phone',
- 'دستشویی رفتن':'walking to the bathroom door',
- 'نوشتن':'writing on paper with a pen'
+  "اجازه گرفتن": "اجازه گرفتن",
+  "فوت کردن": "فوت کردن",
+  "مسواک زدن": "مسواک زدن",
+  "غذا خوردن": "غذا خوردن",
+  "بغل کردن": "بغل کردن",
+  "خندیدن": "خندیدن",
+  "گوش دادن": "گوش دادن",
+  "اشاره کردن": "اشاره کردن",
+  "دعا کردن": "دعا کردن",
+  "داد زدن": "داد زدن",
+  "خوابیدن": "خوابیدن",
+  "تاب بازی": "تاب بازی",
+  "تلفن زدن": "تلفن زدن",
+  "دستشویی رفتن": "دستشویی رفتن",
+  "نوشتن": "نوشتن",
+  "بازی کن": "بازی کن",
+  "بخوان": "بخوان",
+  "بنویس": "بنویس",
+  "باز کن": "باز کن",
+  "ببند": "ببند",
+  "نگاه کن": "نگاه کن",
+  "گوش کن": "گوش کن",
+  "کمک کن": "کمک کن",
+  "بخور": "غذا خوردن",
+  "بیا": "آمدن",
+  "برو": "رفتن",
+  "بخواب": "خوابیدن",
+  "بنشین": "نشستن",
+  "بایست": "ایستادن",
+  "بده": "دادن",
+  "بگیر": "گرفتن"
 });
 const MAX_BODY = 800_000;
-function reply(res, status, body){ return res.status(status).json(body); }
-function equal(a,b){
- if(typeof a!=='string'||typeof b!=='string')return false;
- const aa=Buffer.from(a),bb=Buffer.from(b);
- return aa.length===bb.length && timingSafeEqual(aa,bb);
+const MAX_OUTPUT = 2_800_000; // Base64 response must stay below Vercel function response limits.
+const ENDPOINT = 'https://api.avalai.ir/v1/images/edits';
+function respond(res,status,body){res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');return res.status(status).json(body);}
+function matchKey(incoming,secret){
+  if(typeof incoming!=='string'||typeof secret!=='string')return false;
+  const a=Buffer.from(incoming),b=Buffer.from(secret);
+  return a.length===b.length && timingSafeEqual(a,b);
 }
 function authorized(req){
- const key=process.env.ORKID_PARENT_ACCESS_KEY;
- if(!key||key.length<16)return false;
- return equal(req.headers['x-orkid-parent-key'],key);
+  const secret=process.env.ORKID_PARENT_ACCESS_KEY;
+  return Boolean(secret&&secret.length>=16&&matchKey(req.headers['x-orkid-parent-key'],secret));
 }
-function configured(){return Boolean(process.env.CLOUDFLARE_ACCOUNT_ID&&process.env.CLOUDFLARE_API_TOKEN);}
+function configured(){return Boolean(process.env.AVALAI_API_KEY?.trim());}
+const model=()=>process.env.AVALAI_IMAGE_MODEL?.trim()||'qwen-image-edit';
+function errorForStatus(status){
+  if(status===401||status===403)return 'کلید AvalAI معتبر نیست یا حساب به این مدل دسترسی ندارد.';
+  if(status===402)return 'اعتبار حساب AvalAI برای این درخواست کافی نیست.';
+  if(status===404)return 'مدل انتخاب‌شده در AvalAI پیدا نشد یا برای حساب شما فعال نیست.';
+  if(status===408||status===504)return 'زمان پاسخ‌گویی AvalAI به پایان رسیده است.';
+  if(status===413)return 'حجم تصویر برای مدل انتخاب‌شده بیش از حد مجاز است.';
+  if(status===422||status===400)return 'پارامترهای درخواست با مدل انتخاب‌شده سازگار نیستند.';
+  if(status===429)return 'محدودیت تعداد درخواست یا سهمیه AvalAI فعال شده است.';
+  return 'سرویس AvalAI در پردازش تصویر خطا داد.';
+}
+function validImage(bytes){
+  return bytes.length>100&&bytes.length<=MAX_OUTPUT&&(
+    (bytes[0]===0x89&&bytes.subarray(1,4).toString('ascii')==='PNG')||
+    (bytes[0]===0xff&&bytes[1]===0xd8)||
+    (bytes.subarray(0,4).toString('ascii')==='RIFF'&&bytes.subarray(8,12).toString('ascii')==='WEBP')
+  );
+}
+function mediaType(bytes){return bytes[0]===0x89?'image/png':bytes[0]===0xff?'image/jpeg':'image/webp';}
+function parseBase64(str){
+  if(typeof str!=='string'||str.length>MAX_OUTPUT*1.5||!/^[A-Za-z0-9+/=]+$/.test(str))throw new Error('Invalid base64 image');
+  const bytes=Buffer.from(str,'base64');
+  if(!validImage(bytes))throw new Error('Invalid image from provider');
+  return bytes;
+}
+function isAllowedImageUrl(uri){
+  try{const u=new URL(uri);return u.protocol==='https:'&&!u.username&&!u.password&&u.port==='';}catch{return false;}
+}
+async function extractImage(result,signal){
+  const first=result?.data?.[0];
+  if(!first)throw new Error('Empty image result');
+  if(typeof first.b64_json==='string')return parseBase64(first.b64_json);
+  if(typeof first.url==='string'){
+    if(first.url.startsWith('data:image/'))return parseBase64(first.url.split(',')[1]);
+    if(!isAllowedImageUrl(first.url))throw new Error('Provider returned unsafe URL');
+    // Redirects disabled: never fetch arbitrary redirect destinations from Vercel.
+    const response=await fetch(first.url,{signal,redirect:'error'});
+    if(!response.ok||!(response.headers.get('content-type')||'').startsWith('image/'))throw new Error('Image download failed');
+    const declared=Number(response.headers.get('content-length')||0);
+    if(declared>MAX_OUTPUT)throw new Error('Image too large');
+    const bytes=Buffer.from(await response.arrayBuffer());
+    if(!validImage(bytes))throw new Error('Bad downloaded image');
+    return bytes;
+  }
+  throw new Error('No supported image field');
+}
 export default async function handler(req,res){
- res.setHeader('Cache-Control','private, no-store, max-age=0');
- res.setHeader('X-Content-Type-Options','nosniff');
- if(req.method!=='POST')return reply(res,405,{error:'فقط درخواست POST پذیرفته می‌شود.'});
- const origin=req.headers.origin;
- const urlHost=req.headers['x-forwarded-host']||req.headers.host;
- if(origin){try{if(new URL(origin).host!==urlHost)return reply(res,403,{error:'مبدأ درخواست معتبر نیست.'});}catch{return reply(res,403,{error:'مبدأ درخواست نامعتبر است.'});}}
- if(!authorized(req))return reply(res,401,{error:'رمز دسترسی والد نادرست است یا روی Vercel تنظیم نشده.'});
- if(!configured())return reply(res,503,{error:'متغیرهای Cloudflare در تنظیمات Vercel کامل نیستند.'});
- const declared=Number(req.headers['content-length']||0);
- if(declared>MAX_BODY)return reply(res,413,{error:'حجم درخواست زیاد است. عکس کوچک‌تر انتخاب کنید.'});
- const body=req.body && typeof req.body==='object' ? req.body : {};
- const {image,action,consent}=body;
- if(consent!==true)return reply(res,400,{error:'رضایت صاحب عکس باید تأیید شود.'});
- if(typeof action!=='string'||!Object.hasOwn(ACTIONS,action))return reply(res,422,{error:'فعالیت انتخاب‌شده برای تولید تصویر پشتیبانی نمی‌شود. لطفاً از بخش افعال ۱ یا افعال ۲ یک فعالیت انتخاب کنید.'});
- if(typeof image!=='string'||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image)||image.length>650_000)return reply(res,413,{error:'عکس JPEG معتبر با حجم کمتر انتخاب کنید.'});
- const raw=Buffer.from(image.slice(image.indexOf(',')+1),'base64');
- if(raw.length>480_000||raw.length<100||raw[0]!==0xff||raw[1]!==0xd8)return reply(res,422,{error:'داده عکس JPEG معتبر نیست.'});
- const prompt=`Square child-friendly educational AAC picture of the adult in the reference photo clearly ${ACTIONS[action]}. Maintain general facial features and hairstyle where feasible, while keeping the action unmistakable. Single fully clothed adult, age-appropriate, simple pastel background, full scene with visible hands and relevant objects, pleasant illustrated storybook style, no lettering, no text.`;
- const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),55000);
- try{
-  const account=encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID);
-  const response=await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/ai/run/${MODEL}`,{
-   method:'POST',signal:controller.signal,
-   headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,'Content-Type':'application/json'},
-   body:JSON.stringify({prompt,negative_prompt:'text, watermark, duplicate person, extra hands, distorted fingers, blurry, explicit, violent',image_b64:raw.toString('base64'),strength:0.6,guidance:7.5,num_steps:20,width:512,height:512})
-  });
-  if(!response.ok){
-   const providerError=(await response.text()).slice(0,1000);
-   console.error('Cloudflare API status',response.status,providerError);
-   const explain=response.status===429?'سهمیه یا محدودیت درخواست Cloudflare تمام شده است.':response.status===401||response.status===403?'توکن Cloudflare یا سطح دسترسی آن صحیح نیست.':response.status===404?'مدل انتخاب‌شده روی حساب Cloudflare در دسترس نیست.':'سرویس Cloudflare پاسخ ناموفق داد.';
-   return reply(res,502,{error:explain,providerStatus:response.status});
-  }
-  const ct=(response.headers.get('content-type')||'').toLowerCase();
-  let output;
-  if(ct.startsWith('image/')){
-   const bytes=Buffer.from(await response.arrayBuffer());
-   if(bytes.length>5_000_000)return reply(res,502,{error:'اندازه تصویر خروجی بیش از حد مجاز است.'});
-   const mime=ct.split(';')[0];output=`data:${mime};base64,${bytes.toString('base64')}`;
-  }else{
-   const data=await response.json();
-   if(data.success===false)throw Error('Provider reported unsuccessful generation');
-   const result=data.result;
-   const encoded=typeof result==='string'?result:result?.image;
-   if(typeof encoded!=='string'||!/^[A-Za-z0-9+/=]+$/.test(encoded)||encoded.length>7_000_000)throw Error('Unexpected provider image format');
-   output=`data:image/png;base64,${encoded}`;
-  }
-  return reply(res,200,{image:output,model:MODEL});
- }catch(error){
-  console.error('Cloudflare generation error',error?.message);
-  return reply(res,502,{error:error?.name==='AbortError'?'زمان پاسخ‌گویی سرویس به پایان رسید. دوباره تلاش کنید.':'تولید تصویر در سرویس ابری ناموفق بود.'});
- }finally{clearTimeout(timer);}
+  if(req.method!=='POST')return respond(res,405,{error:'فقط درخواست POST پذیرفته می‌شود.'});
+  const origin=req.headers.origin,host=req.headers['x-forwarded-host']||req.headers.host;
+  if(origin){try{if(new URL(origin).host!==host)return respond(res,403,{error:'مبدأ درخواست معتبر نیست.'});}catch{return respond(res,403,{error:'مبدأ درخواست نامعتبر است.'});}}
+  if(!authorized(req))return respond(res,401,{error:'رمز دسترسی والد صحیح نیست.'});
+  if(!configured())return respond(res,503,{error:'متغیر AVALAI_API_KEY روی Vercel تنظیم نشده است.'});
+  if(Number(req.headers['content-length']||0)>MAX_BODY)return respond(res,413,{error:'حجم درخواست بیش از حد مجاز است.'});
+  const body=req.body&&typeof req.body==='object'?req.body:{};
+  const {image,action,consent}=body;
+  if(consent!==true)return respond(res,400,{error:'رضایت صاحب تصویر را تأیید کنید.'});
+  if(typeof action!=='string'||!Object.hasOwn(ACTIONS,action))return respond(res,422,{error:'یک کارت معتبر از «افعال ۱» یا «افعال ۲» انتخاب کنید.'});
+  if(typeof image!=='string'||image.length>650_000||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(image))return respond(res,413,{error:'عکس JPEG با حجم مجاز انتخاب کنید.'});
+  const bytes=Buffer.from(image.split(',')[1],'base64');
+  if(bytes.length<100||bytes.length>480_000||bytes[0]!==0xff||bytes[1]!==0xd8)return respond(res,422,{error:'فایل مرجع JPEG معتبر نیست.'});
+  const prompt=`Create a child-friendly educational AAC illustration based on the provided adult reference photo. Show this same adult clearly doing this action: ${ACTIONS[action]}. Keep the adult's general recognizable appearance and hairstyle as much as possible, with a simple pastel background. Show the action clearly with appropriate objects; one fully clothed adult, no letters, no watermarks, no extra hands or faces. This is an authorized reference image supplied with consent.`;
+  const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),55000);
+  try{
+    const payload=new FormData();
+    payload.append('model',model());
+    payload.append('prompt',prompt);
+    payload.append('image',new Blob([bytes],{type:'image/jpeg'}),'reference.jpg');
+    const response=await fetch(ENDPOINT,{
+      method:'POST',headers:{Authorization:`Bearer ${process.env.AVALAI_API_KEY.trim()}`},body:payload,signal:controller.signal
+    });
+    if(!response.ok){
+      // Keep provider response out of client; it may contain user-related data.
+      const info=(await response.text()).slice(0,1200);
+      console.error('AvalAI image edit failed',response.status,info);
+      return respond(res,502,{error:errorForStatus(response.status),providerStatus:response.status});
+    }
+    const data=await response.json();
+    const output=await extractImage(data,controller.signal);
+    return respond(res,200,{image:`data:${mediaType(output)};base64,${output.toString('base64')}`,model:model()});
+  }catch(error){
+    console.error('AvalAI image edit error',error?.name,error?.message);
+    return respond(res,502,{error:error?.name==='AbortError'?'پاسخ AvalAI دیر رسید؛ دوباره تلاش کنید یا محدودیت زمانی Vercel را بررسی کنید.':'دریافت تصویر از AvalAI انجام نشد؛ لاگ تابع را بررسی کنید.'});
+  }finally{clearTimeout(timeout);}
 }

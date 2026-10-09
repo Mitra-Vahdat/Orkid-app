@@ -13,7 +13,7 @@ window.addEventListener('orkid-lesson-selected',e=>{
 const isOnline=()=>location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
 $('aiCheck').addEventListener('click',async()=>{
  if(!isOnline())return status('برای بررسی اتصال، سایت را روی Vercel باز کنید.');
- try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw Error('تابع API در Vercel یافت نشد.');const d=await r.json();status(d.ready?'تنظیمات سرور آماده‌اند. حالا تولید تصویر را امتحان کنید.':'اتصال کامل نیست. Cloudflare و رمز والد را در Environment Variables تنظیم کنید.');}catch{status('امکان بررسی اتصال نیست. پروژه باید همراه پوشه api روی Vercel منتشر شود.');}
+ try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw Error('تابع API در Vercel یافت نشد.');const d=await r.json();status(d.ready?'کلید AvalAI و رمز والد روی سرور تعریف شده‌اند؛ اتصال واقعی با اولین درخواست تولید بررسی می‌شود.':'اتصال کامل نیست. کلید AvalAI و رمز والد را در تنظیمات Vercel وارد کنید.');}catch{status('امکان بررسی اتصال نیست. پروژه باید همراه پوشه api روی Vercel منتشر شود.');}
 });
 $('aiPrepare').addEventListener('click',async()=>{
  const file=$('aiReference').files?.[0];
