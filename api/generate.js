@@ -180,27 +180,40 @@ export default async function handler(req,res){
   // Abort before Vercel does, so clients receive a useful error instead of an opaque 504.
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),240000);
   try{
-    const payload={
-      model:model(),
-      prompt,
-      size:OUTPUT_SIZE,
-      quality:'high',
-      output_format:'png',
-      images:[
-        { image_url: template.dataUrl },
-        { image_url: face.dataUrl }
-      ]
-    };
+    // Multipart file uploads are broadly supported on AvalAI's image-edit endpoint.
+    // Avoid model-specific optional fields (quality/output_format) until compatibility is verified.
+    const payload=new FormData();
+    payload.append('model',model());
+    payload.append('prompt',prompt);
+    payload.append('image[]',new Blob([template.bytes],{type:template.type}),'card-template.'+(template.type==='image/png'?'png':template.type==='image/webp'?'webp':'jpg'));
+    payload.append('image[]',new Blob([face.bytes],{type:face.type}),'familiar-person.jpg');
     const response=await fetch(ENDPOINT,{
       method:'POST',
-      headers:{Authorization:`Bearer ${process.env.AVALAI_API_KEY.trim()}`,'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
+      headers:{Authorization:`Bearer ${process.env.AVALAI_API_KEY.trim()}`},
+      body:payload,
       signal:controller.signal
     });
     if(!response.ok){
-      const info=(await response.text()).slice(0,1600);
-      console.error('AvalAI image edit failed',response.status,info);
-      return respond(res,502,{error:errorForStatus(response.status),providerStatus:response.status,model:model()});
+      const info=(await response.text()).slice(0,1800);
+      let providerCode='';
+      let providerMessage='';
+      try{
+        const parsed=JSON.parse(info);
+        const issue=parsed?.error || parsed;
+        if(typeof issue?.code==='string')providerCode=issue.code.slice(0,80);
+        if(typeof issue?.message==='string')providerMessage=issue.message;
+        if(typeof issue==='string')providerMessage=issue;
+      }catch{}
+      // Show only short, non-sensitive, simple provider validation messages.
+      const safeMessage=providerMessage.length<=220 && !/(?:bearer|sk-|key|token|data:image|base64|https?:\/\/)/i.test(providerMessage)
+        ? providerMessage : '';
+      console.error('AvalAI image edit failed',response.status,providerCode,info.replace(/(?:Bearer\s+)[^\s"']+/gi,'Bearer [redacted]').slice(0,400));
+      return respond(res,502,{
+        error:errorForStatus(response.status)+(safeMessage?' جزئیات سرویس: '+safeMessage:''),
+        providerStatus:response.status,
+        ...(providerCode?{providerCode}:{}),
+        model:model()
+      });
     }
     const data=await response.json();
     const output=await extractImage(data,controller.signal);
