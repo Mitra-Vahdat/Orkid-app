@@ -1,4 +1,4 @@
-const CACHE_NAME = "orkid-aac-v26";
+const CACHE_NAME = "orkid-aac-v28";
 const APP_SHELL = [
     "./index.html",
     "./drawing.html",
@@ -12,8 +12,11 @@ const APP_SHELL = [
     "./css/drawing.css",
     "./css/card-customization.css",
     "./css/education.css",
+    "./css/education-layout-fix.css",
+    "./css/card-default-layout.css",
     "./css/setting.css",
     "./js/card-state.js",
+    "./js/default-card-images.js",
     "./js/script.js",
     "./js/drawing.js",
     "./js/card-customization.js",

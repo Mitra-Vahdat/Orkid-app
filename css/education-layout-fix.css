@@ -1,0 +1,52 @@
+/* Orkid 2026: topic pages must never overlay rows. */
+html:has(body.education-body){height:auto;overflow-x:hidden;}
+body.education-body{height:auto !important;min-height:100dvh !important;overflow-x:hidden !important;overflow-y:auto !important;}
+body.education-body .topic-page{
+  height:auto !important;min-height:100dvh !important;
+  overflow:visible !important;display:flex !important;flex-direction:column !important;
+  padding-bottom:clamp(20px,3vw,40px) !important;
+}
+body.education-body .topic-page .lesson-grid{
+  display:grid !important;position:relative !important;
+  flex:none !important;height:auto !important;min-height:0 !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  grid-template-rows:none !important;
+  grid-auto-rows:auto !important;
+  align-content:start !important;
+  gap:clamp(10px,1.3vw,18px) !important;
+  width:100% !important;
+}
+body.education-body .topic-page .lesson-card{
+  box-sizing:border-box !important;
+  height:auto !important;min-height:0 !important;max-height:none !important;
+  display:grid !important;grid-template-rows:minmax(0,1fr) auto !important;
+  gap:8px !important;align-items:stretch !important;
+  padding:clamp(7px,1vw,12px) !important;
+  overflow:hidden !important;
+}
+body.education-body .topic-page .lesson-card-image{
+  display:block !important;width:100% !important;height:clamp(145px,15vw,245px) !important;
+  min-height:0 !important;max-height:none !important;
+  flex:none !important;object-fit:contain !important;
+}
+body.education-body .topic-page .lesson-card strong{
+  min-height:1.5em;font-size:clamp(15px,1.6vw,25px) !important;
+  text-align:center;white-space:normal;line-height:1.4;overflow-wrap:anywhere;
+}
+@media (max-width:950px) {
+  body.education-body .topic-page .lesson-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
+@media (max-width:700px) {
+  body.education-body .topic-page .lesson-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  body.education-body .topic-page .lesson-card-image{height:clamp(135px,33vw,230px) !important;}
+}
+@media (max-width:390px) {
+  body.education-body .topic-page .lesson-grid{grid-template-columns:1fr !important;}
+}
+@media (orientation:landscape) and (max-height:650px) {
+  body.education-body .topic-page .lesson-grid{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+  body.education-body .topic-page .lesson-card-image{height:clamp(105px,24dvh,165px) !important;}
+  body.education-body .topic-page .lesson-card{padding:7px !important;}
+}
+/* Image-only defaults stay stable in narrow landscape screens. */
+.left-grid .word-card,.right-grid .word-card{min-width:0;}

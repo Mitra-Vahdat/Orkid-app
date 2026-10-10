@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/mobile-improvements.css">
-<link rel="stylesheet" href="./css/landscape-mobile.css"></head>
+<link rel="stylesheet" href="./css/landscape-mobile.css"><link rel="stylesheet" href="./css/card-default-layout.css"></head>
 <body class="card-customization-page">
 <header class="customization-toolbar">
 <h1 class="customization-title">حالت ویرایش</h1>
@@ -26,30 +26,10 @@
 <button class="circle-icon" id="settingsButton" type="button"><img src="images/ico/settings.png" alt="تنظیمات"></button>
 </div>
 <div class="left-grid">
-<button class="word-card image-card" data-card-id="left-1" data-word="بابا">
-<div class="image-placeholder">
-<img alt="بابا" src="images/cards/بابا.png"/>
-</div>
-<span class="word-label">بابا</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="left-2" data-word="مامان">
-<div class="image-placeholder">
-<img alt="مامان" src="images/cards/مامان.png"/>
-</div>
-<span class="word-label">مامان</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="left-3" data-word="تکرار">
-<div class="image-placeholder">
-<img src="images/cards/غریبه.png"/>
-</div>
-<span class="word-label">تکرار</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="left-4" data-word="دوست">
-<div class="image-placeholder">
-<img alt="دوست" src="images/cards/قلب.png"/>
-</div>
-<span class="word-label">دوست</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-sleeping" data-word="خوابیدن" data-speech="خوابیدن"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/verbs-1/sleeping" data-fallback="images/education/verbs-1/cover.svg" src="images/education/verbs-1/cover.svg" alt="خوابیدن"></div><span class="word-label">خوابیدن</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-brushing" data-word="مسواک زدن" data-speech="مسواک زدن"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/verbs-1/brushingtheteeth" data-fallback="images/education/verbs-1/03.svg" src="images/education/verbs-1/03.svg" alt="مسواک زدن"></div><span class="word-label">مسواک زدن</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-shouting" data-word="داد کشیدن" data-speech="داد زدن"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/verbs-1/shouting" data-fallback="images/education/verbs-1/cover.svg" src="images/education/verbs-1/cover.svg" alt="داد کشیدن"></div><span class="word-label">داد کشیدن</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-swinging" data-word="تاب بازی" data-speech="تاب بازی"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/verbs-1/swinging" data-fallback="images/education/verbs-1/cover.svg" src="images/education/verbs-1/cover.svg" alt="تاب بازی"></div><span class="word-label">تاب بازی</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
 </div>
 </aside>
 <main class="center-section">
@@ -63,29 +43,10 @@
 <div class="bottom-controls"><button aria-label="حذف" class="control-button" type="button"><div class="control-circle"><img src="images/ico/mdi-light--delete.svg" alt="حذف"></div></button></div>
 </main>
 <aside class="right-sidebar"><div class="right-grid">
-<button class="word-card image-card" data-card-id="right-1" data-word="آب">
-<div class="image-placeholder">
-<img alt="آب" src="images/cards/water-glass-color-icon.svg"/>
-</div>
-<span class="word-label">آب</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="right-2" data-word="غذا">
-<div class="image-placeholder">
-<img alt="غذا" src="images/cards/سیب.png"/>
-</div>
-<span class="word-label">میوه</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="right-3" data-word="غذا">
-<div class="image-placeholder">
-</div>
-<span class="word-label">غذا</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
-<button class="word-card image-card" data-card-id="right-4" data-word="بازی">
-<div class="image-placeholder">
-<img alt="بازی" src="images/cards/توپ.png"/>
-</div>
-<span class="word-label">توپ</span>
-<span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-biscuit" data-word="بیسکوییت" data-speech="بیسکویت"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/food/biscutes" data-fallback="images/education/food/01.svg" src="images/education/food/01.svg" alt="بیسکوییت"></div><span class="word-label">بیسکوییت</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-water" data-word="آب" data-speech="آب"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/food/water" data-fallback="images/education/food/cover.svg" src="images/education/food/cover.svg" alt="آب"></div><span class="word-label">آب</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-egg" data-word="تخم‌مرغ" data-speech="تخم‌مرغ"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/food/egg" data-fallback="images/education/food/04.svg" src="images/education/food/04.svg" alt="تخم‌مرغ"></div><span class="word-label">تخم‌مرغ</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
+<button type="button" class="word-card image-card" data-card-id="default-bread" data-word="نان" data-speech="نان"><div class="image-placeholder"><img class="orkid-default-photo" data-photo-stem="images/education/food/bread" data-fallback="images/education/food/02.svg" src="images/education/food/02.svg" alt="نان"></div><span class="word-label">نان</span><span aria-label="ویرایش کارت" class="card-edit-button" role="button" tabindex="0" title="ویرایش کارت">✎</span></button>
 </div></aside>
 </div>
 <div id="cardEditorOverlay" class="card-editor-overlay" hidden>
@@ -110,7 +71,8 @@
 <div id="aiPreviewArea" hidden><img id="aiPreview" alt="پیش‌نمایش تصویر"/><p id="aiPreviewNote"></p><button id="aiUseReference" type="button">استفاده از این تصویر در کارت</button></div></div></details><div class="editor-actions"><button id="editorDelete" class="editor-delete" type="button">حذف کارت</button><div class="editor-actions-right"><button id="editorCancel" class="editor-cancel" type="button">انصراف</button><button class="editor-save" type="submit">اعمال تغییر</button></div></div>
 </form></section></div>
 <section id="lessonPicker" class="lesson-picker" hidden role="dialog" aria-modal="true"><div class="lesson-picker-panel"><button type="button" id="closeLessonPicker">بستن</button><h2>انتخاب کارت آموزشی</h2><select id="lessonCategory" aria-label="دسته‌بندی"></select><div id="lessonChoices" class="lesson-choices"></div></div></section>
-<script src="./js/ai-personalization.js"></script><script src="./js/card-state.js"></script>
+<script src="./js/ai-personalization.js"></script><script src="./js/default-card-images.js"></script>
+<script src="./js/card-state.js"></script>
 <script src="./js/card-additions.js"></script>
 <script src="./js/card-additions-render.js"></script><script src="./js/education.js"></script><script src="./js/card-customization.js"></script><script src="./js/pwa.js"></script>
 <script src="./js/navigation.js"></script></body></html>

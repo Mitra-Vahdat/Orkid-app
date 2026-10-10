@@ -1,0 +1,4 @@
+/* Default cards arranged as: left=verbs, right=food in the requested RTL order. */
+.left-grid,.right-grid{direction:rtl;}
+.left-grid .word-card,.right-grid .word-card{min-width:0;}
+.left-grid img.orkid-default-photo,.right-grid img.orkid-default-photo{object-fit:contain;}
