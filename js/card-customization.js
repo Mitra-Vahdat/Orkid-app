@@ -47,6 +47,10 @@
         activeCard=card; pendingImage=null; pendingSpeech=null; pendingSource=null;
         const d=data(card); textInput.value=d.text; imageInput.value=""; showPreview(d.image,d.text);
         overlay.hidden=false;
+        const savedImage=window.OrkidCardState.getState()[card.dataset.cardId]?.image;
+        if(savedImage && window.OrkidCardState.isStored(savedImage)){
+            window.OrkidCardState.resolveImage(savedImage).then(src=>{if(activeCard===card&&!pendingImage)showPreview(src,d.text);}).catch(console.warn);
+        }
         window.dispatchEvent(new Event("orkid-editor-open"));
         document.body.classList.add("editor-open");
         document.querySelector(".card-editor-modal")?.scrollTo(0,0);
@@ -73,20 +77,30 @@
         pendingImage=await readImage(file); showPreview(pendingImage,textInput.value.trim());
     });
 
-    form.addEventListener("submit", e => {
+    form.addEventListener("submit", async e => {
         e.preventDefault(); if(!activeCard) return;
+        const submit=document.getElementById("editorSave")||form.querySelector('[type="submit"]');
+        if(submit)submit.disabled=true;
         const id=activeCard.dataset.cardId;
         const old=data(activeCard);
         const newText=textInput.value.trim();
-        const newImage=pendingImage || old.image;
-        const label=activeCard.querySelector(".word-label");
-        if(label) label.textContent=newText;
-        activeCard.dataset.word=newText;
-        activeCard.dataset.speech=pendingSpeech || newText;
-        let img=activeCard.querySelector(".image-placeholder img");
-        if(newImage && !img){ img=document.createElement("img"); activeCard.querySelector(".image-placeholder")?.appendChild(img); }
-        if(img && newImage){ img.src=newImage; img.alt=newText; }
-        try { window.OrkidCardState.patch(id,{text:newText,image:newImage,alt:newText,speechText:pendingSpeech || newText,source:pendingSource || "custom",deleted:false}); close(); } catch(error) { alert("ذخیره کارت ممکن نشد. ممکن است حافظه مرورگر پر شده باشد."); console.error(error); }
+        const saved=window.OrkidCardState.getState()[id]||{};
+        // Preserve the IndexedDB reference when the user edits only text.
+        const newImage=pendingImage || saved.image || old.image;
+        try {
+            const result=await window.OrkidCardState.saveCard(id,{text:newText,image:newImage,alt:newText,speechText:pendingSpeech || newText,source:pendingSource || "custom",deleted:false});
+            const label=activeCard.querySelector(".word-label");
+            if(label)label.textContent=newText;
+            activeCard.dataset.word=newText;
+            activeCard.dataset.speech=pendingSpeech || newText;
+            let img=activeCard.querySelector(".image-placeholder img");
+            if(result.image && !img){img=document.createElement("img");activeCard.querySelector(".image-placeholder")?.appendChild(img);}
+            if(img && result.image){img.src=result.image;img.alt=newText;}
+            close();
+        } catch(error) {
+            console.error("Orkid save failed",error);
+            alert(error?.name==="QuotaExceededError"?"فضای ذخیره‌سازی مرورگر کافی نیست. لطفاً حافظه سایت را بررسی کنید؛ کارت قبلی حفظ شده است.":"ذخیره تصویر انجام نشد. لطفاً دوباره تلاش کنید؛ کارت قبلی حفظ شده است.");
+        } finally {if(submit)submit.disabled=false;}
     });
 
     document.getElementById("editorDelete").addEventListener("click", () => {
